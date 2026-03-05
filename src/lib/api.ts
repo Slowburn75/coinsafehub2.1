@@ -5,6 +5,7 @@
 const isServer = typeof window === "undefined";
 const API_URL = isServer ? (process.env.NEXT_PUBLIC_API_URL ?? "") : "/api/proxy";
 
+
 import { clearToken } from "./auth";
 
 // ── Error type ──────────────────────────────────────────────────────────────
