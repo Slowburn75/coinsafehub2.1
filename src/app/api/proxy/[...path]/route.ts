@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { cookies } from "next/headers";
 
 const API_URL = process.env.API_URL; // server-side only, no NEXT_PUBLIC prefix
 
@@ -13,6 +14,13 @@ async function handler(req: NextRequest) {
     // Forward all headers except host
     const headers = new Headers(req.headers);
     headers.delete("host");
+
+    // Inject Authorization header from cookies if present
+    const cookieStore = await cookies();
+    const token = cookieStore.get("access_token")?.value;
+    if (token) {
+        headers.set("Authorization", `Bearer ${token}`);
+    }
 
     try {
         const backendRes = await fetch(targetUrl, {

@@ -48,11 +48,13 @@ export default function DashboardPage() {
         );
     }
 
-    const formatCurrency = (val: number | undefined) => {
-        return (val ?? 0).toLocaleString("en-US", {
+    const formatCurrency = (val: number | null | undefined) => {
+        const safe = typeof val === "number" && !isNaN(val) ? val : 0;
+        return safe.toLocaleString("en-US", {
             style: "currency",
             currency: "USD",
-            minimumFractionDigits: 2
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
         });
     };
 
@@ -172,7 +174,7 @@ export default function DashboardPage() {
                     <h3 className="text-lg font-bold tracking-tight">Financial Overview</h3>
                     <p className="text-xs text-muted-foreground font-medium uppercase tracking-widest">Real-time Data</p>
                 </div>
-                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
                     {statCards.map((card, idx) => (
                         <Card key={idx} className="glass-card border-none hover:bg-white/5 transition-all duration-300">
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">

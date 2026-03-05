@@ -8,6 +8,7 @@ import * as z from "zod";
 import Link from "next/link";
 
 import { auth } from "@/lib/api";
+import { setToken } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -44,9 +45,15 @@ export default function VerifyEmailPage() {
         setIsLoading(true);
         setError(null);
         try {
-            await auth.verifyEmail(values);
+            const response = await auth.verifyEmail(values) as { access_token?: string };
             toast.success("Email verified successfully!");
-            router.push("/login");
+
+            if (response?.access_token) {
+                await setToken(response.access_token);
+                router.push("/dashboard");
+            } else {
+                router.push("/login?verified=true");
+            }
         } catch (err: any) {
             console.error(err);
             setError(err?.body?.detail || err?.body?.message || "Verification failed. Please check your code.");

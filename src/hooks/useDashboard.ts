@@ -45,19 +45,27 @@ export function useDashboard() {
                 transactions.list(),
             ]);
 
-            console.log("Dashboard API response:", summaryData);
+            console.log("RAW dashboard API response:", summaryData);
 
-            const rawSummary = summaryData as any;
-            const total_balance = (rawSummary.balance ?? 0)
-                + (rawSummary.investment_balance ?? 0)
-                + (rawSummary.referral_balance ?? 0)
-                + (rawSummary.bonus_balance ?? 0)
-                + (rawSummary.profit_balance ?? 0)
-                + (rawSummary.recovered_balance ?? 0);
+            const data = summaryData as any;
+            const total_balance =
+                (data.balance ?? 0) +
+                (data.investment_balance ?? 0) +
+                (data.recovered_balance ?? 0) +
+                (data.profit_balance ?? data.total_profit ?? 0) +
+                (data.bonus_balance ?? data.total_bonus ?? 0) +
+                (data.referral_balance ?? data.total_referral_bonus ?? 0);
 
             setSummary({
-                ...rawSummary,
-                total_balance
+                balance: data.balance ?? 0,
+                total_deposit: data.total_deposit ?? 0,
+                total_withdrawal: data.total_withdrawal ?? 0,
+                recovered_balance: data.recovered_balance ?? 0,
+                investment_balance: data.investment_balance ?? 0,
+                total_profit: data.total_profit ?? data.profit_balance ?? 0,
+                total_bonus: data.total_bonus ?? data.bonus_balance ?? 0,
+                total_referral_bonus: data.total_referral_bonus ?? data.referral_balance ?? 0,
+                total_balance: data.total_balance ?? total_balance, // Use API if exists, else calculated
             } as AccountSummary);
             setRecentTransactions(transactionData as Transaction[]);
         } catch (err: any) {
