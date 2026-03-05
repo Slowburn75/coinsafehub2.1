@@ -3,10 +3,11 @@ import { NextRequest, NextResponse } from "next/server";
 const API_URL = process.env.API_URL; // server-side only, no NEXT_PUBLIC prefix
 
 async function handler(req: NextRequest) {
-    const { pathname, search } = new URL(req.url);
+    const pathname = req.nextUrl.pathname;
+    const { search } = new URL(req.url);
 
     // Strip /api/proxy from the path, keep everything after
-    const backendPath = pathname.replace(/^\/api\/proxy/, "");
+    const backendPath = pathname.replace("/api/proxy", "");
     const targetUrl = `${API_URL}${backendPath}${search}`;
 
     // Forward all headers except host
