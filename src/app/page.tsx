@@ -57,56 +57,56 @@ export default function LandingPage() {
 
   const services = [
     {
-      title: "Investment Tools",
-      desc: "Access professional tools to manage your cryptocurrency portfolio. Real-time tracking and deep analytics.",
-      icon: TrendingUp,
-    },
-    {
-      title: "Secure Transactions",
-      desc: "Seamlessly deposit and withdraw funds with end-to-end encrypted security and multi-stage verification.",
+      title: "Forensic Analysis",
+      desc: "Deep-trace blockchain forensics to identify the movement and destination of your lost or stolen digital assets.",
       icon: ShieldCheck,
     },
     {
-      title: "Wallet Integration",
-      desc: "Connect your existing crypto wallets securely to bridge your local assets with our management platform.",
-      icon: Wallet,
-    },
-    {
-      title: "Portfolio Tracking",
-      desc: "Monitor your wealth progress with advanced visualization and historical performance data.",
+      title: "Asset Tracking",
+      desc: "Real-time monitoring of identified wallets to detect any movement, enabling swift action with liquidity providers.",
       icon: History,
     },
     {
+      title: "Legal Liaison",
+      desc: "We provide comprehensive forensic reports suitable for law enforcement and legal proceedings to aid in recovery.",
+      icon: ShieldCheck,
+    },
+    {
+      title: "Wallet Security",
+      desc: "Expert audit and securing of your compromised digital environment once assets have been retrieved.",
+      icon: Wallet,
+    },
+    {
       title: "Recovery Consultation",
-      desc: "Expert-led consultation using forensic blockchain analysis for cases involving lost, stolen, or scammed funds.",
+      desc: "Specialized expert-led consultation for victims of scams, rug pulls, or forgotten private key scenarios.",
       icon: ShieldCheck,
       highlight: true
     },
     {
-      title: "Strategic Referrals",
-      desc: "Participate in our network growth and earn institutional-grade rewards for successful platform introductions.",
+      title: "Network Intelligence",
+      desc: "Access our proprietary database of blacklisted wallets and suspicious exchange endpoints globally.",
       icon: Users,
     }
   ];
 
   const plans = [
     {
-      name: "Basic Account",
+      name: "Case Evaluation",
       min: "100",
-      features: ["Portfolio management tools", "Standard support", "Basic analytics"],
+      features: ["Initial blockchain audit", "Case feasibility report", "Standard support"],
       color: "bg-blue-500/10 border-blue-500/20"
     },
     {
-      name: "Premium Account",
+      name: "Standard Recovery",
       min: "1,000",
-      features: ["Advanced portfolio tools", "Priority support", "Enhanced analytics", "Asset insurance recovery"],
+      features: ["Full forensic tracking", "Priority exchange outreach", "Asset monitoring", "Liaison with authorities"],
       color: "bg-primary/10 border-primary/20",
       featured: true
     },
     {
-      name: "Pro Account",
+      name: "Enterprise Forensics",
       min: "5,000",
-      features: ["Full suite of tools", "Dedicated support", "Comprehensive analytics", "Custom forensic reporting"],
+      features: ["Deep-chain analysis", "Dedicated investigator", "Custom forensic reporting", "Legal firm integration"],
       color: "bg-purple-500/10 border-purple-500/20"
     }
   ];
@@ -127,9 +127,9 @@ export default function LandingPage() {
           </Link>
 
           <div className="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600">
-            <Link href="#about" className="hover:text-primary transition-colors">About</Link>
-            <Link href="#services" className="hover:text-primary transition-colors">Services</Link>
-            <Link href="#pricing" className="hover:text-primary transition-colors">Plans</Link>
+            <Link href="#about" className="hover:text-primary transition-colors">Forensics</Link>
+            <Link href="#services" className="hover:text-primary transition-colors">Expertise</Link>
+            <Link href="#pricing" className="hover:text-primary transition-colors">Solutions</Link>
             <Link href="/login" className="hover:text-primary transition-colors">Login</Link>
             <Button asChild className="rounded-full px-6 shadow-md shadow-primary/10">
               <Link href="/register">Get Started</Link>
@@ -152,13 +152,13 @@ export default function LandingPage() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
               </span>
-              Next-Gen Crypto Wealth Management
+              Industry-Leading Asset Recovery & Forensics
             </div>
             <h1 className="text-5xl lg:text-7xl font-bold text-slate-900 leading-[1.1] animate-in fade-in slide-in-from-bottom-6 duration-1000">
-              Secure Your Future in <span className="text-primary italic">Decentralized</span> Markets
+              Recover Your Lost Assets With <span className="text-primary italic">Forensic</span> Precision
             </h1>
             <p className="text-lg text-slate-600 max-w-xl mx-auto lg:mx-0 animate-in fade-in slide-in-from-bottom-8 duration-1000">
-              CoinSafeHub offers institutional-grade investment tools and expert fund recovery consultation. Portfolio management redesigned for the modern era.
+              CoinSafeHub provides specialized blockchain forensics and expert fund recovery consultation to retrieve lost, stolen, or inaccessible digital assets.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 animate-in fade-in slide-in-from-bottom-10 duration-1000">
               <Button size="lg" className="h-14 px-10 rounded-full text-md shadow-xl shadow-primary/20 hover:scale-105 transition-transform" asChild>
@@ -189,9 +189,9 @@ export default function LandingPage() {
       <section id="services" className="py-24 bg-white relative">
         <div className="container px-6 mx-auto">
           <div className="max-w-3xl mx-auto text-center space-y-4 mb-20">
-            <h2 className="text-4xl lg:text-5xl font-bold text-slate-900">Institutional <span className="text-primary">Capabilities</span></h2>
+            <h2 className="text-4xl lg:text-5xl font-bold text-slate-900">Restorative <span className="text-primary">Justice</span></h2>
             <p className="text-slate-500 text-lg">
-              Explore our comprehensive suite of cryptocurrency services tailored for both individual investors and high-volume traders.
+              Explore our specialized forensic capabilities dedicated to identifying and retrieving digital assets across the decentralized landscape.
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -244,10 +244,10 @@ export default function LandingPage() {
                 Our Mission is <span className="text-primary">Defensive Excellence</span>
               </h2>
               <p className="text-slate-600 text-lg leading-relaxed">
-                CoinSafeHub provides the infrastructure for sophisticated cryptocurrency interaction. We support investors with advanced portfolio management tools while offering unique consultation for complex recovery cases involving decentralized assets.
+                CoinSafeHub provides the infrastructure for sophisticated digital asset tracking. We support individuals and enterprises with advanced forensic tools while offering unique consultation for complex recovery cases involving decentralized assets.
               </p>
               <p className="text-slate-600 text-lg leading-relaxed">
-                By leveraging advanced blockchain forensics and multi-stage security protocols, we bridge the gap between volatile markets and peace of mind. Our team is dedicated to transparency, security, and institutional integrity in the crypto space.
+                By leveraging advanced blockchain forensics and restorative security protocols, we bridge the gap between financial loss and peace of mind. Our team is dedicated to transparency, security, and investigative integrity.
               </p>
               <div className="pt-4 grid grid-cols-2 gap-8">
                 <div>
@@ -316,9 +316,9 @@ export default function LandingPage() {
       <section id="pricing" className="py-24 bg-white relative">
         <div className="container px-6 mx-auto">
           <div className="max-w-2xl mx-auto text-center space-y-4 mb-20">
-            <h2 className="text-4xl lg:text-5xl font-bold text-slate-900">Tailored <span className="text-primary">Accounts</span></h2>
+            <h2 className="text-4xl lg:text-5xl font-bold text-slate-900">Recovery <span className="text-primary">Paths</span></h2>
             <p className="text-slate-500 text-lg">
-              Choose the level of service that matches your investment goals and security requirements.
+              Choose the level of forensic depth and liaison services that match your specific case requirements.
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -338,7 +338,7 @@ export default function LandingPage() {
                 )}
                 <h3 className="text-xl font-bold text-slate-900 mb-2">{plan.name}</h3>
                 <div className="text-4xl font-extrabold text-slate-900 mb-2">${plan.min}</div>
-                <div className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-8">Minimum Balance</div>
+                <div className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-8">Retainer Fee</div>
 
                 <div className="w-full h-px bg-slate-200 mb-8" />
 
@@ -358,7 +358,7 @@ export default function LandingPage() {
             ))}
           </div>
           <p className="text-center text-slate-400 text-xs mt-12 max-w-lg mx-auto leading-relaxed">
-            * All investment tiers carry risks. Financial loss is possible. Ensure you have read our Terms of Service before opening an account.
+            * All service tiers involve complex forensic analysis. Results depend on technical feasibility and wallet availability. Ensure you have read our Terms of Service.
           </p>
         </div>
       </section>
@@ -371,7 +371,7 @@ export default function LandingPage() {
           <div className="max-w-4xl mx-auto text-center space-y-8">
             <h2 className="text-4xl lg:text-5xl font-bold text-white leading-tight">Stay Ahead of the <span className="text-slate-900 underline underline-offset-8">Blockchain</span> Curve</h2>
             <p className="text-white/80 text-xl max-w-2xl mx-auto">
-              Receive high-impact market intelligence and security alerts directly to your inbox. No spam, only strategy.
+              Receive high-impact security intelligence and forensic alerts directly to your inbox. No spam, only security.
             </p>
             <form className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto shadow-2xl rounded-3xl p-2 bg-white/10 backdrop-blur-md border border-white/20">
               <input
@@ -400,7 +400,7 @@ export default function LandingPage() {
                 <span className="text-xl font-bold tracking-tight text-slate-900">CoinSafeHub</span>
               </Link>
               <p className="text-slate-500 leading-relaxed text-sm">
-                Next-gen wealth portal specializing in cryptocurrency portfolio management and advanced blockchain assets forensic recovery.
+                Next-gen forensics portal specializing in blockchain asset tracking and advanced digital assets recovery consultation.
               </p>
               <div className="flex gap-4">
                 <Link href="#" className="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center hover:bg-primary hover:text-white transition-all text-slate-600">

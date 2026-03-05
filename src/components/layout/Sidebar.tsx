@@ -32,9 +32,9 @@ const NAV_ITEMS: NavItem[] = [
     { label: "Deposit", href: "/dashboard/deposit", icon: ArrowUpCircle, section: "FINANCES" },
     { label: "Withdraw", href: "/dashboard/withdraw", icon: ArrowDownCircle, section: "FINANCES" },
     { label: "Transfer", href: "/dashboard/transfer", icon: Send, section: "FINANCES" },
-    { label: "Investments", href: "/dashboard/plans", icon: Briefcase, section: "TRADING" },
-    { label: "Market Data", href: "/dashboard/crypto", icon: LineChart, section: "TRADING" },
-    { label: "Wallet Connection", href: "/dashboard/wallet", icon: Wallet, section: "TRADING" },
+    { label: "Recovery Plans", href: "/dashboard/plans", icon: Briefcase, section: "FORENSICS" },
+    { label: "Network Intel", href: "/dashboard/crypto", icon: LineChart, section: "FORENSICS" },
+    { label: "Secure Bridge", href: "/dashboard/wallet", icon: Wallet, section: "FORENSICS" },
     { label: "Transactions", href: "/dashboard/transactions", icon: History, section: "ACCOUNT" },
     { label: "Settings", href: "/dashboard/settings", icon: Settings, section: "ACCOUNT" },
     { label: "Support", href: "/dashboard/support", icon: Headphones, section: "ACCOUNT" },
@@ -44,7 +44,7 @@ export function Sidebar() {
     const pathname = usePathname();
     const [isOpen, setIsOpen] = useState(false);
 
-    const sections = ["FINANCES", "TRADING", "ACCOUNT"];
+    const sections = ["FINANCES", "FORENSICS", "ACCOUNT"];
 
     return (
         <>
@@ -112,8 +112,8 @@ export function Sidebar() {
                 {/* Bottom Card */}
                 <div className="p-4 mt-auto">
                     <div className="p-4 rounded-2xl bg-gradient-to-br from-primary/10 to-accent/5 border border-white/5 text-center">
-                        <p className="text-xs font-semibold text-foreground mb-1 uppercase tracking-wider">Premium Plan</p>
-                        <p className="text-[10px] text-muted-foreground mb-3">Optimize your returns with our advanced tools.</p>
+                        <p className="text-xs font-semibold text-foreground mb-1 uppercase tracking-wider">Recovery Case</p>
+                        <p className="text-[10px] text-muted-foreground mb-3">Expedite your retrieval with advanced forensic tools.</p>
                         <Link
                             href="/dashboard/plans"
                             className="inline-flex items-center justify-center w-full py-2 px-4 rounded-xl bg-primary text-primary-foreground text-xs font-bold transition-transform active:scale-95 no-underline"

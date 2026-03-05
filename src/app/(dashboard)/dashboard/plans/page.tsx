@@ -17,7 +17,7 @@ import { Separator } from "@/components/ui/separator";
 import { TrendingUp, ShieldCheck, Clock, ArrowRightCircle } from "lucide-react";
 
 export default function PlansPage() {
-    const { isSubmitting, invest } = usePlans();
+    const { isSubmitting, initiateRecovery } = usePlans();
 
     const [selectedPlanId, setSelectedPlanId] = useState("starter");
     const [amount, setAmount] = useState("");
@@ -31,7 +31,7 @@ export default function PlansPage() {
             return;
         }
 
-        await invest({
+        await initiateRecovery({
             plan: selectedPlanId,
             amount: parseFloat(amount),
             paymentMethod,
@@ -43,9 +43,9 @@ export default function PlansPage() {
     return (
         <div className="space-y-6">
             <div className="flex flex-col gap-2">
-                <h1 className="text-2xl font-bold tracking-tight">Investment Plans</h1>
+                <h1 className="text-2xl font-bold tracking-tight">Recovery Solutions</h1>
                 <p className="text-muted-foreground text-sm">
-                    Get started with your investment by choosing a plan that fits your goals.
+                    Initiate your recovery process by choosing a solution that fits your case depth.
                 </p>
             </div>
 
@@ -53,24 +53,24 @@ export default function PlansPage() {
                 {/* Investment Configurator */}
                 <Card className="lg:col-span-2">
                     <CardHeader>
-                        <CardTitle className="text-lg">Configure Investment</CardTitle>
+                        <CardTitle className="text-lg">Configure Recovery</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-6">
                         <div className="space-y-2">
-                            <Label htmlFor="plan">Select Plan</Label>
+                            <Label htmlFor="plan">Select Solution Level</Label>
                             <Select value={selectedPlanId} onValueChange={setSelectedPlanId}>
                                 <SelectTrigger id="plan">
                                     <SelectValue />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="starter">Starter Plan</SelectItem>
-                                    <SelectItem value="gold">Gold Plan</SelectItem>
+                                    <SelectItem value="starter">Evaluation Level</SelectItem>
+                                    <SelectItem value="gold">Full Recovery</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
 
                         <div className="space-y-3">
-                            <Label>Quick Investment Options</Label>
+                            <Label>Quick Retainer Options</Label>
                             <div className="flex flex-wrap gap-2">
                                 {quickAmounts.map((amt) => (
                                     <Button
@@ -87,7 +87,7 @@ export default function PlansPage() {
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="custom-amount">Or Enter Custom Amount ($)</Label>
+                            <Label htmlFor="custom-amount">Or Enter Custom Retainer ($)</Label>
                             <Input
                                 id="custom-amount"
                                 type="number"
@@ -116,7 +116,7 @@ export default function PlansPage() {
                             onClick={handleInvest}
                             disabled={isSubmitting}
                         >
-                            {isSubmitting ? "Processing..." : "Confirm & Invest"}
+                            {isSubmitting ? "Processing Case..." : "Confirm & Start Recovery"}
                         </Button>
                     </CardContent>
                 </Card>
@@ -125,13 +125,13 @@ export default function PlansPage() {
                 <Card className="bg-primary/5 border-primary/20">
                     <CardHeader>
                         <CardTitle className="text-lg flex items-center gap-2">
-                            <TrendingUp className="h-5 w-5 text-primary" />
-                            Plan Details
+                            <ShieldCheck className="h-5 w-5 text-primary" />
+                            Solution Details
                         </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
                         <div className="flex flex-col">
-                            <span className="text-xs text-muted-foreground uppercase tracking-wider">Plan Name</span>
+                            <span className="text-xs text-muted-foreground uppercase tracking-wider">Solution Name</span>
                             <span className="font-bold text-lg">{plan.name}</span>
                         </div>
 
@@ -145,15 +145,15 @@ export default function PlansPage() {
                                 </span>
                             </div>
                             <div className="flex flex-col">
-                                <span className="text-xs text-muted-foreground uppercase tracking-wider">Profit</span>
+                                <span className="text-xs text-muted-foreground uppercase tracking-wider">Expected Return</span>
                                 <span className="font-medium text-primary">{plan.profit}</span>
                             </div>
                             <div className="flex flex-col">
-                                <span className="text-xs text-muted-foreground uppercase tracking-wider">Min Deposit</span>
+                                <span className="text-xs text-muted-foreground uppercase tracking-wider">Min Case Value</span>
                                 <span className="font-medium">{plan.minDeposit}</span>
                             </div>
                             <div className="flex flex-col">
-                                <span className="text-xs text-muted-foreground uppercase tracking-wider">Max Deposit</span>
+                                <span className="text-xs text-muted-foreground uppercase tracking-wider">Max Case Value</span>
                                 <span className="font-medium">{plan.maxDeposit}</span>
                             </div>
                         </div>
@@ -162,7 +162,7 @@ export default function PlansPage() {
 
                         <div className="rounded-lg bg-card p-4 border border-primary/10 space-y-2">
                             <div className="flex justify-between text-sm">
-                                <span className="text-muted-foreground">Total Investment:</span>
+                                <span className="text-muted-foreground">Initial Retainer:</span>
                                 <span className="font-bold">${amount || "0"}</span>
                             </div>
                             <div className="flex justify-between text-sm">
@@ -174,7 +174,7 @@ export default function PlansPage() {
                     <CardFooter className="pt-0">
                         <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
                             <ShieldCheck className="h-3 w-3" />
-                            <span>Investment backed by CoinSafeHub Protection Fund.</span>
+                            <span>Case processing strictly following forensic protocol.</span>
                         </div>
                     </CardFooter>
                 </Card>

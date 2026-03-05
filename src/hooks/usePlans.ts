@@ -19,7 +19,7 @@ export interface Plan {
 export const PREDEFINED_PLANS: Record<string, Plan> = {
     starter: {
         id: "starter",
-        name: "Starter",
+        name: "Standard Protocol",
         price: "$10,000",
         duration: "1 Month",
         profit: "1% Weekly",
@@ -30,7 +30,7 @@ export const PREDEFINED_PLANS: Record<string, Plan> = {
     },
     gold: {
         id: "gold",
-        name: "Gold Plan",
+        name: "Premium Forensic",
         price: "$20,000",
         duration: "1 Month",
         profit: "30% Weekly",
@@ -44,7 +44,7 @@ export const PREDEFINED_PLANS: Record<string, Plan> = {
 export function usePlans() {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const invest = async (data: {
+    const initiateRecovery = async (data: {
         plan: string;
         amount: number;
         paymentMethod: string;
@@ -52,11 +52,11 @@ export function usePlans() {
         setIsSubmitting(true);
         try {
             await investments.create(data);
-            toast.success("Investment successful!");
+            toast.success("Case initiated successfully!");
             return true;
         } catch (err: any) {
             console.error(err);
-            toast.error(err?.message || "Investment failed");
+            toast.error(err?.message || "Case initiation failed");
             return false;
         } finally {
             setIsSubmitting(false);
@@ -65,6 +65,6 @@ export function usePlans() {
 
     return {
         isSubmitting,
-        invest,
+        initiateRecovery,
     };
 }
