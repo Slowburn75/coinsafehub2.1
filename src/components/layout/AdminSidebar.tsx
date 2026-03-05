@@ -9,7 +9,6 @@ import {
     LayoutDashboard,
     Users,
     History,
-    UserEdit,
     Settings,
     LogOut,
     Menu,
