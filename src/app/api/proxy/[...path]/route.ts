@@ -30,6 +30,7 @@ async function handler(req: NextRequest) {
         // Remove encoding headers so Vercel doesn't double-decompress
         resHeaders.delete("content-encoding");
         resHeaders.delete("transfer-encoding");
+        resHeaders.delete("content-length");
 
         return new NextResponse(backendRes.body, {
             status: backendRes.status,
