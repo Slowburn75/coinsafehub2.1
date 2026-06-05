@@ -14,7 +14,7 @@ export function useAdminLogin() {
             const response = await auth.login(data);
             // Even if it's admin, the response structure should be same as user login
             if ((response as any).access_token) {
-                setToken((response as any).access_token);
+                await setToken((response as any).access_token);
                 toast.success("Admin login successful!");
                 return true;
             }

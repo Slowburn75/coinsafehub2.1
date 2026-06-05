@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { admin } from "@/lib/api";
+import { parseApiError } from "@/lib/error-utils";
 import { toast } from "sonner";
 
 export function useAdminTransactions() {
@@ -35,7 +36,7 @@ export function useAdminTransactions() {
             return true;
         } catch (err: any) {
             console.error("Update failed:", err);
-            const errorMsg = err?.body?.detail || err?.body?.message || err?.message || "Failed to update transaction";
+            const errorMsg = parseApiError(err).message;
             toast.error(errorMsg);
             return false;
         }

@@ -101,9 +101,9 @@ export default function SettingsPage() {
             return;
         }
         await changePassword({
-            old_password: passwords.oldPassword,
-            new_password: passwords.newPassword,
-            confirm_password: passwords.confirmPassword
+            oldPassword: passwords.oldPassword,
+            newPassword: passwords.newPassword,
+            confirmPassword: passwords.confirmPassword
         });
         setPasswords({ oldPassword: "", newPassword: "", confirmPassword: "" });
     };

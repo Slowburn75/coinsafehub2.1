@@ -109,7 +109,12 @@ export async function apiFetch<T = unknown>(
 
     const text = await res.text();
     try {
-        return JSON.parse(text) as T;
+        const json = JSON.parse(text);
+        // Unwrap unified response format: { success: true, data: {...} } → data
+        if (json && typeof json === "object" && json.success === true && "data" in json) {
+            return json.data as T;
+        }
+        return json as T;
     } catch (err) {
         console.error("Failed to parse JSON response:", text);
         throw new Error(`Invalid JSON response from server: ${text.substring(0, 50)}...`);
@@ -154,7 +159,7 @@ export const auth = {
     /** POST /api/auth/register */
     register: (data: {
         email: string;
-        full_name: string;
+        fullName: string;
         password: string;
         password2: string;
         country: string;
@@ -171,16 +176,16 @@ export const auth = {
     /** PATCH /api/auth/set_password */
     setPassword: (data: {
         password: string;
-        confirm_password: string;
+        confirmPassword: string;
         uidb64: string;
         token: string;
     }) => patch("/api/auth/set_password", data),
 
     /** POST /api/auth/change_password */
     changePassword: (data: {
-        old_password: string;
-        new_password: string;
-        confirm_password: string;
+        oldPassword: string;
+        newPassword: string;
+        confirmPassword: string;
     }) => post("/api/auth/change_password", data),
 
     /** POST /api/auth/update_pin */

@@ -8,6 +8,7 @@ import * as z from "zod";
 import Link from "next/link";
 
 import { auth } from "@/lib/api";
+import { parseApiError } from "@/lib/error-utils";
 import { Button } from "@/components/ui/button";
 import { Eye, EyeOff } from "lucide-react";
 import {
@@ -26,7 +27,7 @@ import { toast } from "sonner";
 
 // Replicating original site's password requirements
 const registerSchema = z.object({
-    full_name: z.string().min(2, "Full name is required"),
+    fullName: z.string().min(2, "Full name is required"),
     email: z.string().email("Invalid email address"),
     country: z.string().min(1, "Please select a country"),
     password: z.string()
@@ -57,7 +58,7 @@ export default function RegisterPage() {
     const form = useForm<RegisterFormValues>({
         resolver: zodResolver(registerSchema),
         defaultValues: {
-            full_name: "",
+            fullName: "",
             email: "",
             country: "",
             password: "",
@@ -74,7 +75,15 @@ export default function RegisterPage() {
             router.push("/verify-email");
         } catch (err: any) {
             console.error(err);
-            setError(err?.body?.detail || err?.body?.message || "Registration failed. Please try again.");
+            const parsed = parseApiError(err);
+            setError(parsed.message);
+
+            // Set per-field errors on the form
+            if (Object.keys(parsed.fieldErrors).length > 0) {
+                for (const [field, message] of Object.entries(parsed.fieldErrors)) {
+                    form.setError(field as any, { message });
+                }
+            }
         } finally {
             setIsLoading(false);
         }
@@ -99,7 +108,7 @@ export default function RegisterPage() {
                         <form onSubmit={form.handleSubmit(onSubmit)} method="POST" className="space-y-4">
                             <FormField
                                 control={form.control}
-                                name="full_name"
+                                name="fullName"
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Full Name</FormLabel>

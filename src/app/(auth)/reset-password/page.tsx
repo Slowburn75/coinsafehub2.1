@@ -8,6 +8,7 @@ import * as z from "zod";
 import Link from "next/link";
 
 import { auth } from "@/lib/api";
+import { parseApiError } from "@/lib/error-utils";
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -24,10 +25,10 @@ import { toast } from "sonner";
 
 const resetPasswordSchema = z.object({
     password: z.string().min(8, "Password must be at least 8 characters"),
-    confirm_password: z.string().min(1, "Please confirm your password"),
-}).refine((data) => data.password === data.confirm_password, {
+    confirmPassword: z.string().min(1, "Please confirm your password"),
+}).refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
-    path: ["confirm_password"],
+    path: ["confirmPassword"],
 });
 
 type ResetPasswordFormValues = z.infer<typeof resetPasswordSchema>;
@@ -45,7 +46,7 @@ function ResetPasswordForm() {
         resolver: zodResolver(resetPasswordSchema),
         defaultValues: {
             password: "",
-            confirm_password: "",
+            confirmPassword: "",
         },
     });
 
@@ -67,7 +68,8 @@ function ResetPasswordForm() {
             router.push("/login");
         } catch (err: any) {
             console.error(err);
-            setError(err?.body?.detail || err?.body?.message || "Reset failed. The link may have expired.");
+            const parsed = parseApiError(err);
+            setError(parsed.message);
         } finally {
             setIsLoading(false);
         }
@@ -101,7 +103,7 @@ function ResetPasswordForm() {
                 />
                 <FormField
                     control={form.control}
-                    name="confirm_password"
+                    name="confirmPassword"
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>Confirm New Password</FormLabel>

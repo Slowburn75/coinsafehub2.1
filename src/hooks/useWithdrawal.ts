@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { transactions } from "@/lib/api";
+import { parseApiError } from "@/lib/error-utils";
 import { toast } from "sonner";
 
 export interface WithdrawalMethod {
@@ -44,7 +45,7 @@ export function useWithdrawal() {
             return true;
         } catch (err: any) {
             console.error(err);
-            const errorMsg = err?.body?.detail || err?.body?.message || err?.message || "Withdrawal failed";
+            const errorMsg = parseApiError(err).message;
             toast.error(errorMsg);
             return false;
         } finally {

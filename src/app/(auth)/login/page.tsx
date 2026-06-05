@@ -10,6 +10,7 @@ import { Eye, EyeOff, Loader2 } from "lucide-react";
 
 import { auth } from "@/lib/api";
 import { setToken } from "@/lib/auth";
+import { parseApiError } from "@/lib/error-utils";
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -60,7 +61,8 @@ export default function LoginPage() {
             }
         } catch (err: any) {
             console.error(err);
-            setError(err?.body?.detail || err?.body?.message || "Invalid email or password.");
+            const parsed = parseApiError(err);
+            setError(parsed.message);
         } finally {
             setIsLoading(false);
         }

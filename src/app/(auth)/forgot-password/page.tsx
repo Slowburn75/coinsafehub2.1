@@ -8,6 +8,7 @@ import * as z from "zod";
 import Link from "next/link";
 
 import { auth } from "@/lib/api";
+import { parseApiError } from "@/lib/error-utils";
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -49,7 +50,8 @@ export default function ForgotPasswordPage() {
             router.push("/login");
         } catch (err: any) {
             console.error(err);
-            setError(err?.body?.detail || err?.body?.message || "Failed to send reset link. Please try again.");
+            const parsed = parseApiError(err);
+            setError(parsed.message);
         } finally {
             setIsLoading(false);
         }

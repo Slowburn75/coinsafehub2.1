@@ -9,6 +9,7 @@ import Link from "next/link";
 
 import { auth } from "@/lib/api";
 import { setToken } from "@/lib/auth";
+import { parseApiError } from "@/lib/error-utils";
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -56,7 +57,8 @@ export default function VerifyEmailPage() {
             }
         } catch (err: any) {
             console.error(err);
-            setError(err?.body?.detail || err?.body?.message || "Verification failed. Please check your code.");
+            const parsed = parseApiError(err);
+            setError(parsed.message);
         } finally {
             setIsLoading(false);
         }
