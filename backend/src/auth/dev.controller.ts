@@ -1,26 +1,33 @@
-import { Controller, Get, Query, NotFoundException } from '@nestjs/common';
+import { Controller, Get, Query, NotFoundException, ForbiddenException } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../prisma/prisma.service';
 import { Public } from '../common/decorators/public.decorator';
 
 /**
- * Development-only controller for retrieving OTPs and reset tokens
- * without needing to check email or server logs.
- *
- * Disabled in production by the guard below.
+ * Development-only controller. All endpoints return 403 in production.
  */
 @ApiTags('Dev Tools')
 @Controller('auth/dev')
 export class DevController {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private configService: ConfigService,
+  ) {}
+
+  private guardDevOnly() {
+    if (this.configService.get('NODE_ENV') === 'production') {
+      throw new ForbiddenException('Dev tools are disabled in production');
+    }
+  }
 
   @Public()
   @Get('otp')
   @ApiOperation({
     summary: '[DEV ONLY] Get the latest verification OTP for an email',
-    description: 'Returns the current valid OTP. Only works in development mode.',
   })
   async getOtp(@Query('email') email: string) {
+    this.guardDevOnly();
     if (!email) throw new NotFoundException('Email query parameter is required');
 
     const user = await this.prisma.user.findFirst({
@@ -35,7 +42,7 @@ export class DevController {
     if (!user) {
       return {
         found: false,
-        message: `No valid OTP found for ${email}. The OTP may have expired or the email is not registered.`,
+        message: `No valid OTP found for ${email}. It may have expired or the email is not registered.`,
       };
     }
 
@@ -50,10 +57,10 @@ export class DevController {
   @Public()
   @Get('reset-link')
   @ApiOperation({
-    summary: '[DEV ONLY] Get the latest password reset link for an email',
-    description: 'Returns the reset link. Only works in development mode.',
+    summary: '[DEV ONLY] Get password reset link for an email',
   })
   async getResetLink(@Query('email') email: string) {
+    this.guardDevOnly();
     if (!email) throw new NotFoundException('Email query parameter is required');
 
     const user = await this.prisma.user.findFirst({
@@ -77,7 +84,7 @@ export class DevController {
       };
     }
 
-    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+    const frontendUrl = this.configService.get('FRONTEND_URL', 'http://localhost:3000');
     return {
       found: true,
       email: user.email,
