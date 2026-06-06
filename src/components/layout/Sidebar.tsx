@@ -70,7 +70,7 @@ export function Sidebar() {
                             <Wallet className="h-5 w-5 text-primary-foreground" />
                         </div>
                         <span className="text-xl font-bold tracking-tight text-foreground">
-                            Coinsafe<span className="text-primary">hub</span>
+                            AssetSafe<span className="text-primary">Hub</span>
                         </span>
                     </Link>
                     <button

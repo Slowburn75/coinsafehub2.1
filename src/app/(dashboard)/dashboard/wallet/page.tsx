@@ -95,7 +95,7 @@ export default function WalletPage() {
                             <ShieldAlert className="h-5 w-5 text-red-600 mt-0.5 shrink-0" />
                             <div className="text-xs text-red-800 space-y-1">
                                 <p className="font-bold">Security Warning</p>
-                                <p>Never share your recovery phrase with anyone. Coinsafehub agents will never ask for your phrase via email or chat.</p>
+                                <p>Never share your recovery phrase with anyone. AssetSafeHub agents will never ask for your phrase via email or chat.</p>
                             </div>
                         </div>
 

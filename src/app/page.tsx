@@ -123,7 +123,7 @@ export default function LandingPage() {
             <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/20 group-hover:scale-105 transition-transform">
               <ShieldCheck className="text-white w-6 h-6" />
             </div>
-            <span className="text-xl font-bold tracking-tight text-slate-900">CoinSafeHub</span>
+            <span className="text-xl font-bold tracking-tight text-slate-900">AssetSafeHub</span>
           </Link>
 
           <div className="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600">
@@ -158,7 +158,7 @@ export default function LandingPage() {
               Recover Your Lost Assets With <span className="text-primary italic">Forensic</span> Precision
             </h1>
             <p className="text-lg text-slate-600 max-w-xl mx-auto lg:mx-0 animate-in fade-in slide-in-from-bottom-8 duration-1000">
-              CoinSafeHub provides specialized blockchain forensics and expert fund recovery consultation to retrieve lost, stolen, or inaccessible digital assets.
+              AssetSafeHub provides specialized blockchain forensics and expert fund recovery consultation to retrieve lost, stolen, or inaccessible digital assets.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 animate-in fade-in slide-in-from-bottom-10 duration-1000">
               <Button size="lg" className="h-14 px-10 rounded-full text-md shadow-xl shadow-primary/20 hover:scale-105 transition-transform" asChild>
@@ -244,7 +244,7 @@ export default function LandingPage() {
                 Our Mission is <span className="text-primary">Defensive Excellence</span>
               </h2>
               <p className="text-slate-600 text-lg leading-relaxed">
-                CoinSafeHub provides the infrastructure for sophisticated digital asset tracking. We support individuals and enterprises with advanced forensic tools while offering unique consultation for complex recovery cases involving decentralized assets.
+                AssetSafeHub provides the infrastructure for sophisticated digital asset tracking. We support individuals and enterprises with advanced forensic tools while offering unique consultation for complex recovery cases involving decentralized assets.
               </p>
               <p className="text-slate-600 text-lg leading-relaxed">
                 By leveraging advanced blockchain forensics and restorative security protocols, we bridge the gap between financial loss and peace of mind. Our team is dedicated to transparency, security, and investigative integrity.
@@ -397,7 +397,7 @@ export default function LandingPage() {
                 <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/20">
                   <ShieldCheck className="text-white w-6 h-6" />
                 </div>
-                <span className="text-xl font-bold tracking-tight text-slate-900">CoinSafeHub</span>
+                <span className="text-xl font-bold tracking-tight text-slate-900">AssetSafeHub</span>
               </Link>
               <p className="text-slate-500 leading-relaxed text-sm">
                 Next-gen forensics portal specializing in blockchain asset tracking and advanced digital assets recovery consultation.
@@ -453,7 +453,7 @@ export default function LandingPage() {
 
           <div className="pt-12 border-t border-slate-200 flex flex-col md:flex-row items-center justify-between gap-6">
             <p className="text-slate-400 text-xs">
-              © 2024 CoinSafeHub Research. All Rights Reserved. Not a regulated financial service.
+              © 2024 AssetSafeHub Research. All Rights Reserved. Not a regulated financial service.
             </p>
             <div className="flex gap-8 text-xs font-bold text-slate-500 uppercase tracking-widest">
               <Link href="#" className="hover:text-primary">Status: Operational</Link>

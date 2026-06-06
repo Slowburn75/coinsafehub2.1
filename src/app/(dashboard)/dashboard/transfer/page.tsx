@@ -124,7 +124,7 @@ export default function TransferPage() {
                                         </div>
                                         <Input
                                             id="recipient"
-                                            placeholder="member@coinsafe.com"
+                                            placeholder="member@assetsafe.com"
                                             className="h-16 pl-12 bg-white/5 border-white/5 focus:border-primary/50 transition-all rounded-2xl font-bold"
                                             value={recipient}
                                             onChange={(e) => setRecipient(e.target.value)}
