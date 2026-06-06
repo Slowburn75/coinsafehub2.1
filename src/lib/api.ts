@@ -5,13 +5,18 @@
 const isServer = typeof window === "undefined";
 
 if (isServer && !process.env.NEXT_PUBLIC_API_URL) {
-    throw new Error(
-        "NEXT_PUBLIC_API_URL is not defined. " +
-        "Add it to .env.local for local dev and to production environment variables."
+    console.error(
+        "⚠ NEXT_PUBLIC_API_URL is not defined. " +
+        "Add it to .env.local for local dev and to your hosting environment variables."
     );
 }
 
-const API_URL = isServer ? (process.env.NEXT_PUBLIC_API_URL ?? "") : "/api/proxy";
+function getApiUrl(): string {
+    if (isServer) {
+        return process.env.NEXT_PUBLIC_API_URL ?? "";
+    }
+    return "/api/proxy";
+}
 
 
 import { clearToken } from "./auth";
@@ -77,7 +82,7 @@ export async function apiFetch<T = unknown>(
         headers.set("Content-Type", "application/json");
     }
 
-    const res = await fetch(`${API_URL}${path}`, {
+    const res = await fetch(`${getApiUrl()}${path}`, {
         ...options,
         headers,
         credentials: "include", // ensure cookies travel with the request
