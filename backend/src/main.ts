@@ -11,7 +11,18 @@ async function bootstrap() {
   app.setGlobalPrefix(process.env.API_PREFIX || 'api');
 
   app.enableCors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+    origin: (origin, callback) => {
+      const allowed = [
+        process.env.FRONTEND_URL,
+        'http://localhost:3000',
+      ].filter(Boolean);
+      // Allow requests with no origin (server-to-server, curl, mobile apps)
+      if (!origin || allowed.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(null, true); // Allow all origins when using tunnel/proxy
+      }
+    },
     credentials: true,
   });
 
