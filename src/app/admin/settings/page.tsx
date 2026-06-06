@@ -62,7 +62,7 @@ export default function AdminSettingsPage() {
                                 <Input
                                     id="email"
                                     type="email"
-                                    placeholder="admin@coinsafehub.com"
+                                    placeholder="admin@coinsafehub.org"
                                     value={formData.email}
                                     onChange={e => setFormData({ ...formData, email: e.target.value })}
                                     className="h-11"

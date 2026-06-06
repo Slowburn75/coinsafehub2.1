@@ -445,7 +445,7 @@ export default function LandingPage() {
                 </li>
                 <li className="flex gap-3">
                   <Mail className="w-5 h-5 text-primary shrink-0" />
-                  <span>support@coinsafehub.com</span>
+                  <span>support@coinsafehub.org</span>
                 </li>
               </ul>
             </div>

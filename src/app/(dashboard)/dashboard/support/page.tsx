@@ -56,7 +56,7 @@ const FAQ_ITEMS = [
 ];
 
 const CONTACT_INFO = [
-  { icon: Mail, label: "Email", value: "support@coinsafehub.com", href: "mailto:support@coinsafehub.com" },
+  { icon: Mail, label: "Email", value: "support@coinsafehub.org", href: "mailto:support@coinsafehub.org" },
   { icon: Phone, label: "Phone", value: "+1 (917) 397-4033", href: "tel:+19173974033" },
   { icon: MapPin, label: "Office", value: "135-39 118 Street, 11420, USA" },
   { icon: Clock, label: "Response Time", value: "Within 24 hours" },
@@ -224,7 +224,7 @@ export default function SupportPage() {
                   <AlertTriangle className="h-4 w-4 text-orange-400 shrink-0 mt-0.5" />
                   <p className="text-[10px] font-medium text-muted-foreground leading-relaxed">
                     For urgent security concerns or suspected unauthorized access, please email{" "}
-                    <span className="text-foreground font-bold">security@coinsafehub.com</span>{" "}
+                    <span className="text-foreground font-bold">security@coinsafehub.org</span>{" "}
                     immediately with the subject line "URGENT: Security Concern".
                   </p>
                 </div>
