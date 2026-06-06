@@ -7,7 +7,7 @@ const isServer = typeof window === "undefined";
 if (isServer && !process.env.NEXT_PUBLIC_API_URL) {
     throw new Error(
         "NEXT_PUBLIC_API_URL is not defined. " +
-        "Add it to .env.local for local dev and to Vercel Environment Variables for production."
+        "Add it to .env.local for local dev and to production environment variables."
     );
 }
 

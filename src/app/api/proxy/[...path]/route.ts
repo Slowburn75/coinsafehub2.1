@@ -29,13 +29,13 @@ async function handler(req: NextRequest) {
             body: req.method !== "GET" && req.method !== "HEAD"
                 ? await req.arrayBuffer()
                 : undefined,
-            // Required for Vercel — disable automatic body decompression
+            // Prevent double body decompression on serverless platforms
             // @ts-expect-error
             duplex: "half",
         });
 
         const resHeaders = new Headers(backendRes.headers);
-        // Remove encoding headers so Vercel doesn't double-decompress
+        // Remove encoding headers to prevent double-compression on serverless platforms
         resHeaders.delete("content-encoding");
         resHeaders.delete("transfer-encoding");
         resHeaders.delete("content-length");
