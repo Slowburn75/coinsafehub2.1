@@ -1,56 +1,51 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import * as nodemailer from 'nodemailer';
-import type { Transporter } from 'nodemailer';
+import { Resend } from 'resend';
 
 @Injectable()
 export class EmailService {
   private readonly logger = new Logger(EmailService.name);
-  private transporter: Transporter | null = null;
-  private readonly isProduction: boolean;
+  private resend: Resend | null = null;
+  private readonly isDevelopment: boolean;
 
   constructor(private configService: ConfigService) {
-    this.isProduction = configService.get('NODE_ENV') === 'production';
-    this.initializeTransporter();
-  }
+    this.isDevelopment = configService.get('NODE_ENV') !== 'production';
 
-  private initializeTransporter() {
-    const host = this.configService.get('SMTP_HOST');
-    const port = parseInt(this.configService.get('SMTP_PORT', '587'), 10);
-    const user = this.configService.get('SMTP_USER');
-    const pass = this.configService.get('SMTP_PASS');
-
-    if (!host) {
-      this.logger.warn('SMTP_HOST not configured. Emails will be logged to console only.');
-      return;
+    const apiKey = configService.get('RESEND_API_KEY');
+    if (apiKey) {
+      this.resend = new Resend(apiKey);
+      this.logger.log('Email service: Resend configured');
+    } else {
+      this.logger.warn('RESEND_API_KEY not set — emails will be logged to console only');
     }
-
-    this.transporter = nodemailer.createTransport({
-      host,
-      port,
-      secure: port === 465,
-      auth: user && pass ? { user, pass } : undefined,
-    });
-
-    this.logger.log(`Email service configured: ${host}:${port}`);
   }
 
   async sendEmail(to: string, subject: string, html: string, text?: string): Promise<boolean> {
-    const from = this.configService.get('EMAIL_FROM', 'noreply@coinsafehub.com');
+    const from = this.configService.get('EMAIL_FROM', 'CoinSafeHub <noreply@coinsafehub.com>');
 
-    if (!this.transporter) {
+    // No API key configured — log to console (dev mode)
+    if (!this.resend) {
       this.logDevEmail(to, subject, html);
       return true;
     }
 
     try {
-      const info = await this.transporter.sendMail({ from, to, subject, html, text });
-      this.logger.log(`Email sent to ${to}: ${info.messageId}`);
+      const { data, error } = await this.resend.emails.send({ from, to, subject, html, text });
+
+      if (error) {
+        this.logger.error(`Resend error sending to ${to}:`, error.message);
+        if (this.isDevelopment) {
+          this.logDevEmail(to, subject, html);
+          return true;
+        }
+        return false;
+      }
+
+      this.logger.log(`Email sent to ${to}: ${data?.id}`);
       return true;
     } catch (error) {
       this.logger.error(`Failed to send email to ${to}:`, error);
-      // In development, log the email so testing can continue
-      if (!this.isProduction) {
+      if (this.isDevelopment) {
         this.logDevEmail(to, subject, html);
         return true;
       }
