@@ -59,7 +59,7 @@ export default function AdminLayout({
 
                 {/* Footer */}
                 <footer className="p-8 text-center text-[10px] font-bold text-muted-foreground/40 uppercase tracking-[0.2em] border-t border-white/5">
-                    Secure Management System &copy; AssetSafeHub {new Date().getFullYear()}
+                    Secure Management System &copy; Coinsafehub {new Date().getFullYear()}
                 </footer>
             </div>
         </div>

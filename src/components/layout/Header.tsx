@@ -19,7 +19,7 @@ export function Header() {
 
             <div className="flex-1 hidden md:block">
                 <p className="text-sm font-medium text-muted-foreground">
-                    Welcome back to <span className="text-foreground font-bold">AssetSafeHub</span>
+                    Welcome back to <span className="text-foreground font-bold">Coinsafehub</span>
                 </p>
             </div>
 

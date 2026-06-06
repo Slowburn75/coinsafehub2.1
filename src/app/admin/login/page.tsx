@@ -33,7 +33,7 @@ export default function AdminLoginPage() {
                         </div>
                     </div>
                     <CardTitle className="text-2xl font-bold tracking-tight">
-                        AssetSafeHub Admin
+                        CoinSafeHub Admin
                     </CardTitle>
                     <p className="text-sm text-primary-foreground/80">
                         Enter your credentials to access the admin portal
