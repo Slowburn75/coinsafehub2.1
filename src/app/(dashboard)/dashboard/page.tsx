@@ -62,9 +62,9 @@ export default function DashboardPage() {
         {
             title: "Account Balance",
             value: formatCurrency(summary?.total_balance),
-            icon: <Wallet className="h-5 w-5 text-emerald-500" />,
+            icon: <Wallet className="h-5 w-5 text-blue-500" />,
             description: "Sum of all balance fields",
-            color: "emerald"
+            color: "blue"
         },
         {
             title: "Recovered Balance",
@@ -161,7 +161,7 @@ export default function DashboardPage() {
 
                 {/* Quick Actions Card */}
                 <div className="grid grid-cols-2 gap-4">
-                    <ActionButton href="/dashboard/deposit" label="Deposit" icon={Plus} color="bg-emerald-500" />
+                    <ActionButton href="/dashboard/deposit" label="Deposit" icon={Plus} color="bg-blue-500" />
                     <ActionButton href="/dashboard/withdraw" label="Withdraw" icon={ArrowRight} color="bg-rose-500" />
                     <ActionButton href="/dashboard/plans" label="Invest" icon={LineChart} color="bg-primary" />
                     <ActionButton href="/dashboard/transfer" label="Transfer" icon={Send} color="bg-indigo-500" />
@@ -231,7 +231,7 @@ export default function DashboardPage() {
                                                 <div className="flex items-center gap-3">
                                                     <div className={cn(
                                                         "p-2 rounded-lg",
-                                                        tx.transaction_type === 'deposit' ? "bg-emerald-500/10 text-emerald-500" :
+                                                        tx.transaction_type === 'deposit' ? "bg-blue-500/10 text-blue-500" :
                                                             tx.transaction_type === 'withdrawal' ? "bg-rose-500/10 text-rose-500" :
                                                                 "bg-primary/10 text-primary"
                                                     )}>
@@ -247,7 +247,7 @@ export default function DashboardPage() {
                                                 <Badge
                                                     className={cn(
                                                         "px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider",
-                                                        (tx.status === "completed" || tx.status === "approved") ? "bg-emerald-500/10 text-emerald-500" :
+                                                        (tx.status === "completed" || tx.status === "approved") ? "bg-blue-500/10 text-blue-500" :
                                                             tx.status === "pending" ? "bg-orange-500/10 text-orange-500" :
                                                                 "bg-rose-500/10 text-rose-500"
                                                     )}

@@ -25,8 +25,8 @@ export default function AdminLayout({
                     <div className="w-10 xl:w-0" />
 
                     <div className="flex items-center gap-3">
-                        <div className="h-8 w-8 rounded-lg bg-emerald-500/20 flex items-center justify-center border border-emerald-500/30">
-                            <Shield className="h-4 w-4 text-emerald-500" />
+                        <div className="h-8 w-8 rounded-lg bg-blue-500/20 flex items-center justify-center border border-blue-500/30">
+                            <Shield className="h-4 w-4 text-blue-500" />
                         </div>
                         <h2 className="text-lg font-black tracking-tight text-foreground uppercase">
                             Admin <span className="text-primary italic">Control</span>
@@ -43,7 +43,7 @@ export default function AdminLayout({
                         <div className="flex items-center gap-3">
                             <div className="flex flex-col items-end hidden sm:flex">
                                 <p className="text-xs font-bold leading-none text-foreground uppercase">Master Admin</p>
-                                <p className="text-[10px] text-emerald-500 mt-1 font-bold">Authenticated</p>
+                                <p className="text-[10px] text-blue-500 mt-1 font-bold">Authenticated</p>
                             </div>
                             <div className="h-10 w-10 rounded-full bg-gradient-to-tr from-primary to-accent flex items-center justify-center border border-white/10 shadow-lg">
                                 <UserIcon className="h-5 w-5 text-white" />

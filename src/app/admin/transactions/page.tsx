@@ -76,7 +76,7 @@ export default function AdminTransactionsPage() {
                     <div className="h-8 w-px bg-white/10" />
                     <div className="flex flex-col">
                         <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Processed 24h</span>
-                        <span className="text-xl font-black text-emerald-500">{transactions.filter(t => t.status.toLowerCase() === 'approved').length}</span>
+                        <span className="text-xl font-black text-blue-500">{transactions.filter(t => t.status.toLowerCase() === 'approved').length}</span>
                     </div>
                 </Card>
             </div>
@@ -129,7 +129,7 @@ export default function AdminTransactionsPage() {
                                         <TableCell>
                                             <Badge className={cn(
                                                 "px-3 py-1 rounded-lg border-none font-bold text-[10px] uppercase gap-2 shadow-sm",
-                                                tx.transaction_type === 'deposit' ? "bg-emerald-500/10 text-emerald-400" :
+                                                tx.transaction_type === 'deposit' ? "bg-blue-500/10 text-blue-400" :
                                                     tx.transaction_type === 'withdrawal' ? "bg-rose-500/10 text-rose-400" :
                                                         "bg-primary/20 text-primary"
                                             )}>
@@ -146,12 +146,12 @@ export default function AdminTransactionsPage() {
                                             <div className="flex items-center gap-2">
                                                 <div className={cn(
                                                     "h-1.5 w-1.5 rounded-full",
-                                                    (tx.status.toLowerCase() === "approved" || tx.status.toLowerCase() === "completed") ? "bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" :
+                                                    (tx.status.toLowerCase() === "approved" || tx.status.toLowerCase() === "completed") ? "bg-blue-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" :
                                                         tx.status.toLowerCase() === "pending" ? "bg-orange-500 animate-pulse" : "bg-rose-500"
                                                 )} />
                                                 <span className={cn(
                                                     "text-[10px] font-bold uppercase tracking-wider",
-                                                    (tx.status.toLowerCase() === "approved" || tx.status.toLowerCase() === "completed") ? "text-emerald-500" :
+                                                    (tx.status.toLowerCase() === "approved" || tx.status.toLowerCase() === "completed") ? "text-blue-500" :
                                                         tx.status.toLowerCase() === "pending" ? "text-orange-500" : "text-rose-500"
                                                 )}>
                                                     {tx.status}
@@ -197,7 +197,7 @@ export default function AdminTransactionsPage() {
                                                                         </div>
                                                                         <div className="px-2 py-1 flex justify-between items-center">
                                                                             <span className="text-[10px] font-mono text-muted-foreground truncate">{tx.receipt_url}</span>
-                                                                            <Badge className="bg-emerald-500/10 text-emerald-500 border-none text-[8px]">SECURE SCANNER ACTIVE</Badge>
+                                                                            <Badge className="bg-blue-500/10 text-blue-500 border-none text-[8px]">SECURE SCANNER ACTIVE</Badge>
                                                                         </div>
                                                                     </a>
                                                                 </div>
@@ -230,7 +230,7 @@ export default function AdminTransactionsPage() {
                                                             key={`approve-${tx.transaction_type}-${tx.id}`}
                                                             variant="ghost"
                                                             size="icon"
-                                                            className="h-10 w-10 p-0 rounded-xl hover:bg-emerald-500/10 text-emerald-500 hover:scale-110 transition-all"
+                                                            className="h-10 w-10 p-0 rounded-xl hover:bg-blue-500/10 text-blue-500 hover:scale-110 transition-all"
                                                             onClick={() => updateStatus(tx.transaction_type, tx.id, "Approved")}
                                                         >
                                                             <CheckCircle className="h-4 w-4" />

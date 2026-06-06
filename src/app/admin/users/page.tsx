@@ -130,7 +130,7 @@ export default function UsersManagementPage() {
                                                 {user.is_active ? (
                                                     <ShieldAlert className="h-4 w-4 text-orange-600" />
                                                 ) : (
-                                                    <ShieldCheck className="h-4 w-4 text-green-600" />
+                                                    <ShieldCheck className="h-4 w-4 text-blue-600" />
                                                 )}
                                             </Button>
 

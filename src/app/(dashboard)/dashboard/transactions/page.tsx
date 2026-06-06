@@ -129,7 +129,7 @@ export default function TransactionsPage() {
                                             <div className="flex justify-center">
                                                 <Badge className={cn(
                                                     "px-3 py-1 rounded-lg border-none font-bold text-[10px] uppercase gap-2",
-                                                    tx.transaction_type === 'deposit' ? "bg-emerald-500/10 text-emerald-400" :
+                                                    tx.transaction_type === 'deposit' ? "bg-blue-500/10 text-blue-400" :
                                                         tx.transaction_type === 'withdrawal' ? "bg-rose-500/10 text-rose-400" :
                                                             "bg-primary/10 text-primary"
                                                 )}>
@@ -147,12 +147,12 @@ export default function TransactionsPage() {
                                             <div className="flex items-center gap-2">
                                                 <div className={cn(
                                                     "h-1.5 w-1.5 rounded-full animate-pulse",
-                                                    (tx.status === "completed" || tx.status === "approved") ? "bg-emerald-500" :
+                                                    (tx.status === "completed" || tx.status === "approved") ? "bg-blue-500" :
                                                         tx.status === "pending" ? "bg-orange-500" : "bg-rose-500"
                                                 )} />
                                                 <span className={cn(
                                                     "text-[10px] font-bold uppercase tracking-wider",
-                                                    (tx.status === "completed" || tx.status === "approved") ? "text-emerald-500" :
+                                                    (tx.status === "completed" || tx.status === "approved") ? "text-blue-500" :
                                                         tx.status === "pending" ? "text-orange-500" : "text-rose-500"
                                                 )}>
                                                     {tx.status}

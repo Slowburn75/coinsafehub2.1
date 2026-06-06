@@ -124,7 +124,7 @@ export default function WithdrawalPage() {
         if (name.includes("Bitcoin")) return <Bitcoin className="h-6 w-6 text-orange-500" />;
         if (name.includes("Ethereum")) return <Coins className="h-6 w-6 text-slate-400" />;
         if (name.includes("Bank")) return <Landmark className="h-6 w-6 text-indigo-400" />;
-        return <Coins className="h-6 w-6 text-emerald-500" />;
+        return <Coins className="h-6 w-6 text-blue-500" />;
     };
 
     if (isLoading) {
@@ -151,11 +151,11 @@ export default function WithdrawalPage() {
                             <div className={cn(
                                 "h-8 w-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300",
                                 step === s ? "bg-primary text-primary-foreground shadow-lg shadow-primary/30 scale-110" :
-                                    step > s ? "bg-emerald-500 text-white" : "bg-white/5 text-muted-foreground"
+                                    step > s ? "bg-blue-500 text-white" : "bg-white/5 text-muted-foreground"
                             )}>
                                 {step > s ? <CheckCircle2 className="h-4 w-4" /> : s}
                             </div>
-                            {s < 3 && <div className={cn("h-px w-6 bg-white/10", step > s && "bg-emerald-500/50")} />}
+                            {s < 3 && <div className={cn("h-px w-6 bg-white/10", step > s && "bg-blue-500/50")} />}
                         </div>
                     ))}
                 </div>
@@ -305,7 +305,7 @@ export default function WithdrawalPage() {
                                         <Button
                                             onClick={handleSubmit}
                                             disabled={isSubmitting || pin.length !== 4}
-                                            className="flex-1 h-16 rounded-[1.5rem] bg-emerald-500 text-white font-black text-lg shadow-xl shadow-emerald-500/20 hover:scale-[1.02] transition-transform"
+                                            className="flex-1 h-16 rounded-[1.5rem] bg-blue-500 text-white font-black text-lg shadow-xl shadow-blue-500/20 hover:scale-[1.02] transition-transform"
                                         >
                                             {isSubmitting ? <Loader2 className="h-5 w-5 animate-spin" /> : "Authorize Payout"}
                                         </Button>

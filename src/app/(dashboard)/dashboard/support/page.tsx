@@ -242,7 +242,7 @@ export default function SupportPage() {
         </div>
         <div className="hidden sm:block h-4 w-px bg-white/10" />
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+          <CheckCircle2 className="h-4 w-4 text-blue-500" />
           <span>GDPR Compliant</span>
         </div>
         <div className="hidden sm:block h-4 w-px bg-white/10" />

@@ -34,8 +34,8 @@ import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 
 const PAYMENT_METHODS = [
-    { id: "USDT (ERC20)", label: "Tether USDT (ERC20)", icon: <Coins className="h-6 w-6 text-emerald-500" />, network: "ERC20" },
-    { id: "USDT (TRC20)", label: "Tether USDT (TRC20)", icon: <Coins className="h-6 w-6 text-emerald-600" />, network: "TRC20" },
+    { id: "USDT (ERC20)", label: "Tether USDT (ERC20)", icon: <Coins className="h-6 w-6 text-blue-500" />, network: "ERC20" },
+    { id: "USDT (TRC20)", label: "Tether USDT (TRC20)", icon: <Coins className="h-6 w-6 text-blue-600" />, network: "TRC20" },
     { id: "Ethereum", label: "Ethereum (ETH)", icon: <Coins className="h-6 w-6 text-slate-400" />, network: "Mainnet" },
     { id: "Bitcoin", label: "Bitcoin (BTC)", icon: <Bitcoin className="h-6 w-6 text-orange-500" />, network: "BTC" },
     { id: "Bank Transfer", label: "Bank Transfer", icon: <Landmark className="h-6 w-6 text-indigo-400" />, network: "SWIFT/SEPA" },
@@ -106,11 +106,11 @@ export default function DepositPage() {
                             <div className={cn(
                                 "h-8 w-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300",
                                 step === s ? "bg-primary text-primary-foreground shadow-lg shadow-primary/30 scale-110" :
-                                    step > s ? "bg-emerald-500 text-white" : "bg-white/5 text-muted-foreground"
+                                    step > s ? "bg-blue-500 text-white" : "bg-white/5 text-muted-foreground"
                             )}>
                                 {step > s ? <CheckCircle2 className="h-4 w-4" /> : s}
                             </div>
-                            {s < 3 && <div className={cn("h-px w-6 bg-white/10", step > s && "bg-emerald-500/50")} />}
+                            {s < 3 && <div className={cn("h-px w-6 bg-white/10", step > s && "bg-blue-500/50")} />}
                         </div>
                     ))}
                 </div>
@@ -249,9 +249,9 @@ export default function DepositPage() {
                                         />
                                         <div className={cn(
                                             "h-40 rounded-[1.5rem] border-2 border-dashed flex flex-col items-center justify-center gap-2 transition-all",
-                                            receipt ? "bg-emerald-500/5 border-emerald-500/30" : "bg-white/5 border-white/10 group-hover/upload:bg-white/10 group-hover/upload:border-primary/50"
+                                            receipt ? "bg-blue-500/5 border-blue-500/30" : "bg-white/5 border-white/10 group-hover/upload:bg-white/10 group-hover/upload:border-primary/50"
                                         )}>
-                                            <div className={cn("p-4 rounded-full", receipt ? "bg-emerald-500/20 text-emerald-500" : "bg-white/10 text-muted-foreground")}>
+                                            <div className={cn("p-4 rounded-full", receipt ? "bg-blue-500/20 text-blue-500" : "bg-white/10 text-muted-foreground")}>
                                                 {receipt ? <CheckCircle2 className="h-6 w-6" /> : <Upload className="h-6 w-6" />}
                                             </div>
                                             <p className="text-sm font-bold">{receipt ? receipt.name : "Select or Drop Receipt Image"}</p>
@@ -298,7 +298,7 @@ export default function DepositPage() {
                             </div>
                             <div className="flex justify-between text-sm py-2 border-b border-white/5">
                                 <span className="text-muted-foreground font-medium">Fees (0.01%)</span>
-                                <span className="text-emerald-500 font-bold">$0.00</span>
+                                <span className="text-blue-500 font-bold">$0.00</span>
                             </div>
                             <div className="pt-4 flex justify-between items-center">
                                 <span className="text-md font-black uppercase text-foreground">Total Credit</span>
@@ -329,7 +329,7 @@ export default function DepositPage() {
                                                 <span className="text-xs font-black text-foreground">${tx.amount.toLocaleString()}</span>
                                                 <Badge className={cn(
                                                     "text-[8px] px-1 py-0 h-4 border-none font-black uppercase",
-                                                    (tx.status === "Completed" || tx.status === "approved") ? "bg-emerald-500/20 text-emerald-500" :
+                                                    (tx.status === "Completed" || tx.status === "approved") ? "bg-blue-500/20 text-blue-500" :
                                                         tx.status === "Pending" ? "bg-orange-500/20 text-orange-500" : "bg-rose-500/20 text-rose-500"
                                                 )}>
                                                     {tx.status}

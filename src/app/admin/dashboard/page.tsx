@@ -58,9 +58,9 @@ export default function AdminDashboardPage() {
         {
             title: "Total Inflow (USD)",
             value: stats?.total_deposit_amount || 0,
-            icon: <DollarSign className="h-5 w-5 text-emerald-500" />,
+            icon: <DollarSign className="h-5 w-5 text-blue-500" />,
             description: "Aggregate capital received",
-            color: "emerald"
+            color: "blue"
         }
     ];
 
@@ -85,7 +85,7 @@ export default function AdminDashboardPage() {
                         <TrendingUp className="h-4 w-4" />
                         Run Analytics
                     </Button>
-                    <Button asChild className="h-12 px-6 rounded-2xl bg-emerald-500 text-white font-bold shadow-lg shadow-emerald-500/20">
+                    <Button asChild className="h-12 px-6 rounded-2xl bg-blue-500 text-white font-bold shadow-lg shadow-blue-500/20">
                         <Link href="/admin/users/create">
                             <UserPlus className="h-4 w-4 mr-2" />
                             Provision User
@@ -162,11 +162,11 @@ export default function AdminDashboardPage() {
                                                 <div className="flex items-center gap-2">
                                                     <div className={cn(
                                                         "h-1.5 w-1.5 rounded-full animate-pulse",
-                                                        !user.is_frozen ? "bg-emerald-500" : "bg-rose-500"
+                                                        !user.is_frozen ? "bg-blue-500" : "bg-rose-500"
                                                     )} />
                                                     <span className={cn(
                                                         "text-[10px] font-bold uppercase tracking-wider",
-                                                        !user.is_frozen ? "text-emerald-500" : "text-rose-500"
+                                                        !user.is_frozen ? "text-blue-500" : "text-rose-500"
                                                     )}>
                                                         {!user.is_frozen ? "Active" : "Suspended"}
                                                     </span>
@@ -185,7 +185,7 @@ export default function AdminDashboardPage() {
                                             </TableCell>
                                             <TableCell>
                                                 <div className="flex flex-col">
-                                                    <span className="text-xs font-black text-emerald-500">${(user.balance || 0).toLocaleString()}</span>
+                                                    <span className="text-xs font-black text-blue-500">${(user.balance || 0).toLocaleString()}</span>
                                                     <span className="text-[8px] font-bold text-muted-foreground uppercase">Settled</span>
                                                 </div>
                                             </TableCell>
@@ -193,7 +193,7 @@ export default function AdminDashboardPage() {
                                                 <div className="flex justify-end gap-2">
                                                     <Button asChild variant="ghost" size="icon" className="rounded-xl hover:bg-white/5">
                                                         <Link href={`/admin/users/${user.id}/edit`}>
-                                                            <Edit className="h-4 w-4 text-emerald-500" />
+                                                            <Edit className="h-4 w-4 text-blue-500" />
                                                         </Link>
                                                     </Button>
 

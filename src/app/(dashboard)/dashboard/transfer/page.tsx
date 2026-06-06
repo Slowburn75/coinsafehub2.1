@@ -169,7 +169,7 @@ export default function TransferPage() {
                                 </div>
                                 <div className="flex justify-between text-sm py-2 border-b border-white/5">
                                     <span className="text-muted-foreground font-medium uppercase tracking-tighter text-[10px]">Settle Speed</span>
-                                    <span className="text-emerald-400 font-bold uppercase tracking-widest text-[10px]">Instant</span>
+                                    <span className="text-blue-400 font-bold uppercase tracking-widest text-[10px]">Instant</span>
                                 </div>
                             </div>
 
@@ -218,7 +218,7 @@ export default function TransferPage() {
                             <Button
                                 onClick={handleConfirm}
                                 disabled={isSubmitting || pin.length !== 4}
-                                className="flex-[2] h-16 rounded-2xl bg-emerald-500 text-white font-black text-lg shadow-xl shadow-emerald-500/20 hover:scale-[1.02] transition-transform"
+                                className="flex-[2] h-16 rounded-2xl bg-blue-500 text-white font-black text-lg shadow-xl shadow-blue-500/20 hover:scale-[1.02] transition-transform"
                             >
                                 {isSubmitting ? <Loader2 className="h-6 w-6 animate-spin" /> : "Confirm & Send"}
                             </Button>

@@ -61,11 +61,11 @@ export function AdminSidebar() {
                 {/* Brand */}
                 <div className="flex h-20 items-center justify-between px-8 border-b border-white/5">
                     <Link href="/admin/dashboard" className="flex items-center gap-2 no-underline">
-                        <div className="h-8 w-8 rounded-lg bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                        <div className="h-8 w-8 rounded-lg bg-blue-500 flex items-center justify-center shadow-lg shadow-blue-500/20">
                             <Shield className="h-5 w-5 text-white" />
                         </div>
                         <span className="text-xl font-bold tracking-tight text-foreground uppercase">
-                            Admin<span className="text-emerald-500 italic">Panel</span>
+                            Admin<span className="text-blue-500 italic">Panel</span>
                         </span>
                     </Link>
                     <button
@@ -93,12 +93,12 @@ export function AdminSidebar() {
                                             className={cn(
                                                 "group flex items-center justify-between rounded-xl px-4 py-3 text-sm font-semibold no-underline transition-all duration-200",
                                                 isActive
-                                                    ? "bg-emerald-500 text-white shadow-lg shadow-emerald-500/25"
-                                                    : "text-muted-foreground hover:bg-emerald-500/10 hover:text-emerald-400",
+                                                    ? "bg-blue-500 text-white shadow-lg shadow-blue-500/25"
+                                                    : "text-muted-foreground hover:bg-blue-500/10 hover:text-blue-400",
                                             )}
                                         >
                                             <div className="flex items-center gap-3">
-                                                <Icon className={cn("h-5 w-5 transition-transform group-hover:scale-110", isActive ? "text-white" : "text-emerald-500")} />
+                                                <Icon className={cn("h-5 w-5 transition-transform group-hover:scale-110", isActive ? "text-white" : "text-blue-500")} />
                                                 <span>{item.label}</span>
                                             </div>
                                             {isActive && <ChevronRight className="h-4 w-4 opacity-70" />}
@@ -117,7 +117,7 @@ export function AdminSidebar() {
                                 <input
                                     type="text"
                                     placeholder="Jump to user..."
-                                    className="w-full h-9 bg-black/20 border-white/5 rounded-lg pl-9 text-[10px] focus:outline-none focus:border-emerald-500/50"
+                                    className="w-full h-9 bg-black/20 border-white/5 rounded-lg pl-9 text-[10px] focus:outline-none focus:border-blue-500/50"
                                 />
                             </div>
                         </div>
