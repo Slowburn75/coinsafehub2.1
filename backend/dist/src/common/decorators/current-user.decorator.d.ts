@@ -1,0 +1,9 @@
+export interface JwtUserPayload {
+    sub: string;
+    email: string;
+    isStaff: boolean;
+    roles: string[];
+    iat?: number;
+    exp?: number;
+}
+export declare const CurrentUser: (...dataOrPipes: (string | import("@nestjs/common").PipeTransform<any, any> | import("@nestjs/common").Type<import("@nestjs/common").PipeTransform<any, any>> | undefined)[]) => ParameterDecorator;

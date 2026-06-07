@@ -243,9 +243,21 @@ export const transactions = {
     /** GET /api/trans/deposit_addresses — New function to centralize wallet addresses */
     getDepositAddresses: async () => {
         try {
-            return await get<Record<string, string>>("/api/trans/deposit_addresses");
+            const data = await get<Record<string, string>>("/api/trans/deposit_addresses");
+            // Backend may return either old format {btc, eth, usdt} or new format with method names
+            // Normalize: always provide method-name keys for the deposit page
+            if (data && (data as any).btc !== undefined || (data as any).Bitcoin !== undefined) {
+                return {
+                    "Bitcoin": data["Bitcoin"] || (data as any).btc || "17mHPvhLr8zUjcHW6Ct8oRMBazEaRoqnZZ",
+                    "Ethereum": data["Ethereum"] || (data as any).eth || "0x01Cf020193D0bb473534739B18BFcad94aa9B9C5",
+                    "USDT (ERC20)": data["USDT (ERC20)"] || (data as any).usdt || "0x01Cf020193D0bb473534739B18BFcad94aa9B9C5",
+                    "USDT (TRC20)": data["USDT (TRC20)"] || "TBCC31o8LurWrcAsGbjR9saF2PjTefusSn",
+                    "USDC (ERC20)": data["USDC (ERC20)"] || "0x01Cf020193D0bb473534739B18BFcad94aa9B9C5",
+                    "Bank Transfer": data["Bank Transfer"] || "Contact Support",
+                };
+            }
+            return data || {};
         } catch {
-            // Fallback to hardcoded real wallet addresses
             return {
                 "Bitcoin": "17mHPvhLr8zUjcHW6Ct8oRMBazEaRoqnZZ",
                 "Ethereum": "0x01Cf020193D0bb473534739B18BFcad94aa9B9C5",
