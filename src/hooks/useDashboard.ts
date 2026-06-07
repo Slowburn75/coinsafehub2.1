@@ -14,7 +14,6 @@ export interface AccountSummary {
     recovered_balance: number;
     investment_balance: number;
     profit_bonus?: number;
-    profit_balance?: number;
     referral_balance?: number;
     bonus_balance?: number;
     profit_balance?: number;
