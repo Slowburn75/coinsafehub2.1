@@ -95,7 +95,7 @@ export default function RegisterPage() {
                 <CardHeader className="space-y-1 text-center">
                     <CardTitle className="text-2xl font-bold">Register</CardTitle>
                     <CardDescription>
-                        Create an account to start trading
+                        Create an account
                     </CardDescription>
                 </CardHeader>
                 <CardContent>

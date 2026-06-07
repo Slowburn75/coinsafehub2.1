@@ -9,15 +9,15 @@ import {
     ArrowUpCircle,
     ArrowDownCircle,
     Send,
-    Wallet,
-    Briefcase,
-    LineChart,
     History,
     Settings,
     Headphones,
     X,
     Menu,
-    ChevronRight
+    ChevronRight,
+    FileText,
+    Hash,
+    ShieldCheck,
 } from "lucide-react";
 
 interface NavItem {
@@ -29,12 +29,10 @@ interface NavItem {
 
 const NAV_ITEMS: NavItem[] = [
     { label: "Overview", href: "/dashboard", icon: Home },
-    { label: "Deposit", href: "/dashboard/deposit", icon: ArrowUpCircle, section: "FINANCES" },
-    { label: "Withdraw", href: "/dashboard/withdraw", icon: ArrowDownCircle, section: "FINANCES" },
-    { label: "Transfer", href: "/dashboard/transfer", icon: Send, section: "FINANCES" },
-    { label: "Recovery Plans", href: "/dashboard/plans", icon: Briefcase, section: "FORENSICS" },
-    { label: "Network Intel", href: "/dashboard/crypto", icon: LineChart, section: "FORENSICS" },
-    { label: "Secure Bridge", href: "/dashboard/wallet", icon: Wallet, section: "FORENSICS" },
+    { label: "Deposit", href: "/dashboard/deposit", icon: ArrowUpCircle, section: "ESCROW" },
+    { label: "Withdraw", href: "/dashboard/withdraw", icon: ArrowDownCircle, section: "ESCROW" },
+    { label: "Transfer", href: "/dashboard/transfer", icon: Send, section: "ESCROW" },
+    { label: "Documents", href: "/dashboard/documents", icon: FileText, section: "ESCROW" },
     { label: "Transactions", href: "/dashboard/transactions", icon: History, section: "ACCOUNT" },
     { label: "Settings", href: "/dashboard/settings", icon: Settings, section: "ACCOUNT" },
     { label: "Support", href: "/dashboard/support", icon: Headphones, section: "ACCOUNT" },
@@ -44,7 +42,7 @@ export function Sidebar() {
     const pathname = usePathname();
     const [isOpen, setIsOpen] = useState(false);
 
-    const sections = ["FINANCES", "FORENSICS", "ACCOUNT"];
+    const sections = ["ESCROW", "ACCOUNT"];
 
     return (
         <>
@@ -67,7 +65,7 @@ export function Sidebar() {
                 <div className="flex h-20 items-center justify-between px-8 border-b border-white/5">
                     <Link href="/dashboard" className="flex items-center gap-2 no-underline">
                         <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg shadow-primary/20">
-                            <Wallet className="h-5 w-5 text-primary-foreground" />
+                            <ShieldCheck className="h-5 w-5 text-primary-foreground" />
                         </div>
                         <span className="text-xl font-bold tracking-tight text-foreground">
                             Coinsafe<span className="text-primary">hub</span>
@@ -83,6 +81,17 @@ export function Sidebar() {
 
                 {/* Navigation */}
                 <nav className="flex-1 overflow-y-auto px-4 py-6 scrollbar-hide">
+                    {/* Case Reference */}
+                    <div className="mb-8 px-4">
+                        <div className="p-3 rounded-xl bg-primary/5 border border-primary/10">
+                            <div className="flex items-center gap-2">
+                                <Hash className="h-3.5 w-3.5 text-primary" />
+                                <span className="text-[9px] font-bold uppercase tracking-[0.15em] text-muted-foreground">Case Reference</span>
+                            </div>
+                            <p className="text-xs font-mono font-bold text-primary mt-1">#CSH-10024</p>
+                        </div>
+                    </div>
+
                     {/* Home Item */}
                     <div className="mb-6">
                         <SidebarLink
@@ -109,18 +118,11 @@ export function Sidebar() {
                     ))}
                 </nav>
 
-                {/* Bottom Card */}
-                <div className="p-4 mt-auto">
-                    <div className="p-4 rounded-2xl bg-gradient-to-br from-primary/10 to-accent/5 border border-white/5 text-center">
-                        <p className="text-xs font-semibold text-foreground mb-1 uppercase tracking-wider">Recovery Case</p>
-                        <p className="text-[10px] text-muted-foreground mb-3">Expedite your retrieval with advanced forensic tools.</p>
-                        <Link
-                            href="/dashboard/plans"
-                            className="inline-flex items-center justify-center w-full py-2 px-4 rounded-xl bg-primary text-primary-foreground text-xs font-bold transition-transform active:scale-95 no-underline"
-                        >
-                            Upgrade Now
-                        </Link>
-                    </div>
+                {/* Bottom */}
+                <div className="p-4 mt-auto border-t border-white/5">
+                    <p className="text-[9px] text-muted-foreground text-center font-medium uppercase tracking-[0.15em]">
+                        Escrow-Backed Recovery
+                    </p>
                 </div>
             </aside>
 

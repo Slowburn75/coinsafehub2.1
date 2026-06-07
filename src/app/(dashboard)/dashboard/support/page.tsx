@@ -42,8 +42,8 @@ const FAQ_ITEMS = [
     a: "Go to Settings → Withdrawal tab. Enter your new 4-digit PIN and confirm it. This PIN is required for all withdrawals and transfers.",
   },
   {
-    q: "What are Recovery Plans?",
-    a: "Recovery Plans are forensic asset recovery programs. Our Standard Protocol and Premium Forensic plans provide blockchain analysis and recovery consultation services. Visit the Recovery Plans page to learn more and enroll.",
+    q: "How does the escrow recovery process work?",
+    a: "Our certified forensic specialists trace your stolen or lost assets across multiple blockchains. Once located, assets are intercepted and deposited into a multi-signature escrow vault. Your case progresses through verified phases — Blockchain Tracing → Assets Intercepted → Held in Secure Escrow → Awaiting Clearance — with full visibility in your dashboard.",
   },
   {
     q: "I forgot my password. What should I do?",

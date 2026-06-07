@@ -95,8 +95,8 @@ export default function DepositPage() {
             {/* Header section */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
                 <div className="space-y-1">
-                    <h1 className="text-3xl font-black tracking-tight text-foreground">Fund Your Account</h1>
-                    <p className="text-muted-foreground font-medium">Add capital to your investment portfolio securely.</p>
+                    <h1 className="text-3xl font-black tracking-tight text-foreground">Operational Ledger Deposit</h1>
+                    <p className="text-muted-foreground font-medium">Operational Ledger Deposit: Funding required for blockchain smart contract deployment, network clearance, and final asset dispensation.</p>
                 </div>
 
                 {/* Step Indicator */}
@@ -122,7 +122,7 @@ export default function DepositPage() {
                     {step === 1 && (
                         <Card className="glass-card border-none overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-500">
                             <CardHeader className="p-8">
-                                <CardTitle className="text-2xl font-black">Step 1: Investment Amount</CardTitle>
+                                <CardTitle className="text-2xl font-black">Step 1: Deposit Amount</CardTitle>
                                 <CardDescription className="text-sm font-medium">Enter the total amount you wish to credit.</CardDescription>
                             </CardHeader>
                             <CardContent className="p-8 pt-0 space-y-8">
