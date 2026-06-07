@@ -53,7 +53,6 @@ let ErrorMappingService = class ErrorMappingService {
             transaction_limit: 'Transaction limit',
             recovered_balance: 'Recovered balance',
             total_deposit: 'Total deposit',
-            bonus: 'Bonus',
             referal_bonus: 'Referral bonus',
             profit_bonus: 'Profit bonus',
             investment_balance: 'Investment balance',

@@ -13,9 +13,7 @@ export default function EditClientPage() {
     const [formData, setFormData] = useState({
         client_id: "",
         recovered_balance: "",
-        bonus: "",
         referal_bonus: "",
-        profit_bonus: "",
         investment_balance: "",
         total_deposit: ""
     });
@@ -25,9 +23,7 @@ export default function EditClientPage() {
 
         const payload: any = { client_id: formData.client_id };
         if (formData.recovered_balance) payload.recovered_balance = parseFloat(formData.recovered_balance);
-        if (formData.bonus) payload.bonus = parseFloat(formData.bonus);
         if (formData.referal_bonus) payload.referal_bonus = parseFloat(formData.referal_bonus);
-        if (formData.profit_bonus) payload.profit_bonus = parseFloat(formData.profit_bonus);
         if (formData.investment_balance) payload.investment_balance = parseFloat(formData.investment_balance);
         if (formData.total_deposit) payload.total_deposit = parseFloat(formData.total_deposit);
 
@@ -39,7 +35,7 @@ export default function EditClientPage() {
             <div className="flex flex-col gap-1">
                 <h1 className="text-3xl font-bold tracking-tight">Modify Client Dashboard</h1>
                 <p className="text-muted-foreground text-sm">
-                    Update custom balances and bonuses for specific user accounts.
+                    Update balances and case details for specific user accounts.
                 </p>
             </div>
 
@@ -83,16 +79,6 @@ export default function EditClientPage() {
                                 />
                             </div>
                             <div className="space-y-2">
-                                <Label htmlFor="bonus">General Bonus ($)</Label>
-                                <Input
-                                    id="bonus"
-                                    type="number"
-                                    placeholder="0.00"
-                                    value={formData.bonus}
-                                    onChange={e => setFormData({ ...formData, bonus: e.target.value })}
-                                />
-                            </div>
-                            <div className="space-y-2">
                                 <Label htmlFor="referal_bonus">Referral Bonus ($)</Label>
                                 <Input
                                     id="referal_bonus"
@@ -100,16 +86,6 @@ export default function EditClientPage() {
                                     placeholder="0.00"
                                     value={formData.referal_bonus}
                                     onChange={e => setFormData({ ...formData, referal_bonus: e.target.value })}
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="profit_bonus">Profit Bonus ($)</Label>
-                                <Input
-                                    id="profit_bonus"
-                                    type="number"
-                                    placeholder="0.00"
-                                    value={formData.profit_bonus}
-                                    onChange={e => setFormData({ ...formData, profit_bonus: e.target.value })}
                                 />
                             </div>
                             <div className="space-y-2">

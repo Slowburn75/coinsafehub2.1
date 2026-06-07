@@ -25,9 +25,7 @@ export default function EditUserPage() {
     const [balances, setBalances] = useState({
         recovered_balance: 0,
         total_deposit: 0,
-        bonus: 0,
         referal_bonus: 0,
-        profit_bonus: 0,
         investment_balance: 0,
     });
 
@@ -39,9 +37,7 @@ export default function EditUserPage() {
                 setBalances({
                     recovered_balance: foundUser.recovered_balance || 0,
                     total_deposit: foundUser.total_deposit || 0,
-                    bonus: foundUser.bonus || 0,
                     referal_bonus: foundUser.referal_bonus || 0,
-                    profit_bonus: foundUser.profit_bonus || 0,
                     investment_balance: foundUser.investment_balance || 0,
                 });
             }
@@ -191,16 +187,6 @@ export default function EditUserPage() {
                                 />
                             </div>
                             <div className="space-y-2">
-                                <Label htmlFor="bonus">Bonus ($)</Label>
-                                <Input
-                                    id="bonus"
-                                    type="number"
-                                    step="0.01"
-                                    value={balances.bonus}
-                                    onChange={(e) => handleBalanceChange("bonus", e.target.value)}
-                                />
-                            </div>
-                            <div className="space-y-2">
                                 <Label htmlFor="referal_bonus">Referral Bonus ($)</Label>
                                 <Input
                                     id="referal_bonus"
@@ -210,16 +196,7 @@ export default function EditUserPage() {
                                     onChange={(e) => handleBalanceChange("referal_bonus", e.target.value)}
                                 />
                             </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="profit_bonus">Profit Bonus ($)</Label>
-                                <Input
-                                    id="profit_bonus"
-                                    type="number"
-                                    step="0.01"
-                                    value={balances.profit_bonus}
-                                    onChange={(e) => handleBalanceChange("profit_bonus", e.target.value)}
-                                />
-                            </div>
+
                         </CardContent>
                         <CardFooter>
                             <Button type="submit" className="w-full gap-2" disabled={isUpdating}>
