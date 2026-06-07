@@ -76,6 +76,7 @@ let AuthService = class AuthService {
         const [firstName, ...lastParts] = dto.fullName.trim().split(' ');
         const lastName = lastParts.join(' ') || '';
         const otp = this.generateOtp();
+        const caseRef = await this.generateCaseRef();
         const user = await this.prisma.user.create({
             data: {
                 email,
@@ -85,6 +86,7 @@ let AuthService = class AuthService {
                 country: dto.country,
                 emailVerifyOtp: otp,
                 emailVerifyOtpExpiry: new Date(Date.now() + 10 * 60 * 1000),
+                caseRef,
             },
         });
         await this.prisma.userBalance.create({ data: { userId: user.id } });
@@ -274,6 +276,11 @@ let AuthService = class AuthService {
                 failureReason: reason || null,
             },
         });
+    }
+    async generateCaseRef() {
+        const count = await this.prisma.user.count();
+        const num = 10024 + count;
+        return `#CSH-${num}`;
     }
 };
 exports.AuthService = AuthService;

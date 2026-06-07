@@ -18,6 +18,7 @@ import {
     FileText,
     Hash,
     ShieldCheck,
+    Lock,
 } from "lucide-react";
 
 interface NavItem {
@@ -31,7 +32,7 @@ const NAV_ITEMS: NavItem[] = [
     { label: "Overview", href: "/dashboard", icon: Home },
     { label: "Deposit", href: "/dashboard/deposit", icon: ArrowUpCircle, section: "ESCROW" },
     { label: "Withdraw", href: "/dashboard/withdraw", icon: ArrowDownCircle, section: "ESCROW" },
-    { label: "Transfer", href: "/dashboard/transfer", icon: Send, section: "ESCROW" },
+    { label: "Whitelist", href: "/dashboard/transfer", icon: Send, section: "ESCROW" },
     { label: "Documents", href: "/dashboard/documents", icon: FileText, section: "ESCROW" },
     { label: "Transactions", href: "/dashboard/transactions", icon: History, section: "ACCOUNT" },
     { label: "Settings", href: "/dashboard/settings", icon: Settings, section: "ACCOUNT" },
@@ -120,9 +121,10 @@ export function Sidebar() {
 
                 {/* Bottom */}
                 <div className="p-4 mt-auto border-t border-white/5">
-                    <p className="text-[9px] text-muted-foreground text-center font-medium uppercase tracking-[0.15em]">
+                    <div className="flex items-center justify-center gap-2 text-[9px] text-muted-foreground font-medium uppercase tracking-[0.15em]">
+                        <Lock className="h-3 w-3" />
                         Escrow-Backed Recovery
-                    </p>
+                    </div>
                 </div>
             </aside>
 

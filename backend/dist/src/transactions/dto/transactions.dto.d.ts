@@ -33,6 +33,7 @@ export declare class ClientUpdateDto {
     referal_bonus?: number;
     profit_bonus?: number;
     investment_balance?: number;
+    case_phase?: number;
 }
 export declare class CreateInvestmentDto {
     plan: string;

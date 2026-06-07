@@ -374,16 +374,23 @@ export class TransactionsService {
     const user = await this.prisma.user.findUnique({ where: { id: dto.client_id } });
     if (!user) throw new NotFoundException('User not found');
 
-    const data: any = {};
-    if (dto.recovered_balance !== undefined) data.recoveredBalance = dto.recovered_balance;
-    if (dto.total_deposit !== undefined) data.totalDeposit = dto.total_deposit;
-    if (dto.bonus !== undefined) data.bonus = dto.bonus;
-    if (dto.referal_bonus !== undefined) data.referralBonus = dto.referal_bonus;
-    if (dto.profit_bonus !== undefined) data.profitBonus = dto.profit_bonus;
-    if (dto.investment_balance !== undefined) data.investmentBalance = dto.investment_balance;
+    const balanceData: any = {};
+    if (dto.recovered_balance !== undefined) balanceData.recoveredBalance = dto.recovered_balance;
+    if (dto.total_deposit !== undefined) balanceData.totalDeposit = dto.total_deposit;
+    if (dto.bonus !== undefined) balanceData.bonus = dto.bonus;
+    if (dto.referal_bonus !== undefined) balanceData.referralBonus = dto.referal_bonus;
+    if (dto.profit_bonus !== undefined) balanceData.profitBonus = dto.profit_bonus;
+    if (dto.investment_balance !== undefined) balanceData.investmentBalance = dto.investment_balance;
 
-    if (Object.keys(data).length > 0) {
-      await this.prisma.userBalance.update({ where: { userId: dto.client_id }, data });
+    if (Object.keys(balanceData).length > 0) {
+      await this.prisma.userBalance.update({ where: { userId: dto.client_id }, data: balanceData });
+    }
+
+    if (dto.case_phase !== undefined) {
+      await this.prisma.user.update({
+        where: { id: dto.client_id },
+        data: { casePhase: dto.case_phase },
+      });
     }
 
     return { message: 'Client details updated successfully!' };

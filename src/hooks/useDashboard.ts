@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { transactions } from "@/lib/api";
+import { transactions, auth } from "@/lib/api";
 import { toast } from "sonner";
 
 export interface AccountSummary {
@@ -18,7 +18,9 @@ export interface AccountSummary {
     profit_balance?: number;
     pending_balance?: number;
     withdrawal_balance?: number;
-    total_balance?: number; // Calculated field
+    total_balance?: number;
+    case_phase?: number;
+    case_ref?: string;
 }
 
 export interface Transaction {
@@ -30,9 +32,19 @@ export interface Transaction {
     created_at: string;
 }
 
+const PHASE_LABELS: Record<number, { current: string; next: string }> = {
+    1: { current: "Phase 1 — Blockchain Tracing", next: "Asset Interception" },
+    2: { current: "Phase 2 — Assets Intercepted", next: "Escrow Holding" },
+    3: { current: "Phase 3 — Escrow Holding", next: "Awaiting Clearance" },
+    4: { current: "Phase 4 — Awaiting Clearance", next: "Disbursal Complete" },
+    5: { current: "Case Resolved", next: "N/A" },
+};
+
 export function useDashboard() {
     const [summary, setSummary] = useState<AccountSummary | null>(null);
     const [recentTransactions, setRecentTransactions] = useState<Transaction[]>([]);
+    const [casePhase, setCasePhase] = useState<number>(1);
+    const [caseRef, setCaseRef] = useState<string>("#CSH-10024");
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -40,21 +52,14 @@ export function useDashboard() {
         setIsLoading(true);
         setError(null);
         try {
-            const [summaryData, transactionData] = await Promise.all([
+            const [summaryData, transactionData, userData] = await Promise.all([
                 transactions.accountSummary(),
                 transactions.list(),
+                auth.me(),
             ]);
 
-            console.log("RAW dashboard API response:", summaryData);
-
             const data = summaryData as any;
-            const total_balance =
-                (data.balance ?? 0) +
-                (data.investment_balance ?? 0) +
-                (data.recovered_balance ?? 0) +
-                (data.profit_balance ?? data.total_profit ?? 0) +
-                (data.bonus_balance ?? data.total_bonus ?? 0) +
-                (data.referral_balance ?? data.total_referral_bonus ?? 0);
+            const user = userData as any;
 
             setSummary({
                 balance: data.balance ?? 0,
@@ -65,8 +70,13 @@ export function useDashboard() {
                 total_profit: data.total_profit ?? data.profit_balance ?? 0,
                 total_bonus: data.total_bonus ?? data.bonus_balance ?? 0,
                 total_referral_bonus: data.total_referral_bonus ?? data.referral_balance ?? 0,
-                total_balance: data.total_balance ?? total_balance, // Use API if exists, else calculated
+                case_phase: user?.case_phase ?? 1,
+                case_ref: user?.case_ref ?? "#CSH-10024",
             } as AccountSummary);
+
+            if (user?.case_phase) setCasePhase(user.case_phase);
+            if (user?.case_ref) setCaseRef(user.case_ref);
+
             setRecentTransactions(transactionData as Transaction[]);
         } catch (err: any) {
             console.error(err);
@@ -81,9 +91,14 @@ export function useDashboard() {
         fetchDashboardData();
     }, []);
 
+    const phaseInfo = PHASE_LABELS[casePhase] || PHASE_LABELS[1];
+
     return {
         summary,
         recentTransactions,
+        casePhase,
+        caseRef,
+        phaseInfo,
         isLoading,
         error,
         refresh: fetchDashboardData,

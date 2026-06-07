@@ -49,6 +49,8 @@ let UsersService = class UsersService {
             bonus: Number(b.bonus ?? 0),
             referal_bonus: Number(b.referralBonus ?? 0),
             profit_bonus: Number(b.profitBonus ?? 0),
+            case_phase: user.casePhase,
+            case_ref: user.caseRef,
             created_at: user.createdAt,
         };
     }
@@ -101,6 +103,8 @@ let UsersService = class UsersService {
                 referal_bonus: Number(b.referralBonus ?? 0),
                 profit_bonus: Number(b.profitBonus ?? 0),
                 investment_balance: Number(b.investmentBalance ?? 0),
+                case_phase: user.casePhase,
+                case_ref: user.caseRef,
                 created_at: user.createdAt,
             };
         });

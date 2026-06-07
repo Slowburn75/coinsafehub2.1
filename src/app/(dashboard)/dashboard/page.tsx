@@ -30,7 +30,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
 export default function DashboardPage() {
-    const { summary, recentTransactions, isLoading } = useDashboard();
+    const { summary, recentTransactions, isLoading, caseRef, phaseInfo } = useDashboard();
 
     if (isLoading) {
         return (
@@ -93,7 +93,7 @@ export default function DashboardPage() {
                     <div className="relative z-10">
                         <p className="text-sm font-bold uppercase tracking-[0.2em] text-muted-foreground/80 mb-2">Case Reference</p>
                         <h2 className="text-3xl font-black tracking-tighter text-foreground mb-1 font-mono">
-                            #CSH-10024
+                            {caseRef}
                         </h2>
                         <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Active Recovery Case</p>
                     </div>
@@ -103,13 +103,13 @@ export default function DashboardPage() {
                             <p className="text-[10px] font-bold text-muted-foreground uppercase">Current Phase</p>
                             <p className="text-sm font-bold text-foreground flex items-center gap-2">
                                 <ShieldCheck className="h-4 w-4 text-primary" />
-                                Phase 3 — Escrow Holding
+                                {phaseInfo.current}
                             </p>
                         </div>
                         <div className="h-8 w-px bg-white/10" />
                         <div className="space-y-1">
                             <p className="text-[10px] font-bold text-muted-foreground uppercase">Next Phase</p>
-                            <p className="text-sm font-bold text-foreground">Awaiting Clearance</p>
+                            <p className="text-sm font-bold text-foreground">{phaseInfo.next}</p>
                         </div>
                     </div>
                 </div>
@@ -118,7 +118,7 @@ export default function DashboardPage() {
                 <div className="grid grid-cols-2 gap-4">
                     <ActionButton href="/dashboard/deposit" label="Deposit" icon={Plus} color="bg-blue-500" />
                     <ActionButton href="/dashboard/withdraw" label="Withdraw" icon={ArrowRight} color="bg-rose-500" />
-                    <ActionButton href="/dashboard/transfer" label="Transfer" icon={Send} color="bg-indigo-500" />
+                    <ActionButton href="/dashboard/transfer" label="Whitelist" icon={Send} color="bg-indigo-500" />
                     <ActionButton href="/dashboard/documents" label="Documents" icon={ShieldCheck} color="bg-primary" />
                 </div>
             </div>

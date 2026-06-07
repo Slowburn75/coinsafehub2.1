@@ -29,6 +29,8 @@ export declare class UsersController {
         bonus: number;
         referal_bonus: number;
         profit_bonus: number;
+        case_phase: number;
+        case_ref: string | null;
         created_at: Date;
     }>;
     updateProfile(userId: string, dto: UpdateProfileDto): Promise<{
@@ -51,6 +53,8 @@ export declare class UsersController {
         referal_bonus: number;
         profit_bonus: number;
         investment_balance: number;
+        case_phase: number;
+        case_ref: string | null;
         created_at: Date;
     }[]>;
     deleteUser(adminUserId: string, userId: string): Promise<{

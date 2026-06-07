@@ -55,4 +55,5 @@ export declare class AuthService {
     private generateReferralCode;
     private createRefreshToken;
     private logLoginAttempt;
+    private generateCaseRef;
 }

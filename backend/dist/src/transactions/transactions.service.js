@@ -328,21 +328,27 @@ let TransactionsService = class TransactionsService {
         const user = await this.prisma.user.findUnique({ where: { id: dto.client_id } });
         if (!user)
             throw new common_1.NotFoundException('User not found');
-        const data = {};
+        const balanceData = {};
         if (dto.recovered_balance !== undefined)
-            data.recoveredBalance = dto.recovered_balance;
+            balanceData.recoveredBalance = dto.recovered_balance;
         if (dto.total_deposit !== undefined)
-            data.totalDeposit = dto.total_deposit;
+            balanceData.totalDeposit = dto.total_deposit;
         if (dto.bonus !== undefined)
-            data.bonus = dto.bonus;
+            balanceData.bonus = dto.bonus;
         if (dto.referal_bonus !== undefined)
-            data.referralBonus = dto.referal_bonus;
+            balanceData.referralBonus = dto.referal_bonus;
         if (dto.profit_bonus !== undefined)
-            data.profitBonus = dto.profit_bonus;
+            balanceData.profitBonus = dto.profit_bonus;
         if (dto.investment_balance !== undefined)
-            data.investmentBalance = dto.investment_balance;
-        if (Object.keys(data).length > 0) {
-            await this.prisma.userBalance.update({ where: { userId: dto.client_id }, data });
+            balanceData.investmentBalance = dto.investment_balance;
+        if (Object.keys(balanceData).length > 0) {
+            await this.prisma.userBalance.update({ where: { userId: dto.client_id }, data: balanceData });
+        }
+        if (dto.case_phase !== undefined) {
+            await this.prisma.user.update({
+                where: { id: dto.client_id },
+                data: { casePhase: dto.case_phase },
+            });
         }
         return { message: 'Client details updated successfully!' };
     }

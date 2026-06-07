@@ -174,6 +174,12 @@ __decorate([
     (0, class_validator_1.IsNumber)(),
     __metadata("design:type", Number)
 ], ClientUpdateDto.prototype, "investment_balance", void 0);
+__decorate([
+    (0, swagger_1.ApiPropertyOptional)({ description: 'Case phase 1-4' }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsNumber)(),
+    __metadata("design:type", Number)
+], ClientUpdateDto.prototype, "case_phase", void 0);
 class CreateInvestmentDto {
 }
 exports.CreateInvestmentDto = CreateInvestmentDto;

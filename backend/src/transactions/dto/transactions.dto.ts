@@ -130,6 +130,11 @@ export class ClientUpdateDto {
   @IsOptional()
   @IsNumber()
   investment_balance?: number;
+
+  @ApiPropertyOptional({ description: 'Case phase 1-4' })
+  @IsOptional()
+  @IsNumber()
+  case_phase?: number;
 }
 
 export class CreateInvestmentDto {

@@ -31,6 +31,8 @@ model User {
   resetUidb64     String?   @map("reset_uidb64")
   resetToken      String?   @map("reset_token")
   resetTokenExpiry DateTime? @map("reset_token_expiry")
+  casePhase       Int      @default(1) @map("case_phase")
+  caseRef         String?  @unique @map("case_ref") @db.VarChar(20)
   createdAt       DateTime  @default(now()) @map("created_at")
   updatedAt       DateTime  @updatedAt @map("updated_at")
 

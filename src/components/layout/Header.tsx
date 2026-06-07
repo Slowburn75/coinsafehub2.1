@@ -35,7 +35,7 @@ export function Header() {
                 <div className="flex items-center gap-3 pl-2 border-l border-white/10">
                     <div className="flex flex-col items-end hidden sm:flex">
                         <p className="text-sm font-semibold leading-none text-foreground">My Account</p>
-                        <p className="text-[10px] text-muted-foreground mt-1 uppercase tracking-wider">Premium Member</p>
+                        <p className="text-[10px] text-muted-foreground mt-1 uppercase tracking-wider">Case Verified</p>
                     </div>
                     <div className="h-10 w-10 rounded-full bg-gradient-to-tr from-primary to-accent flex items-center justify-center border border-white/10 shadow-lg">
                         <UserIcon className="h-5 w-5 text-white" />
