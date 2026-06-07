@@ -16,8 +16,8 @@ import { Toaster } from "@/components/ui/sonner";
 import { LiveChat } from "@/components/layout/LiveChat"; // Moving to layout folder for consistency or keep in components
 
 export const metadata: Metadata = {
-  title: "CoinSafeHub | Secure Crypto Trading & Investment",
-  description: "Experience the next level of secure cryptocurrency trading and investment with CoinSafeHub.",
+  title: "CoinSafeHub | Escrow-Backed Digital Asset Recovery",
+  description: "Certified blockchain forensics and secure multi-signature escrow custody for recovered digital assets.",
 };
 
 export default function RootLayout({

@@ -161,7 +161,7 @@ export default function EditUserPage() {
                     <form onSubmit={handleUpdate}>
                         <CardContent className="space-y-4">
                             <div className="space-y-2">
-                                <Label htmlFor="recovered_balance">Recovered Balance ($)</Label>
+                                <Label htmlFor="recovered_balance">Recovered Vault Balance ($)</Label>
                                 <Input
                                     id="recovered_balance"
                                     type="number"
@@ -181,7 +181,7 @@ export default function EditUserPage() {
                                 />
                             </div>
                             <div className="space-y-2">
-                                <Label htmlFor="investment_balance">Investment Balance ($)</Label>
+                                <Label htmlFor="investment_balance">Escrow Ledger ($)</Label>
                                 <Input
                                     id="investment_balance"
                                     type="number"

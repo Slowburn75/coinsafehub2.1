@@ -120,6 +120,30 @@ export default function LandingPage() {
         </div>
       </nav>
 
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
+        <div className="fixed inset-0 z-40 md:hidden">
+          <div className="fixed inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setIsMobileMenuOpen(false)} />
+          <div className="fixed right-0 top-0 h-full w-64 bg-white shadow-2xl animate-in slide-in-from-right duration-300">
+            <div className="flex items-center justify-between p-6 border-b">
+              <span className="text-lg font-bold text-slate-900">Menu</span>
+              <button onClick={() => setIsMobileMenuOpen(false)} className="text-slate-500">
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <div className="flex flex-col p-6 gap-4 text-sm font-semibold text-slate-600">
+              <Link href="#services" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-primary transition-colors py-2">How It Works</Link>
+              <Link href="#escrow" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-primary transition-colors py-2">Escrow Security</Link>
+              <Link href="#about" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-primary transition-colors py-2">About</Link>
+              <Link href="/login" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-primary transition-colors py-2">Client Portal</Link>
+              <Button asChild className="rounded-full mt-4">
+                <Link href="/register" onClick={() => setIsMobileMenuOpen(false)}>Submit Recovery Case</Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
         <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-primary/5 to-transparent -z-10" />

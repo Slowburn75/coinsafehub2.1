@@ -45,8 +45,33 @@ const registerSchema = z.object({
 type RegisterFormValues = z.infer<typeof registerSchema>;
 
 const countries = [
-    "United States", "United Kingdom", "Canada", "Australia", "Germany", "France", "Japan", "Nigeria", "South Africa", "Other"
-].sort();
+    "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Argentina", "Armenia", "Australia", "Austria", "Azerbaijan",
+    "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bhutan", "Bolivia",
+    "Bosnia and Herzegovina", "Botswana", "Brazil", "Brunei", "Bulgaria", "Burkina Faso", "Burundi",
+    "Cambodia", "Cameroon", "Canada", "Chad", "Chile", "China", "Colombia", "Congo", "Costa Rica", "Croatia", "Cuba", "Cyprus", "Czech Republic",
+    "Denmark", "Dominican Republic",
+    "Ecuador", "Egypt", "El Salvador", "Estonia", "Ethiopia",
+    "Fiji", "Finland", "France",
+    "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Greece", "Guatemala", "Guinea",
+    "Haiti", "Honduras", "Hungary",
+    "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Israel", "Italy", "Ivory Coast",
+    "Jamaica", "Japan", "Jordan",
+    "Kazakhstan", "Kenya", "Kuwait", "Kyrgyzstan",
+    "Laos", "Latvia", "Lebanon", "Libya", "Lithuania", "Luxembourg",
+    "Madagascar", "Malaysia", "Mali", "Malta", "Mexico", "Moldova", "Monaco", "Mongolia", "Montenegro", "Morocco", "Mozambique", "Myanmar",
+    "Namibia", "Nepal", "Netherlands", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Korea", "Norway",
+    "Oman",
+    "Pakistan", "Panama", "Paraguay", "Peru", "Philippines", "Poland", "Portugal",
+    "Qatar",
+    "Romania", "Russia", "Rwanda",
+    "Saudi Arabia", "Senegal", "Serbia", "Singapore", "Slovakia", "Slovenia", "Somalia", "South Africa", "South Korea", "Spain", "Sri Lanka", "Sudan", "Sweden", "Switzerland", "Syria",
+    "Taiwan", "Tanzania", "Thailand", "Togo", "Tunisia", "Turkey", "Turkmenistan",
+    "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States", "Uruguay", "Uzbekistan",
+    "Venezuela", "Vietnam",
+    "Yemen",
+    "Zambia", "Zimbabwe",
+    "Other"
+];
 
 export default function RegisterPage() {
     const router = useRouter();
