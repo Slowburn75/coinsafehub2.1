@@ -47,7 +47,7 @@ export default function TransferPage() {
             return;
         }
         if (numAmount <= 0) {
-            toast.error("Enter a valid transfer amount!");
+            toast.error("Enter a valid settlement value!");
             return;
         }
         if (numAmount > availableBalance) {
@@ -80,12 +80,12 @@ export default function TransferPage() {
         <div className="max-w-4xl mx-auto space-y-10 pb-10">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
                 <div className="space-y-1">
-                    <h1 className="text-3xl font-black tracking-tight text-foreground">Internal Transfer</h1>
-                    <p className="text-muted-foreground font-medium">Move assets instantly to any platform member.</p>
+                    <h1 className="text-3xl font-black tracking-tight text-foreground">Secure Address Whitelisting</h1>
+                    <p className="text-muted-foreground font-medium">Register and verify your secure external destination wallet for final asset dispensation.</p>
                 </div>
                 <div className="px-4 py-2 rounded-2xl glass-card border-none text-[10px] font-bold uppercase tracking-widest text-primary flex items-center gap-2">
                     <ShieldCheck className="h-3 w-3" />
-                    Secure Peer-to-Peer
+                    Whitelist Verified
                 </div>
             </div>
 
@@ -93,13 +93,13 @@ export default function TransferPage() {
                 <div className="lg:col-span-3">
                     <Card className="glass-card border-none overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-500">
                         <CardHeader className="p-8">
-                            <CardTitle className="text-2xl font-black">Transaction Details</CardTitle>
-                            <CardDescription className="text-sm font-medium text-muted-foreground/80">Specify the recipient and the total amount to be debited.</CardDescription>
+                    <CardTitle className="text-2xl font-black">Whitelist Destination</CardTitle>
+                    <CardDescription className="text-sm font-medium text-muted-foreground/80">Specify the external wallet address and settlement value for whitelisting.</CardDescription>
                         </CardHeader>
                         <CardContent className="p-8 pt-0">
                             <form onSubmit={handleOpenPin} className="space-y-8">
                                 <div className="space-y-4">
-                                    <Label htmlFor="amount" className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Transfer Amount (USD)</Label>
+                                    <Label htmlFor="amount" className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Estimated Settlement Value ($)</Label>
                                     <div className="relative group">
                                         <div className="absolute inset-y-0 left-5 flex items-center pointer-events-none">
                                             <span className="text-2xl font-bold text-muted-foreground/50">$</span>
@@ -117,15 +117,15 @@ export default function TransferPage() {
                                 </div>
 
                                 <div className="space-y-4">
-                                    <Label htmlFor="recipient" className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Recipient Email or Username</Label>
+                                    <Label htmlFor="recipient" className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Destination Blockchain Address</Label>
                                     <div className="relative group">
                                         <div className="absolute inset-y-0 left-5 flex items-center pointer-events-none">
-                                            <span className="text-muted-foreground/50">@</span>
+                                            <span className="text-muted-foreground/50">0x</span>
                                         </div>
                                         <Input
                                             id="recipient"
-                                            placeholder="member@coinsafe.com"
-                                            className="h-16 pl-12 bg-white/5 border-white/5 focus:border-primary/50 transition-all rounded-2xl font-bold"
+                                            placeholder="0x71C7656EC7ab88b098defB751B7401B5f6d8976F"
+                                            className="h-16 pl-12 bg-white/5 border-white/5 focus:border-primary/50 transition-all rounded-2xl font-mono text-sm"
                                             value={recipient}
                                             onChange={(e) => setRecipient(e.target.value)}
                                             required
@@ -134,10 +134,10 @@ export default function TransferPage() {
                                 </div>
 
                                 <div className="space-y-4">
-                                    <Label htmlFor="description" className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Memo / Reference</Label>
+                                    <Label htmlFor="description" className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Wallet Label / Network</Label>
                                     <Textarea
                                         id="description"
-                                        placeholder="Internal settlement..."
+                                        placeholder="e.g., Personal Hardware Wallet - Bitcoin Network"
                                         className="bg-white/5 border-white/5 focus:border-primary/40 rounded-2xl min-h-[100px] p-5 font-medium"
                                         value={description}
                                         onChange={(e) => setDescription(e.target.value)}
@@ -145,7 +145,7 @@ export default function TransferPage() {
                                 </div>
 
                                 <Button type="submit" className="w-full h-16 rounded-[1.5rem] bg-primary text-primary-foreground font-black text-lg shadow-xl shadow-primary/20 hover:scale-[1.02] transition-transform">
-                                    Authorize Transfer
+                                    Authorize & Whitelist Address
                                     <ArrowRight className="ml-2 h-5 w-5" />
                                 </Button>
                             </form>
@@ -158,7 +158,7 @@ export default function TransferPage() {
                         <CardHeader>
                             <CardTitle className="text-xl font-black tracking-tight flex items-center gap-2">
                                 <Info className="h-5 w-5 text-primary" />
-                                Review Terms
+                                Review & Confirm
                             </CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-6">
@@ -171,11 +171,11 @@ export default function TransferPage() {
 
                             <div className="p-4 rounded-xl bg-orange-500/10 border border-orange-500/20 text-orange-200 text-[10px] font-bold uppercase leading-relaxed tracking-wider">
                                 <AlertTriangle className="h-4 w-4 mb-2" />
-                                Peer-to-peer transfers are non-reversible. Please ensure the recipient identity is correct before confirming.
+                                NOTICE: Whitelisted addresses undergo cryptographic handshake validation. Ensure your external destination keys are correct before authorizing.
                             </div>
 
                             <div className="pt-4 flex flex-col items-center">
-                                <span className="text-xs font-bold uppercase text-muted-foreground mb-1">Transfer Amount</span>
+                                <span className="text-xs font-bold uppercase text-muted-foreground mb-1">Total Locked for Settlement</span>
                                 <span className="text-4xl font-black text-foreground tracking-tighter italic">
                                     ${amount ? parseFloat(amount).toLocaleString() : "0.00"}
                                 </span>
@@ -191,9 +191,9 @@ export default function TransferPage() {
                         <div className="mx-auto h-20 w-20 rounded-full bg-primary/10 flex items-center justify-center mb-2">
                             <ShieldCheck className="h-10 w-10 text-primary" />
                         </div>
-                        <DialogTitle className="text-2xl font-black">Verify Authority</DialogTitle>
+                        <DialogTitle className="text-2xl font-black">Verify Whitelist Authorization</DialogTitle>
                         <DialogDescription className="text-sm font-medium">
-                            Enter your platform-assigned 4-digit PIN to finalize this settlement.
+                            Enter your platform-assigned 4-digit PIN to confirm this address whitelisting.
                         </DialogDescription>
                     </DialogHeader>
                     <div className="flex flex-col items-center justify-center gap-8 py-8">
@@ -215,7 +215,7 @@ export default function TransferPage() {
                                 disabled={isSubmitting || pin.length !== 4}
                                 className="flex-[2] h-16 rounded-2xl bg-blue-500 text-white font-black text-lg shadow-xl shadow-blue-500/20 hover:scale-[1.02] transition-transform"
                             >
-                                {isSubmitting ? <Loader2 className="h-6 w-6 animate-spin" /> : "Confirm & Send"}
+                                {isSubmitting ? <Loader2 className="h-6 w-6 animate-spin" /> : "Confirm & Whitelist"}
                             </Button>
                         </div>
                     </div>
