@@ -85,9 +85,12 @@ export class TransactionsService {
       result[a.currency] = a.address;
     }
     return {
-      btc: result.btc || process.env.DEPOSIT_ADDRESS_BTC || '1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa',
-      eth: result.eth || process.env.DEPOSIT_ADDRESS_ETH || '0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb2',
-      usdt: result.usdt || process.env.DEPOSIT_ADDRESS_USDT || '0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb2',
+      "Bitcoin": result.btc || process.env.DEPOSIT_ADDRESS_BTC || '17mHPvhLr8zUjcHW6Ct8oRMBazEaRoqnZZ',
+      "Ethereum": result.eth || process.env.DEPOSIT_ADDRESS_ETH || '0x01Cf020193D0bb473534739B18BFcad94aa9B9C5',
+      "USDT (ERC20)": result.usdt_erc20 || process.env.DEPOSIT_ADDRESS_USDT_ERC20 || '0x01Cf020193D0bb473534739B18BFcad94aa9B9C5',
+      "USDT (TRC20)": result.usdt_trc20 || process.env.DEPOSIT_ADDRESS_USDT_TRC20 || 'TBCC31o8LurWrcAsGbjR9saF2PjTefusSn',
+      "USDC (ERC20)": result.usdc || process.env.DEPOSIT_ADDRESS_USDC || '0x01Cf020193D0bb473534739B18BFcad94aa9B9C5',
+      "Bank Transfer": result.bank || 'Contact Support',
     };
   }
 

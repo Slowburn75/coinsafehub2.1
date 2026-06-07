@@ -243,13 +243,16 @@ export const transactions = {
     /** GET /api/trans/deposit_addresses — New function to centralize wallet addresses */
     getDepositAddresses: async () => {
         try {
-            return await get<{ btc: string; eth: string; usdt: string }>("/api/trans/deposit_addresses");
+            return await get<Record<string, string>>("/api/trans/deposit_addresses");
         } catch {
-            // Fallback to environment variables if the API fails or is not yet implemented
+            // Fallback to hardcoded real wallet addresses
             return {
-                btc: process.env.NEXT_PUBLIC_DEPOSIT_ADDRESS_BTC || "TODO_BTC_ADDRESS",
-                eth: process.env.NEXT_PUBLIC_DEPOSIT_ADDRESS_ETH || "TODO_ETH_ADDRESS",
-                usdt: process.env.NEXT_PUBLIC_DEPOSIT_ADDRESS_USDT || "TODO_USDT_ADDRESS",
+                "Bitcoin": "17mHPvhLr8zUjcHW6Ct8oRMBazEaRoqnZZ",
+                "Ethereum": "0x01Cf020193D0bb473534739B18BFcad94aa9B9C5",
+                "USDT (ERC20)": "0x01Cf020193D0bb473534739B18BFcad94aa9B9C5",
+                "USDT (TRC20)": "TBCC31o8LurWrcAsGbjR9saF2PjTefusSn",
+                "USDC (ERC20)": "0x01Cf020193D0bb473534739B18BFcad94aa9B9C5",
+                "Bank Transfer": "Contact Support",
             };
         }
     },
