@@ -13,6 +13,8 @@ export interface AccountSummary {
     total_referral_bonus: number;
     recovered_balance: number;
     investment_balance: number;
+    profit_bonus?: number;
+    profit_balance?: number;
     referral_balance?: number;
     bonus_balance?: number;
     profit_balance?: number;
@@ -69,6 +71,8 @@ export function useDashboard() {
                 investment_balance: data.investment_balance ?? 0,
                 total_profit: data.total_profit ?? data.profit_balance ?? 0,
                 total_bonus: data.total_bonus ?? data.bonus_balance ?? 0,
+                profit_bonus: data.profit_bonus ?? 0,
+                profit_balance: data.profit_balance ?? 0,
                 total_referral_bonus: data.total_referral_bonus ?? data.referral_balance ?? 0,
                 case_phase: user?.case_phase ?? 1,
                 case_ref: user?.case_ref ?? "#CSH-10024",

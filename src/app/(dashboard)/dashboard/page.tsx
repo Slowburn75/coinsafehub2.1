@@ -22,7 +22,8 @@ import {
     Send,
     Lock,
     Landmark,
-    Wallet
+    Wallet,
+    TrendingUp,
 } from "lucide-react";
 import { format } from "date-fns";
 import Link from "next/link";
@@ -55,6 +56,7 @@ export default function DashboardPage() {
 
     const recoveredVault = summary?.recovered_balance ?? 0;
     const totalDeposits = summary?.total_deposit ?? 0;
+    const profitBalance = summary?.profit_bonus ?? summary?.profit_balance ?? 0;
     const availableForWithdrawal = recoveredVault + totalDeposits;
 
     const statCards = [
@@ -78,6 +80,13 @@ export default function DashboardPage() {
             icon: <Wallet className="h-5 w-5 text-cyan-500" />,
             description: "Vault balance + ledger deposits combined",
             color: "cyan"
+        },
+        {
+            title: "Profit Balance",
+            value: formatCurrency(profitBalance),
+            icon: <TrendingUp className="h-5 w-5 text-purple-500" />,
+            description: "Case recovery profits earned",
+            color: "purple"
         },
     ];
 
@@ -129,7 +138,7 @@ export default function DashboardPage() {
                     <h3 className="text-lg font-bold tracking-tight">Escrow Vault Overview</h3>
                     <p className="text-xs text-muted-foreground font-medium uppercase tracking-widest">Live Balance</p>
                 </div>
-                <div className="grid gap-4 grid-cols-1 md:grid-cols-3">
+                <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
                     {statCards.map((card, idx) => (
                         <Card key={idx} className="glass-card border-none hover:bg-white/5 transition-all duration-300">
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
