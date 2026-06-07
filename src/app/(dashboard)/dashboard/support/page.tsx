@@ -31,7 +31,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "How long do withdrawals take?",
-    a: "Crypto withdrawals are typically processed instantly once approved. Bank transfers take 1-3 business days. All withdrawals are subject to our 20% processing fee and AML compliance review.",
+    a: "Crypto withdrawals are typically processed instantly once approved. Bank transfers take 1-3 business days. All withdrawals are subject to AML compliance review.",
   },
   {
     q: "What is the minimum withdrawal amount?",

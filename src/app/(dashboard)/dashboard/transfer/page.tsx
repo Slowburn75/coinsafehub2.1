@@ -164,10 +164,6 @@ export default function TransferPage() {
                         <CardContent className="space-y-6">
                             <div className="space-y-4">
                                 <div className="flex justify-between text-sm py-2 border-b border-white/5">
-                                    <span className="text-muted-foreground font-medium uppercase tracking-tighter text-[10px]">Processing Fee</span>
-                                    <span className="text-rose-400 font-bold">20%</span>
-                                </div>
-                                <div className="flex justify-between text-sm py-2 border-b border-white/5">
                                     <span className="text-muted-foreground font-medium uppercase tracking-tighter text-[10px]">Settle Speed</span>
                                     <span className="text-blue-400 font-bold uppercase tracking-widest text-[10px]">Instant</span>
                                 </div>
@@ -179,11 +175,10 @@ export default function TransferPage() {
                             </div>
 
                             <div className="pt-4 flex flex-col items-center">
-                                <span className="text-xs font-bold uppercase text-muted-foreground mb-1">Impact to Portfolio</span>
+                                <span className="text-xs font-bold uppercase text-muted-foreground mb-1">Transfer Amount</span>
                                 <span className="text-4xl font-black text-foreground tracking-tighter italic">
-                                    -${amount ? (parseFloat(amount) * 1.2).toLocaleString() : "0.00"}
+                                    ${amount ? parseFloat(amount).toLocaleString() : "0.00"}
                                 </span>
-                                <span className="text-[10px] text-muted-foreground font-bold mt-1">INCL. PROCESSING CHARGE</span>
                             </div>
                         </CardContent>
                     </Card>

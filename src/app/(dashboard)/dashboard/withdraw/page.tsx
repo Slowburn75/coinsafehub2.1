@@ -187,7 +187,7 @@ export default function WithdrawalPage() {
                                     </div>
                                     <div className="p-4 rounded-xl bg-orange-500/10 border border-orange-500/20 flex gap-3 text-orange-200">
                                         <AlertCircle className="h-5 w-5 shrink-0" />
-                                        <p className="text-[10px] font-bold uppercase tracking-wider">Minimum withdrawal: $1,000.00 | Fee: 20%</p>
+                                        <p className="text-[10px] font-bold uppercase tracking-wider">Minimum withdrawal: $1,000.00</p>
                                     </div>
                                 </div>
 
@@ -331,17 +331,13 @@ export default function WithdrawalPage() {
                                 <span className="text-foreground font-bold">${amount ? parseFloat(amount).toLocaleString() : "0.00"}</span>
                             </div>
                             <div className="flex justify-between text-sm py-2 border-b border-white/5">
-                                <span className="text-muted-foreground font-medium uppercase tracking-tighter text-[10px]">Charge (20%)</span>
-                                <span className="text-rose-400 font-bold">${amount ? (parseFloat(amount) * 0.2).toLocaleString() : "0.00"}</span>
-                            </div>
-                            <div className="flex justify-between text-sm py-2 border-b border-white/5">
                                 <span className="text-muted-foreground font-medium uppercase tracking-tighter text-[10px]">Method</span>
                                 <span className="text-foreground font-bold">{selectedMethod?.name || "---"}</span>
                             </div>
                             <div className="pt-6 flex flex-col items-center">
                                 <span className="text-xs font-bold uppercase text-muted-foreground mb-1">Estimated Credit</span>
                                 <span className="text-4xl font-black text-primary tracking-tighter italic">
-                                    ${amount ? (parseFloat(amount) * 0.8).toLocaleString() : "0.00"}
+                                    ${amount ? parseFloat(amount).toLocaleString() : "0.00"}
                                 </span>
                             </div>
                         </CardContent>

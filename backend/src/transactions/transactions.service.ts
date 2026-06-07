@@ -149,9 +149,6 @@ export class TransactionsService {
     const availableBalance = Number(user.balance?.balance ?? 0);
     if (dto.amount > availableBalance) throw new BadRequestException('Insufficient balance');
 
-    const fee = dto.amount * 0.2;
-    const netAmount = dto.amount - fee;
-
     await this.prisma.transaction.create({
       data: {
         userId,
@@ -163,17 +160,17 @@ export class TransactionsService {
         routingNumber: dto.routing_number,
         walletAddress: dto.wallet_address,
         network: dto.network,
-        fee,
+        fee: 0,
         status: 'pending',
       },
     });
 
-    // Hold the balance (deduct from available, add to pending)
+    // Hold the balance
     await this.prisma.userBalance.update({
       where: { userId },
       data: {
         balance: availableBalance - dto.amount,
-        pendingBalance: Number(user.balance?.pendingBalance ?? 0) + netAmount,
+        pendingBalance: Number(user.balance?.pendingBalance ?? 0) + dto.amount,
       },
     });
 
@@ -203,9 +200,6 @@ export class TransactionsService {
     if (!recipient) throw new NotFoundException('Recipient not found');
     if (recipient.id === userId) throw new BadRequestException('Cannot transfer to yourself');
 
-    const fee = dto.amount * 0.2;
-    const netAmount = dto.amount - fee;
-
     await this.prisma.$transaction([
       this.prisma.transaction.create({
         data: {
@@ -215,7 +209,7 @@ export class TransactionsService {
           recipientEmail: dto.recipient_email,
           recipientUserId: recipient.id,
           note: dto.note,
-          fee,
+          fee: 0,
           status: 'completed',
         },
       }),
@@ -225,7 +219,7 @@ export class TransactionsService {
       }),
       this.prisma.userBalance.update({
         where: { userId: recipient.id },
-        data: { balance: Number(recipient.balance?.balance ?? 0) + netAmount },
+        data: { balance: Number(recipient.balance?.balance ?? 0) + dto.amount },
       }),
     ]);
 

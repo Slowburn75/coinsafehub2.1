@@ -134,8 +134,6 @@ let TransactionsService = class TransactionsService {
         const availableBalance = Number(user.balance?.balance ?? 0);
         if (dto.amount > availableBalance)
             throw new common_1.BadRequestException('Insufficient balance');
-        const fee = dto.amount * 0.2;
-        const netAmount = dto.amount - fee;
         await this.prisma.transaction.create({
             data: {
                 userId,
@@ -147,7 +145,7 @@ let TransactionsService = class TransactionsService {
                 routingNumber: dto.routing_number,
                 walletAddress: dto.wallet_address,
                 network: dto.network,
-                fee,
+                fee: 0,
                 status: 'pending',
             },
         });
@@ -155,7 +153,7 @@ let TransactionsService = class TransactionsService {
             where: { userId },
             data: {
                 balance: availableBalance - dto.amount,
-                pendingBalance: Number(user.balance?.pendingBalance ?? 0) + netAmount,
+                pendingBalance: Number(user.balance?.pendingBalance ?? 0) + dto.amount,
             },
         });
         return { message: 'Withdrawal request submitted successfully!' };
@@ -185,8 +183,6 @@ let TransactionsService = class TransactionsService {
             throw new common_1.NotFoundException('Recipient not found');
         if (recipient.id === userId)
             throw new common_1.BadRequestException('Cannot transfer to yourself');
-        const fee = dto.amount * 0.2;
-        const netAmount = dto.amount - fee;
         await this.prisma.$transaction([
             this.prisma.transaction.create({
                 data: {
@@ -196,7 +192,7 @@ let TransactionsService = class TransactionsService {
                     recipientEmail: dto.recipient_email,
                     recipientUserId: recipient.id,
                     note: dto.note,
-                    fee,
+                    fee: 0,
                     status: 'completed',
                 },
             }),
@@ -206,7 +202,7 @@ let TransactionsService = class TransactionsService {
             }),
             this.prisma.userBalance.update({
                 where: { userId: recipient.id },
-                data: { balance: Number(recipient.balance?.balance ?? 0) + netAmount },
+                data: { balance: Number(recipient.balance?.balance ?? 0) + dto.amount },
             }),
         ]);
         return { message: 'Transfer submitted successfully!' };
