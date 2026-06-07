@@ -7,34 +7,27 @@ import {
   ShieldCheck,
   Menu,
   X,
-  ChevronRight,
   Wallet,
   ArrowUpRight,
-  TrendingUp,
   History,
   Users,
   CheckCircle2,
   Mail,
   MapPin,
   Phone,
-  Send
+  Lock,
+  FileSearch,
+  Scale,
+  ClipboardCheck,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
 import {
   Accordion,
   AccordionContent,
@@ -57,58 +50,43 @@ export default function LandingPage() {
 
   const services = [
     {
-      title: "Forensic Analysis",
-      desc: "Deep-trace blockchain forensics to identify the movement and destination of your lost or stolen digital assets.",
+      title: "Blockchain Tracing",
+      desc: "Certified forensic specialists trace stolen or lost assets across multiple blockchains using advanced transaction mapping tools. Every movement is documented for actionable intelligence.",
+      icon: FileSearch,
+    },
+    {
+      title: "Asset Interception",
+      desc: "Our team works directly with exchanges and liquidity providers to identify and secure frozen or intercepted assets that belong to our clients.",
       icon: ShieldCheck,
     },
     {
-      title: "Asset Tracking",
-      desc: "Real-time monitoring of identified wallets to detect any movement, enabling swift action with liquidity providers.",
-      icon: History,
+      title: "Multi-Sig Escrow Vault",
+      desc: "All recovered assets are held in a secure, multi-signature escrow vault requiring multiple authorized approvals before any disbursal can occur. Your assets remain protected at every stage.",
+      icon: Lock,
     },
     {
-      title: "Legal Liaison",
-      desc: "We provide comprehensive forensic reports suitable for law enforcement and legal proceedings to aid in recovery.",
-      icon: ShieldCheck,
+      title: "Legal Liaison & Reporting",
+      desc: "Comprehensive forensic reports suitable for law enforcement and legal proceedings. Our specialists liaise with authorities to support formal recovery actions.",
+      icon: Scale,
     },
     {
-      title: "Wallet Security",
-      desc: "Expert audit and securing of your compromised digital environment once assets have been retrieved.",
-      icon: Wallet,
-    },
-    {
-      title: "Recovery Consultation",
-      desc: "Specialized expert-led consultation for victims of scams, rug pulls, or forgotten private key scenarios.",
-      icon: ShieldCheck,
+      title: "Case Consultation",
+      desc: "Expert-led consultation for victims of scams, rug pulls, exchange hacks, or forgotten private key scenarios. We evaluate feasibility before any engagement.",
+      icon: ClipboardCheck,
       highlight: true
     },
     {
-      title: "Network Intelligence",
-      desc: "Access our proprietary database of blacklisted wallets and suspicious exchange endpoints globally.",
-      icon: Users,
+      title: "Wallet Security Audit",
+      desc: "Once assets are secured, we provide a full audit of your compromised digital environment and recommend remedial actions to prevent future losses.",
+      icon: Wallet,
     }
   ];
 
-  const plans = [
-    {
-      name: "Case Evaluation",
-      min: "100",
-      features: ["Initial blockchain audit", "Case feasibility report", "Standard support"],
-      color: "bg-blue-500/10 border-blue-500/20"
-    },
-    {
-      name: "Standard Recovery",
-      min: "1,000",
-      features: ["Full forensic tracking", "Priority exchange outreach", "Asset monitoring", "Liaison with authorities"],
-      color: "bg-primary/10 border-primary/20",
-      featured: true
-    },
-    {
-      name: "Enterprise Forensics",
-      min: "5,000",
-      features: ["Deep-chain analysis", "Dedicated investigator", "Custom forensic reporting", "Legal firm integration"],
-      color: "bg-purple-500/10 border-purple-500/20"
-    }
+  const phases = [
+    { phase: "1", label: "Blockchain Tracing", desc: "Our specialists map the transaction trail across chains to locate your assets." },
+    { phase: "2", label: "Assets Intercepted", desc: "Recovered assets are identified and secured in coordination with exchange partners." },
+    { phase: "3", label: "Held in Secure Escrow", desc: "Assets are deposited into a multi-signature escrow vault for safekeeping." },
+    { phase: "4", label: "Awaiting Clearance", desc: "Final verification and compliance checks before disbursal to your wallet." },
   ];
 
   return (
@@ -127,12 +105,12 @@ export default function LandingPage() {
           </Link>
 
           <div className="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600">
-            <Link href="#about" className="hover:text-primary transition-colors">Forensics</Link>
-            <Link href="#services" className="hover:text-primary transition-colors">Expertise</Link>
-            <Link href="#pricing" className="hover:text-primary transition-colors">Solutions</Link>
-            <Link href="/login" className="hover:text-primary transition-colors">Login</Link>
+            <Link href="#services" className="hover:text-primary transition-colors">How It Works</Link>
+            <Link href="#escrow" className="hover:text-primary transition-colors">Escrow Security</Link>
+            <Link href="#about" className="hover:text-primary transition-colors">About</Link>
+            <Link href="/login" className="hover:text-primary transition-colors">Client Portal</Link>
             <Button asChild className="rounded-full px-6 shadow-md shadow-primary/10">
-              <Link href="/register">Get Started</Link>
+              <Link href="/register">Submit Recovery Case</Link>
             </Button>
           </div>
 
@@ -152,20 +130,20 @@ export default function LandingPage() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
               </span>
-              Industry-Leading Asset Recovery & Forensics
+              Escrow-Backed Asset Recovery
             </div>
             <h1 className="text-5xl lg:text-7xl font-bold text-slate-900 leading-[1.1] animate-in fade-in slide-in-from-bottom-6 duration-1000">
-              Recover Your Lost Assets With <span className="text-primary italic">Forensic</span> Precision
+              Secure, Escrow-Backed Digital Asset <span className="text-primary italic">Recovery</span> & Forensics
             </h1>
             <p className="text-lg text-slate-600 max-w-xl mx-auto lg:mx-0 animate-in fade-in slide-in-from-bottom-8 duration-1000">
-              CoinSafeHub provides specialized blockchain forensics and expert fund recovery consultation to retrieve lost, stolen, or inaccessible digital assets.
+              CoinSafeHub provides certified blockchain forensics and secure multi-signature escrow custody for recovered assets. Our specialists work directly with exchanges, liquidity providers, and law enforcement to locate, intercept, and return your stolen or lost digital assets.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 animate-in fade-in slide-in-from-bottom-10 duration-1000">
               <Button size="lg" className="h-14 px-10 rounded-full text-md shadow-xl shadow-primary/20 hover:scale-105 transition-transform" asChild>
-                <Link href="/register">Open Free Account</Link>
+                <Link href="/register">Submit Recovery Case</Link>
               </Button>
               <Button size="lg" variant="outline" className="h-14 px-10 rounded-full text-md hover:bg-slate-100" asChild>
-                <Link href="#services">Learn More</Link>
+                <Link href="#services">See How It Works</Link>
               </Button>
             </div>
           </div>
@@ -173,7 +151,7 @@ export default function LandingPage() {
             <div className="relative z-10 rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
               <Image
                 src="/images/landing/hero.png"
-                alt="Crypto Vault"
+                alt="Asset Recovery Vault"
                 width={700}
                 height={700}
                 className="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-700"
@@ -185,13 +163,13 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Services Grid */}
+      {/* Services / How It Works */}
       <section id="services" className="py-24 bg-white relative">
         <div className="container px-6 mx-auto">
           <div className="max-w-3xl mx-auto text-center space-y-4 mb-20">
-            <h2 className="text-4xl lg:text-5xl font-bold text-slate-900">Restorative <span className="text-primary">Justice</span></h2>
+            <h2 className="text-4xl lg:text-5xl font-bold text-slate-900">Our <span className="text-primary">Recovery</span> Process</h2>
             <p className="text-slate-500 text-lg">
-              Explore our specialized forensic capabilities dedicated to identifying and retrieving digital assets across the decentralized landscape.
+              Every case is handled by certified forensic specialists using proven investigative methodologies. No automated tools — only expert-led analysis and secure escrow custody.
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -223,6 +201,117 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* Escrow Security Section */}
+      <section id="escrow" className="py-24 bg-slate-50 relative">
+        <div className="container px-6 mx-auto">
+          <div className="flex flex-col lg:flex-row items-center gap-20">
+            <div className="flex-1 space-y-8">
+              <Badge className="bg-primary/10 text-primary border-primary/20 py-1.5 px-4 text-xs font-bold">
+                MULTI-SIGNATURE SECURITY
+              </Badge>
+              <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 leading-tight">
+                Your Recovered Assets Are Held in a <span className="text-primary">Multi-Sig Escrow</span> Vault
+              </h2>
+              <p className="text-slate-600 text-lg leading-relaxed">
+                Unlike standard custodial wallets, our escrow vault requires multiple independent private key signatures to authorize any withdrawal. This means no single party — including CoinSafeHub — can access your funds without the required approvals.
+              </p>
+              <ul className="space-y-4">
+                {[
+                  "Multi-signature architecture requiring 2-of-3 or 3-of-5 key approvals",
+                  "Geographically distributed key holders for maximum security",
+                  "Real-time vault status visible in your client dashboard",
+                  "Assets remain under your ownership — we hold no unilateral control"
+                ].map((item, i) => (
+                  <li key={i} className="flex items-start gap-3 text-slate-700">
+                    <ShieldCheck className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="flex-1">
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-slate-200">
+                <div className="p-10 bg-gradient-to-br from-primary/5 to-blue-500/5">
+                  <div className="flex items-center gap-4 mb-8">
+                    <div className="h-12 w-12 rounded-xl bg-primary flex items-center justify-center">
+                      <Lock className="h-6 w-6 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-slate-900">Escrow Vault</h3>
+                      <p className="text-sm text-slate-500">Multi-Signature Secure Storage</p>
+                    </div>
+                  </div>
+                  <div className="space-y-4">
+                    {["Key Holder 1: Independent Custodian", "Key Holder 2: Case Officer", "Key Holder 3: Client Designee"].map((k, i) => (
+                      <div key={i} className="flex items-center gap-4 p-4 rounded-xl bg-white/70 border border-slate-200">
+                        <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
+                          <ShieldCheck className="h-4 w-4 text-primary" />
+                        </div>
+                        <span className="font-medium text-slate-700">{k}</span>
+                        <span className="ml-auto text-xs font-bold text-blue-600 uppercase">Verified</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Recovery Phases */}
+      <section className="py-24 bg-white relative">
+        <div className="container px-6 mx-auto">
+          <div className="max-w-3xl mx-auto text-center space-y-4 mb-20">
+            <h2 className="text-4xl lg:text-5xl font-bold text-slate-900">Case <span className="text-primary">Lifecycle</span></h2>
+            <p className="text-slate-500 text-lg">
+              Every case progresses through verified phases, with full transparency available in your client dashboard.
+            </p>
+          </div>
+          <div className="grid md:grid-cols-4 gap-6">
+            {phases.map((p, i) => (
+              <div key={i} className="relative">
+                <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 text-center space-y-3">
+                  <div className="mx-auto h-14 w-14 rounded-full bg-primary flex items-center justify-center text-white text-xl font-black">
+                    {p.phase}
+                  </div>
+                  <h3 className="text-lg font-bold text-slate-900">{p.label}</h3>
+                  <p className="text-sm text-slate-500">{p.desc}</p>
+                </div>
+                {i < phases.length - 1 && (
+                  <div className="hidden md:block absolute top-1/2 -right-3 w-6 h-px bg-primary/30" />
+                )}
+              </div>
+            ))}
+          </div>
+          <div className="mt-12 text-center">
+            <Button size="lg" className="h-14 px-10 rounded-full font-bold shadow-xl shadow-primary/20" asChild>
+              <Link href="/register">Request a Free Case Evaluation</Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-24 bg-slate-900 text-white">
+        <div className="container px-6 mx-auto">
+          <div className="grid md:grid-cols-3 gap-12 text-center">
+            <div>
+              <div className="text-5xl font-black text-primary mb-3">$48M+</div>
+              <div className="text-sm font-bold text-slate-400 uppercase tracking-widest">Total Assets Traced</div>
+            </div>
+            <div>
+              <div className="text-5xl font-black text-primary mb-3">$22M+</div>
+              <div className="text-sm font-bold text-slate-400 uppercase tracking-widest">Funds Secured in Escrow</div>
+            </div>
+            <div>
+              <div className="text-5xl font-black text-primary mb-3">340+</div>
+              <div className="text-sm font-bold text-slate-400 uppercase tracking-widest">Successful Case Resolutions</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* About Section */}
       <section id="about" className="py-24 relative overflow-hidden">
         <div className="container px-6 mx-auto">
@@ -231,7 +320,7 @@ export default function LandingPage() {
               <div className="relative rounded-2xl overflow-hidden shadow-2xl skew-y-3 lg:-skew-y-3">
                 <Image
                   src="/images/landing/about.png"
-                  alt="Modern Office"
+                  alt="Forensic Investigation"
                   width={600}
                   height={800}
                   className="w-full h-[600px] object-cover"
@@ -240,150 +329,46 @@ export default function LandingPage() {
               </div>
             </div>
             <div className="flex-1 space-y-6 order-1 lg:order-2">
+              <Badge className="bg-primary/10 text-primary border-primary/20 py-1.5 px-4 text-xs font-bold">
+                ABOUT US
+              </Badge>
               <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 leading-tight">
-                Our Mission is <span className="text-primary">Defensive Excellence</span>
+                Our Mission is <span className="text-primary">Restorative Security</span>
               </h2>
               <p className="text-slate-600 text-lg leading-relaxed">
-                CoinSafeHub provides the infrastructure for sophisticated digital asset tracking. We support individuals and enterprises with advanced forensic tools while offering unique consultation for complex recovery cases involving decentralized assets.
+                CoinSafeHub provides certified blockchain forensic investigation and secure multi-signature escrow custody for recovered digital assets. Our specialists support individuals and enterprises who have suffered from cryptocurrency theft, exchange insolvency, or lost private keys.
               </p>
               <p className="text-slate-600 text-lg leading-relaxed">
-                By leveraging advanced blockchain forensics and restorative security protocols, we bridge the gap between financial loss and peace of mind. Our team is dedicated to transparency, security, and investigative integrity.
+                We operate with full transparency — every case is assigned a unique reference number, and clients can track progress through their dedicated dashboard. All recovered assets are held in multi-signature escrow until clearance is complete.
               </p>
-              <div className="pt-4 grid grid-cols-2 gap-8">
-                <div>
-                  <div className="text-4xl font-bold text-primary mb-1">$2B+</div>
-                  <div className="text-sm font-bold text-slate-500 uppercase tracking-widest">Assets Analyzed</div>
-                </div>
-                <div>
-                  <div className="text-4xl font-bold text-primary mb-1">99%</div>
-                  <div className="text-sm font-bold text-slate-500 uppercase tracking-widest">Support Satisfaction</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Recovery Focus Section */}
-      <section className="py-24 bg-slate-900 text-white">
-        <div className="container px-6 mx-auto">
-          <div className="flex flex-col lg:flex-row items-center gap-16">
-            <div className="flex-1 space-y-6">
-              <Badge className="bg-primary/20 text-primary border-primary/30 py-1.5 px-4 text-xs font-bold font-mono">
-                SPECIALIZED SERVICE
-              </Badge>
-              <h2 className="text-4xl lg:text-5xl font-bold leading-tight">Lost Your Funds? <br /><span className="text-primary italic">We investigate.</span></h2>
-              <p className="text-slate-400 text-lg">
-                Crypto recovery is a complex field requiring precision. Our team uses specialized forensic tools to track transaction trails across multiple chains, identifying end-point exchanges and assisting in the recovery process where technically possible.
-              </p>
-              <Accordion type="single" collapsible className="w-full border-t border-white/10">
-                <AccordionItem value="item-1" className="border-white/10">
-                  <AccordionTrigger className="hover:text-primary transition-colors py-4 text-lg">Forensic Blockchain Tracking</AccordionTrigger>
-                  <AccordionContent className="text-slate-400">
-                    Deep-chain analysis to identify the movement of stolen or lost assets, providing full transaction heatmaps.
-                  </AccordionContent>
-                </AccordionItem>
-                <AccordionItem value="item-2" className="border-white/10">
-                  <AccordionTrigger className="hover:text-primary transition-colors py-4 text-lg">Direct Exchange Communication</AccordionTrigger>
-                  <AccordionContent className="text-slate-400">
-                    We facilitate information sharing with major liquidity providers to freeze suspicious accounts.
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-              <Button size="lg" className="h-14 px-10 rounded-full font-bold shadow-xl shadow-primary/40 bg-primary hover:bg-primary/90">
-                Start Recovery Case
-              </Button>
-            </div>
-            <div className="flex-1">
-              <div className="relative group">
-                <div className="absolute -inset-1 bg-gradient-to-r from-primary to-blue-600 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
-                <div className="relative rounded-2xl overflow-hidden bg-slate-800 border-2 border-white/5 shadow-2xl">
-                  <Image
-                    src="/images/landing/recovery.png"
-                    alt="Recovery Forensics"
-                    width={600}
-                    height={400}
-                    className="w-full h-auto object-cover"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Pricing Section */}
-      <section id="pricing" className="py-24 bg-white relative">
-        <div className="container px-6 mx-auto">
-          <div className="max-w-2xl mx-auto text-center space-y-4 mb-20">
-            <h2 className="text-4xl lg:text-5xl font-bold text-slate-900">Recovery <span className="text-primary">Paths</span></h2>
-            <p className="text-slate-500 text-lg">
-              Choose the level of forensic depth and liaison services that match your specific case requirements.
-            </p>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {plans.map((plan, i) => (
-              <div
-                key={i}
-                className={cn(
-                  "p-8 rounded-3xl border-2 transition-all duration-300 flex flex-col items-center text-center",
-                  plan.color,
-                  plan.featured ? "scale-105 shadow-2xl relative z-10 border-primary" : "shadow-lg border-transparent"
-                )}
-              >
-                {plan.featured && (
-                  <span className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-white text-[10px] font-bold px-4 py-1.5 rounded-full uppercase tracking-widest shadow-lg">
-                    Most Popular
-                  </span>
-                )}
-                <h3 className="text-xl font-bold text-slate-900 mb-2">{plan.name}</h3>
-                <div className="text-4xl font-extrabold text-slate-900 mb-2">${plan.min}</div>
-                <div className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-8">Retainer Fee</div>
-
-                <div className="w-full h-px bg-slate-200 mb-8" />
-
-                <ul className="space-y-4 mb-10 flex-1 w-full text-left">
-                  {plan.features.map((feat, j) => (
-                    <li key={j} className="flex items-center gap-3 text-slate-600 font-medium">
-                      <CheckCircle2 className="w-5 h-5 text-blue-500 shrink-0" />
-                      {feat}
-                    </li>
-                  ))}
-                </ul>
-
-                <Button variant={plan.featured ? "default" : "outline"} className="w-full h-14 rounded-2xl text-md font-bold transition-transform hover:scale-105" asChild>
-                  <Link href="/register">Choose {plan.name.split(' ')[0]}</Link>
+              <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                <Button size="lg" className="h-14 px-8 rounded-full font-bold shadow-xl shadow-primary/20" asChild>
+                  <Link href="/register">Initiate Escrow Setup</Link>
+                </Button>
+                <Button size="lg" variant="outline" className="h-14 px-8 rounded-full" asChild>
+                  <Link href="/login">Client Portal Login</Link>
                 </Button>
               </div>
-            ))}
+            </div>
           </div>
-          <p className="text-center text-slate-400 text-xs mt-12 max-w-lg mx-auto leading-relaxed">
-            * All service tiers involve complex forensic analysis. Results depend on technical feasibility and wallet availability. Ensure you have read our Terms of Service.
-          </p>
         </div>
       </section>
 
-      {/* Newsletter */}
-      <section className="py-24 bg-primary relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl" />
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-white/5 rounded-full translate-x-1/3 translate-y-1/3 blur-3xl" />
-        <div className="container px-6 mx-auto relative z-10">
-          <div className="max-w-4xl mx-auto text-center space-y-8">
-            <h2 className="text-4xl lg:text-5xl font-bold text-white leading-tight">Stay Ahead of the <span className="text-slate-900 underline underline-offset-8">Blockchain</span> Curve</h2>
-            <p className="text-white/80 text-xl max-w-2xl mx-auto">
-              Receive high-impact security intelligence and forensic alerts directly to your inbox. No spam, only security.
-            </p>
-            <form className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto shadow-2xl rounded-3xl p-2 bg-white/10 backdrop-blur-md border border-white/20">
-              <input
-                type="email"
-                placeholder="Enter workspace email"
-                required
-                className="flex-1 bg-transparent border-none text-white placeholder:text-white/60 px-6 h-14 outline-none text-lg"
-              />
-              <Button size="lg" className="h-14 rounded-2xl bg-white text-primary hover:bg-slate-100 font-bold px-8 gap-2">
-                Join Network <Send className="w-4 h-4" />
-              </Button>
-            </form>
+      {/* CTA Section - Free Case Evaluation */}
+      <section className="py-24 bg-slate-900 text-white relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-64 h-64 bg-primary/10 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl" />
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-primary/5 rounded-full translate-x-1/3 translate-y-1/3 blur-3xl" />
+        <div className="container px-6 mx-auto relative z-10 text-center space-y-8">
+          <h2 className="text-4xl lg:text-5xl font-bold leading-tight">
+            Lost Digital Assets? <br /><span className="text-primary">We Can Help.</span>
+          </h2>
+          <p className="text-slate-400 text-xl max-w-2xl mx-auto">
+            Our forensic specialists will evaluate your case free of charge. Submit your details and we will respond within 24 hours with a feasibility assessment.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Button size="lg" className="h-14 px-10 rounded-full font-bold bg-primary hover:bg-primary/90 shadow-xl shadow-primary/30 text-lg" asChild>
+              <Link href="/register">Request a Free Case Evaluation</Link>
+            </Button>
           </div>
         </div>
       </section>
@@ -400,7 +385,7 @@ export default function LandingPage() {
                 <span className="text-xl font-bold tracking-tight text-slate-900">CoinSafeHub</span>
               </Link>
               <p className="text-slate-500 leading-relaxed text-sm">
-                Next-gen forensics portal specializing in blockchain asset tracking and advanced digital assets recovery consultation.
+                Certified blockchain forensics and multi-signature escrow custody for recovered digital assets. Our specialists work with law enforcement and exchange partners worldwide.
               </p>
               <div className="flex gap-4">
                 <Link href="#" className="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center hover:bg-primary hover:text-white transition-all text-slate-600">
@@ -413,22 +398,22 @@ export default function LandingPage() {
             </div>
 
             <div className="col-span-1 lg:col-start-2 space-y-6">
-              <h4 className="text-lg font-bold text-slate-900 uppercase tracking-widest text-xs">Platform</h4>
+              <h4 className="text-lg font-bold text-slate-900 uppercase tracking-widest text-xs">Services</h4>
               <ul className="space-y-4 text-sm text-slate-500 font-medium">
-                <li><Link href="#services" className="hover:text-primary transition-colors">Digital Forensics</Link></li>
-                <li><Link href="#pricing" className="hover:text-primary transition-colors">Pricing Models</Link></li>
-                <li><Link href="/login" className="hover:text-primary transition-colors">Portal Access</Link></li>
-                <li><Link href="/register" className="hover:text-primary transition-colors">New Registration</Link></li>
+                <li><Link href="#services" className="hover:text-primary transition-colors">Blockchain Forensics</Link></li>
+                <li><Link href="#escrow" className="hover:text-primary transition-colors">Escrow Security</Link></li>
+                <li><Link href="/login" className="hover:text-primary transition-colors">Client Portal</Link></li>
+                <li><Link href="/register" className="hover:text-primary transition-colors">Submit a Case</Link></li>
               </ul>
             </div>
 
             <div className="col-span-1 space-y-6">
               <h4 className="text-lg font-bold text-slate-900 uppercase tracking-widest text-xs">Resources</h4>
               <ul className="space-y-4 text-sm text-slate-500 font-medium">
-                <li><Link href="#" className="hover:text-primary transition-colors">Security Whitepaper</Link></li>
-                <li><Link href="#" className="hover:text-primary transition-colors">Legal Framework</Link></li>
-                <li><Link href="#" className="hover:text-primary transition-colors">Risk Disclaimer</Link></li>
-                <li><Link href="#" className="hover:text-primary transition-colors">Privacy Principles</Link></li>
+                <li><Link href="/security" className="hover:text-primary transition-colors">Multi-Sig Security</Link></li>
+                <li><Link href="/legal" className="hover:text-primary transition-colors">Legal Framework</Link></li>
+                <li><Link href="/disclaimer" className="hover:text-primary transition-colors">Risk Disclaimer</Link></li>
+                <li><Link href="/privacy" className="hover:text-primary transition-colors">Privacy Principles</Link></li>
               </ul>
             </div>
 
@@ -453,7 +438,7 @@ export default function LandingPage() {
 
           <div className="pt-12 border-t border-slate-200 flex flex-col md:flex-row items-center justify-between gap-6">
             <p className="text-slate-400 text-xs">
-              © 2024 CoinSafeHub Research. All Rights Reserved. Not a regulated financial service.
+              &copy; 2026 CoinSafeHub Research. All Rights Reserved. Not a regulated financial service.
             </p>
             <div className="flex gap-8 text-xs font-bold text-slate-500 uppercase tracking-widest">
               <Link href="#" className="hover:text-primary">Status: Operational</Link>
