@@ -4,18 +4,27 @@ import { useState, useEffect } from "react";
 import { transactions } from "@/lib/api";
 import { toast } from "sonner";
 
+const WALLET_ADDRESSES: Record<string, string> = {
+    "Bitcoin": "17mHPvhLr8zUjcHW6Ct8oRMBazEaRoqnZZ",
+    "Ethereum": "0x01Cf020193D0bb473534739B18BFcad94aa9B9C5",
+    "USDT (ERC20)": "0x01Cf020193D0bb473534739B18BFcad94aa9B9C5",
+    "USDT (TRC20)": "TBCC31o8LurWrcAsGbjR9saF2PjTefusSn",
+    "USDC (ERC20)": "0x01Cf020193D0bb473534739B18BFcad94aa9B9C5",
+    "Bank Transfer": "Contact Support",
+};
+
 export interface DepositHistory {
     id: string;
     amount: number;
     payment_method: string;
     status: string;
     created_at: string;
-    date?: string; // Original HTML used 'date'
+    date?: string;
 }
 
 export function useDeposit() {
     const [history, setHistory] = useState<DepositHistory[]>([]);
-    const [addresses, setAddresses] = useState<Record<string, string>>({});
+    const [addresses, setAddresses] = useState<Record<string, string>>(WALLET_ADDRESSES);
     const [isLoading, setIsLoading] = useState(true);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -26,12 +35,8 @@ export function useDeposit() {
     const fetchData = async () => {
         setIsLoading(true);
         try {
-            const [historyData, addrData] = await Promise.all([
-                transactions.userDeposits(),
-                transactions.getDepositAddresses(),
-            ]);
+            const historyData = await transactions.userDeposits();
             setHistory((historyData as any).results || historyData);
-            setAddresses(addrData as Record<string, string>);
         } catch (err: any) {
             console.error(err);
             toast.error("Failed to load deposit data");
