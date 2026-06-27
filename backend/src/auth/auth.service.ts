@@ -371,8 +371,17 @@ export class AuthService {
   }
 
   private async generateCaseRef(): Promise<string> {
-    const count = await this.prisma.user.count();
-    const num = 10024 + count;
-    return `#CSH-${num}`;
+    const users = await this.prisma.user.findMany({
+      where: { caseRef: { not: null } },
+      select: { caseRef: true },
+    });
+
+    const highest = users.reduce((max, user) => {
+      const match = user.caseRef?.match(/^#CSH-(\d+)$/);
+      if (!match) return max;
+      return Math.max(max, Number(match[1]));
+    }, 10023);
+
+    return `#CSH-${highest + 1}`;
   }
 }
