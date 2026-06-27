@@ -56,8 +56,9 @@ export default function DashboardPage() {
 
     const recoveredVault = summary?.recovered_balance ?? 0;
     const totalDeposits = summary?.total_deposit ?? 0;
+    const mainBalance = summary?.balance ?? 0;
     const profitBalance = summary?.profit_bonus ?? summary?.profit_balance ?? 0;
-    const availableForWithdrawal = recoveredVault + totalDeposits;
+    const availableForWithdrawal = recoveredVault + totalDeposits + mainBalance;
 
     const statCards = [
         {
@@ -78,7 +79,7 @@ export default function DashboardPage() {
             title: "Available for Withdrawal",
             value: formatCurrency(availableForWithdrawal),
             icon: <Wallet className="h-5 w-5 text-cyan-500" />,
-            description: "Vault balance + ledger deposits combined",
+            description: "Vault + deposits + available balance combined",
             color: "cyan"
         },
         {
