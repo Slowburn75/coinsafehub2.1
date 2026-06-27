@@ -104,6 +104,11 @@ export class ClientUpdateDto {
   @ApiPropertyOptional()
   @IsOptional()
   @IsNumber()
+  balance?: number;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsNumber()
   recovered_balance?: number;
 
   @ApiPropertyOptional()

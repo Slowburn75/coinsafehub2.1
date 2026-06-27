@@ -34,6 +34,7 @@ export class AuthService {
   async login(dto: LoginDto) {
     const user = await this.prisma.user.findUnique({
       where: { email: dto.email.toLowerCase().trim() },
+      include: { roles: { select: { role: { select: { name: true } } } } },
     });
 
     if (!user) {
@@ -52,6 +53,11 @@ export class AuthService {
     }
 
     await this.logLoginAttempt(dto.email, true);
+
+    const roles = user.roles.map((r) => r.role.name);
+    const isAdmin = roles.some((role) =>
+      ['super_admin', 'admin', 'support_agent', 'compliance_officer', 'auditor', 'finance_manager'].includes(role),
+    );
 
     const payload = {
       sub: user.id,
@@ -74,6 +80,8 @@ export class AuthService {
         firstName: user.firstName,
         lastName: user.lastName,
         isStaff: user.isStaff,
+        isAdmin,
+        roles,
         emailVerified: user.emailVerified,
       },
     };

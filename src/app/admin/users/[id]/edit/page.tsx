@@ -22,11 +22,14 @@ export default function EditUserPage() {
     const [isUpdating, setIsUpdating] = useState(false);
 
     // Form states
-    const [balances, setBalances] = useState({
-        recovered_balance: 0,
-        total_deposit: 0,
-        referal_bonus: 0,
-        investment_balance: 0,
+    const [adjustments, setAdjustments] = useState({
+        balance: "",
+        recovered_balance: "",
+        total_deposit: "",
+        bonus: "",
+        referal_bonus: "",
+        profit_bonus: "",
+        investment_balance: "",
     });
 
     useEffect(() => {
@@ -34,20 +37,14 @@ export default function EditUserPage() {
             const foundUser = users.find((u) => String(u.id) === userId);
             if (foundUser) {
                 setUser(foundUser);
-                setBalances({
-                    recovered_balance: foundUser.recovered_balance || 0,
-                    total_deposit: foundUser.total_deposit || 0,
-                    referal_bonus: foundUser.referal_bonus || 0,
-                    investment_balance: foundUser.investment_balance || 0,
-                });
             }
         }
     }, [users, userId]);
 
     const handleBalanceChange = (field: string, value: string) => {
-        setBalances((prev) => ({
+        setAdjustments((prev) => ({
             ...prev,
-            [field]: parseFloat(value) || 0,
+            [field]: value,
         }));
     };
 
@@ -55,10 +52,14 @@ export default function EditUserPage() {
         e.preventDefault();
         setIsUpdating(true);
         try {
-            await adminApi.updateClient({
-                client_id: userId,
-                ...balances,
+            const payload: Parameters<typeof adminApi.updateClient>[0] = { client_id: userId };
+            Object.entries(adjustments).forEach(([field, value]) => {
+                if (value.trim() !== "") {
+                    payload[field as keyof typeof adjustments] = Number(value);
+                }
             });
+
+            await adminApi.updateClient(payload);
             toast.success("User details updated successfully");
             router.push("/admin/users");
         } catch (err: any) {
@@ -143,6 +144,10 @@ export default function EditUserPage() {
                             <p className="font-medium">{user?.phone_number || "—"}</p>
                         </div>
                         <div className="grid gap-1">
+                            <span className="text-xs font-semibold uppercase text-muted-foreground">Available Balance</span>
+                            <p className="font-medium">${Number(user?.balance || 0).toLocaleString()}</p>
+                        </div>
+                        <div className="grid gap-1">
                             <span className="text-xs font-semibold uppercase text-muted-foreground">Role</span>
                             <p className="font-medium">{user?.is_staff ? "Admin" : "Client"}</p>
                         </div>
@@ -156,44 +161,84 @@ export default function EditUserPage() {
                     </CardHeader>
                     <form onSubmit={handleUpdate}>
                         <CardContent className="space-y-4">
+                            <p className="text-sm text-muted-foreground">
+                                Enter positive values to add funds or negative values to deduct funds.
+                            </p>
                             <div className="space-y-2">
-                                <Label htmlFor="recovered_balance">Recovered Vault Balance ($)</Label>
+                                <Label htmlFor="balance">Available Balance Adjustment ($)</Label>
+                                <Input
+                                    id="balance"
+                                    type="number"
+                                    step="0.01"
+                                    placeholder="0.00"
+                                    value={adjustments.balance}
+                                    onChange={(e) => handleBalanceChange("balance", e.target.value)}
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="recovered_balance">Recovered Vault Adjustment ($)</Label>
                                 <Input
                                     id="recovered_balance"
                                     type="number"
                                     step="0.01"
-                                    value={balances.recovered_balance}
+                                    placeholder="0.00"
+                                    value={adjustments.recovered_balance}
                                     onChange={(e) => handleBalanceChange("recovered_balance", e.target.value)}
                                 />
                             </div>
                             <div className="space-y-2">
-                                <Label htmlFor="total_deposit">Total Deposit ($)</Label>
+                                <Label htmlFor="total_deposit">Total Deposit Adjustment ($)</Label>
                                 <Input
                                     id="total_deposit"
                                     type="number"
                                     step="0.01"
-                                    value={balances.total_deposit}
+                                    placeholder="0.00"
+                                    value={adjustments.total_deposit}
                                     onChange={(e) => handleBalanceChange("total_deposit", e.target.value)}
                                 />
                             </div>
                             <div className="space-y-2">
-                                <Label htmlFor="investment_balance">Escrow Ledger ($)</Label>
+                                <Label htmlFor="investment_balance">Escrow Ledger Adjustment ($)</Label>
                                 <Input
                                     id="investment_balance"
                                     type="number"
                                     step="0.01"
-                                    value={balances.investment_balance}
+                                    placeholder="0.00"
+                                    value={adjustments.investment_balance}
                                     onChange={(e) => handleBalanceChange("investment_balance", e.target.value)}
                                 />
                             </div>
                             <div className="space-y-2">
-                                <Label htmlFor="referal_bonus">Referral Bonus ($)</Label>
+                                <Label htmlFor="bonus">Bonus Adjustment ($)</Label>
+                                <Input
+                                    id="bonus"
+                                    type="number"
+                                    step="0.01"
+                                    placeholder="0.00"
+                                    value={adjustments.bonus}
+                                    onChange={(e) => handleBalanceChange("bonus", e.target.value)}
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="referal_bonus">Referral Bonus Adjustment ($)</Label>
                                 <Input
                                     id="referal_bonus"
                                     type="number"
                                     step="0.01"
-                                    value={balances.referal_bonus}
+                                    placeholder="0.00"
+                                    value={adjustments.referal_bonus}
                                     onChange={(e) => handleBalanceChange("referal_bonus", e.target.value)}
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="profit_bonus">Profit Bonus Adjustment ($)</Label>
+                                <Input
+                                    id="profit_bonus"
+                                    type="number"
+                                    step="0.01"
+                                    placeholder="0.00"
+                                    value={adjustments.profit_bonus}
+                                    onChange={(e) => handleBalanceChange("profit_bonus", e.target.value)}
                                 />
                             </div>
 

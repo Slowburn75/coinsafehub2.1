@@ -9,6 +9,7 @@ export function useAdminClient() {
 
     const updateClient = async (data: {
         client_id: string;
+        balance?: number;
         recovered_balance?: number;
         bonus?: number;
         referal_bonus?: number;

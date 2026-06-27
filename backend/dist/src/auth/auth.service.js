@@ -27,6 +27,7 @@ let AuthService = class AuthService {
     async login(dto) {
         const user = await this.prisma.user.findUnique({
             where: { email: dto.email.toLowerCase().trim() },
+            include: { roles: { select: { role: { select: { name: true } } } } },
         });
         if (!user) {
             await this.logLoginAttempt(dto.email, false, 'unknown_email');
@@ -41,6 +42,8 @@ let AuthService = class AuthService {
             throw new common_1.UnauthorizedException('Invalid email or password');
         }
         await this.logLoginAttempt(dto.email, true);
+        const roles = user.roles.map((r) => r.role.name);
+        const isAdmin = roles.some((role) => ['super_admin', 'admin', 'support_agent', 'compliance_officer', 'auditor', 'finance_manager'].includes(role));
         const payload = {
             sub: user.id,
             email: user.email,
@@ -59,6 +62,8 @@ let AuthService = class AuthService {
                 firstName: user.firstName,
                 lastName: user.lastName,
                 isStaff: user.isStaff,
+                isAdmin,
+                roles,
                 emailVerified: user.emailVerified,
             },
         };

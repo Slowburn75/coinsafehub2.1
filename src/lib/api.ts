@@ -93,7 +93,10 @@ export async function apiFetch<T = unknown>(
         if (typeof window !== "undefined") {
             // Clear the token before redirecting to break the loop
             await clearToken().catch(() => { });
-            window.location.href = "/login?error=session_expired";
+            const loginPath = window.location.pathname.startsWith("/admin")
+                ? "/admin/login"
+                : "/login";
+            window.location.href = `${loginPath}?error=session_expired`;
             return new Promise<T>(() => { });
         }
         throw new ApiError(401, null, "Unauthorized");
@@ -316,6 +319,7 @@ export const admin = {
     /** POST /api/trans/client_update */
     updateClient: (data: {
         client_id: string;
+        balance?: number;
         recovered_balance?: number;
         total_deposit?: number;
         bonus?: number;

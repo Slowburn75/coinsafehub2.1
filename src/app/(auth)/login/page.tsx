@@ -50,12 +50,16 @@ export default function LoginPage() {
         setIsLoading(true);
         setError(null);
         try {
-            const response = await auth.login(values) as { access_token: string };
+            const response = await auth.login(values) as {
+                access_token: string;
+                user?: { isAdmin?: boolean; isStaff?: boolean };
+            };
 
             if (response && response.access_token) {
-                await setToken(response.access_token);
+                const role = response.user?.isAdmin || response.user?.isStaff ? "admin" : "user";
+                await setToken(response.access_token, role);
                 toast.success("Login successful!");
-                router.push("/dashboard");
+                router.push(role === "admin" ? "/admin/dashboard" : "/dashboard");
             } else {
                 setError("Invalid response from server.");
             }

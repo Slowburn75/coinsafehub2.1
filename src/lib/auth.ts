@@ -33,11 +33,11 @@ export async function getToken(): Promise<string | null> {
  * Store the JWT in an httpOnly cookie via our Next.js Route Handler.
  * Call this after a successful login response.
  */
-export async function setToken(token: string): Promise<void> {
+export async function setToken(token: string, role: "admin" | "user" = "user"): Promise<void> {
     const res = await fetch("/api/auth/set-token", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token }),
+        body: JSON.stringify({ token, role }),
     });
 
     if (!res.ok) {

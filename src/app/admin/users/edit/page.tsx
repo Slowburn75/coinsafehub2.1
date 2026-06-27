@@ -12,8 +12,11 @@ export default function EditClientPage() {
     const { isSubmitting, updateClient } = useAdminClient();
     const [formData, setFormData] = useState({
         client_id: "",
+        balance: "",
         recovered_balance: "",
+        bonus: "",
         referal_bonus: "",
+        profit_bonus: "",
         investment_balance: "",
         total_deposit: ""
     });
@@ -22,8 +25,11 @@ export default function EditClientPage() {
         e.preventDefault();
 
         const payload: any = { client_id: formData.client_id };
+        if (formData.balance) payload.balance = parseFloat(formData.balance);
         if (formData.recovered_balance) payload.recovered_balance = parseFloat(formData.recovered_balance);
+        if (formData.bonus) payload.bonus = parseFloat(formData.bonus);
         if (formData.referal_bonus) payload.referal_bonus = parseFloat(formData.referal_bonus);
+        if (formData.profit_bonus) payload.profit_bonus = parseFloat(formData.profit_bonus);
         if (formData.investment_balance) payload.investment_balance = parseFloat(formData.investment_balance);
         if (formData.total_deposit) payload.total_deposit = parseFloat(formData.total_deposit);
 
@@ -45,7 +51,7 @@ export default function EditClientPage() {
                         <Edit3 className="h-5 w-5 text-primary" /> Financial Adjustments
                     </CardTitle>
                     <CardDescription>
-                        Enter the User ID and the values you wish to update. Leave fields empty to keep existing values.
+                        Enter the User ID and adjustment values. Use positive amounts to add and negative amounts to deduct.
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -69,13 +75,36 @@ export default function EditClientPage() {
 
                         <div className="grid gap-6 md:grid-cols-2">
                             <div className="space-y-2">
+                                <Label htmlFor="balance">Available Balance ($)</Label>
+                                <Input
+                                    id="balance"
+                                    type="number"
+                                    step="0.01"
+                                    placeholder="0.00"
+                                    value={formData.balance}
+                                    onChange={e => setFormData({ ...formData, balance: e.target.value })}
+                                />
+                            </div>
+                            <div className="space-y-2">
                                 <Label htmlFor="recovered_balance">Recovered Vault Balance ($)</Label>
                                 <Input
                                     id="recovered_balance"
                                     type="number"
+                                    step="0.01"
                                     placeholder="0.00"
                                     value={formData.recovered_balance}
                                     onChange={e => setFormData({ ...formData, recovered_balance: e.target.value })}
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="bonus">Bonus ($)</Label>
+                                <Input
+                                    id="bonus"
+                                    type="number"
+                                    step="0.01"
+                                    placeholder="0.00"
+                                    value={formData.bonus}
+                                    onChange={e => setFormData({ ...formData, bonus: e.target.value })}
                                 />
                             </div>
                             <div className="space-y-2">
@@ -83,9 +112,21 @@ export default function EditClientPage() {
                                 <Input
                                     id="referal_bonus"
                                     type="number"
+                                    step="0.01"
                                     placeholder="0.00"
                                     value={formData.referal_bonus}
                                     onChange={e => setFormData({ ...formData, referal_bonus: e.target.value })}
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="profit_bonus">Profit Bonus ($)</Label>
+                                <Input
+                                    id="profit_bonus"
+                                    type="number"
+                                    step="0.01"
+                                    placeholder="0.00"
+                                    value={formData.profit_bonus}
+                                    onChange={e => setFormData({ ...formData, profit_bonus: e.target.value })}
                                 />
                             </div>
                             <div className="space-y-2">
@@ -93,6 +134,7 @@ export default function EditClientPage() {
                                 <Input
                                     id="investment_balance"
                                     type="number"
+                                    step="0.01"
                                     placeholder="0.00"
                                     value={formData.investment_balance}
                                     onChange={e => setFormData({ ...formData, investment_balance: e.target.value })}
@@ -103,6 +145,7 @@ export default function EditClientPage() {
                                 <Input
                                     id="total_deposit"
                                     type="number"
+                                    step="0.01"
                                     placeholder="0.00"
                                     value={formData.total_deposit}
                                     onChange={e => setFormData({ ...formData, total_deposit: e.target.value })}

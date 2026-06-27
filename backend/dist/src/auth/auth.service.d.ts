@@ -24,6 +24,8 @@ export declare class AuthService {
             firstName: string;
             lastName: string;
             isStaff: boolean;
+            isAdmin: boolean;
+            roles: string[];
             emailVerified: boolean;
         };
     }>;

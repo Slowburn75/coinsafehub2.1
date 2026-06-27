@@ -18,6 +18,8 @@ export declare class AuthController {
             firstName: string;
             lastName: string;
             isStaff: boolean;
+            isAdmin: boolean;
+            roles: string[];
             emailVerified: boolean;
         };
     }>;

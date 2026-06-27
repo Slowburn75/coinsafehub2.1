@@ -27,6 +27,7 @@ export declare class AdminSettingsDto {
 }
 export declare class ClientUpdateDto {
     client_id: string;
+    balance?: number;
     recovered_balance?: number;
     total_deposit?: number;
     bonus?: number;

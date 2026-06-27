@@ -14,7 +14,11 @@ export function useAdminLogin() {
             const response = await auth.login(data);
             // Even if it's admin, the response structure should be same as user login
             if ((response as any).access_token) {
-                await setToken((response as any).access_token);
+                const user = (response as any).user;
+                if (!user?.isAdmin && !user?.isStaff) {
+                    throw new Error("This account does not have admin access");
+                }
+                await setToken((response as any).access_token, "admin");
                 toast.success("Admin login successful!");
                 return true;
             }

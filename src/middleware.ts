@@ -10,7 +10,9 @@ const AUTH_ROUTES = ["/login", "/register", "/forgot-password", "/verify-email",
 export function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
     const token = request.cookies.get("access_token")?.value;
+    const role = request.cookies.get("auth_role")?.value;
     const isAuthenticated = Boolean(token && token.length > 0);
+    const isAdmin = role === "admin";
 
     // ── Protect /dashboard/* and /admin/* ─────────────────────────────────
     const isProtected = PROTECTED_PREFIXES.some(
@@ -19,8 +21,15 @@ export function middleware(request: NextRequest) {
 
     if (isProtected && !isAuthenticated) {
         const loginUrl = request.nextUrl.clone();
-        loginUrl.pathname = "/login";
+        loginUrl.pathname = pathname.startsWith("/admin") ? "/admin/login" : "/login";
         loginUrl.searchParams.set("callbackUrl", pathname);
+        return NextResponse.redirect(loginUrl);
+    }
+
+    if (isProtected && pathname.startsWith("/admin") && !isAdmin) {
+        const loginUrl = request.nextUrl.clone();
+        loginUrl.pathname = "/admin/login";
+        loginUrl.search = "";
         return NextResponse.redirect(loginUrl);
     }
 
@@ -31,7 +40,14 @@ export function middleware(request: NextRequest) {
 
     if (isAuthRoute && isAuthenticated) {
         const dashboardUrl = request.nextUrl.clone();
-        dashboardUrl.pathname = "/dashboard";
+        dashboardUrl.pathname = isAdmin ? "/admin/dashboard" : "/dashboard";
+        dashboardUrl.search = "";
+        return NextResponse.redirect(dashboardUrl);
+    }
+
+    if (pathname === "/admin/login" && isAuthenticated && isAdmin) {
+        const dashboardUrl = request.nextUrl.clone();
+        dashboardUrl.pathname = "/admin/dashboard";
         dashboardUrl.search = "";
         return NextResponse.redirect(dashboardUrl);
     }

@@ -379,21 +379,27 @@ export class TransactionsService {
     const user = await this.prisma.user.findUnique({ where: { id: dto.client_id } });
     if (!user) throw new NotFoundException('User not found');
 
-    const current = await this.prisma.userBalance.findUnique({ where: { userId: dto.client_id } });
+    const current = await this.prisma.userBalance.upsert({
+      where: { userId: dto.client_id },
+      update: {},
+      create: { userId: dto.client_id },
+    });
 
     const balanceData: any = {};
+    if (dto.balance !== undefined)
+      balanceData.balance = Number(current.balance ?? 0) + dto.balance;
     if (dto.recovered_balance !== undefined)
-      balanceData.recoveredBalance = Number(current?.recoveredBalance ?? 0) + dto.recovered_balance;
+      balanceData.recoveredBalance = Number(current.recoveredBalance ?? 0) + dto.recovered_balance;
     if (dto.total_deposit !== undefined)
-      balanceData.totalDeposit = Number(current?.totalDeposit ?? 0) + dto.total_deposit;
+      balanceData.totalDeposit = Number(current.totalDeposit ?? 0) + dto.total_deposit;
     if (dto.bonus !== undefined)
-      balanceData.bonus = Number(current?.bonus ?? 0) + dto.bonus;
+      balanceData.bonus = Number(current.bonus ?? 0) + dto.bonus;
     if (dto.referal_bonus !== undefined)
-      balanceData.referralBonus = Number(current?.referralBonus ?? 0) + dto.referal_bonus;
+      balanceData.referralBonus = Number(current.referralBonus ?? 0) + dto.referal_bonus;
     if (dto.profit_bonus !== undefined)
-      balanceData.profitBonus = Number(current?.profitBonus ?? 0) + dto.profit_bonus;
+      balanceData.profitBonus = Number(current.profitBonus ?? 0) + dto.profit_bonus;
     if (dto.investment_balance !== undefined)
-      balanceData.investmentBalance = Number(current?.investmentBalance ?? 0) + dto.investment_balance;
+      balanceData.investmentBalance = Number(current.investmentBalance ?? 0) + dto.investment_balance;
 
     if (Object.keys(balanceData).length > 0) {
       await this.prisma.userBalance.update({ where: { userId: dto.client_id }, data: balanceData });

@@ -133,7 +133,20 @@ export class UsersService {
       throw new ForbiddenException('Cannot delete superuser accounts');
     }
 
-    await this.prisma.user.delete({ where: { id: targetUserId } });
+    await this.prisma.$transaction([
+      this.prisma.referral.deleteMany({
+        where: {
+          OR: [{ referrerId: targetUserId }, { referredUserId: targetUserId }],
+        },
+      }),
+      this.prisma.transaction.deleteMany({
+        where: {
+          OR: [{ userId: targetUserId }, { recipientUserId: targetUserId }],
+        },
+      }),
+      this.prisma.investment.deleteMany({ where: { userId: targetUserId } }),
+      this.prisma.user.delete({ where: { id: targetUserId } }),
+    ]);
 
     return { message: 'User deleted successfully' };
   }
