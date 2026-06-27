@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useAdminLogin } from "@/hooks/useAdminLogin";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -10,7 +9,6 @@ import { Label } from "@/components/ui/label";
 import { ShieldCheck } from "lucide-react";
 
 export default function AdminLoginPage() {
-    const router = useRouter();
     const { isSubmitting, login } = useAdminLogin();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -19,7 +17,11 @@ export default function AdminLoginPage() {
         e.preventDefault();
         const success = await login({ email, password });
         if (success) {
-            router.push("/admin/dashboard");
+            const callbackUrl = new URLSearchParams(window.location.search).get("callbackUrl");
+            const destination = callbackUrl?.startsWith("/admin/")
+                ? callbackUrl
+                : "/admin/dashboard";
+            window.location.replace(destination);
         }
     };
 
