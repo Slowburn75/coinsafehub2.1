@@ -9,6 +9,12 @@ async function handler(req: NextRequest) {
 
     // Strip /api/proxy from the path, keep everything after
     const backendPath = pathname.replace("/api/proxy", "");
+    if (!API_URL) {
+        return NextResponse.json(
+            { error: "Backend API URL is not configured" },
+            { status: 500 },
+        );
+    }
     const targetUrl = `${API_URL}${backendPath}${search}`;
 
     // Forward all headers except host
@@ -29,8 +35,8 @@ async function handler(req: NextRequest) {
             body: req.method !== "GET" && req.method !== "HEAD"
                 ? await req.arrayBuffer()
                 : undefined,
-            // Prevent double body decompression on serverless platforms
-            // @ts-expect-error
+            // Prevent double body decompression on serverless platforms.
+            // @ts-expect-error Node fetch requires duplex for streamed request bodies.
             duplex: "half",
         });
 

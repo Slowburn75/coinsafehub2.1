@@ -2,9 +2,9 @@ import {
   Injectable,
   NotFoundException,
   BadRequestException,
-  ForbiddenException,
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { WithdrawalDto, TransferDto, UpdateTransactionDto, AdminSettingsDto, ClientUpdateDto, CreateInvestmentDto, ConnectWalletDto } from './dto/transactions.dto';
 
@@ -18,30 +18,29 @@ export class TransactionsService {
 
   async getAccountSummary(userId: string) {
     const balance = await this.prisma.userBalance.findUnique({ where: { userId } });
-    const b = (balance ?? {}) as any;
 
     const total_balance =
-      (Number(b.balance) || 0) +
-      (Number(b.investmentBalance) || 0) +
-      (Number(b.recoveredBalance) || 0) +
-      (Number(b.profitBonus) || 0) +
-      (Number(b.bonus) || 0) +
-      (Number(b.referralBonus) || 0);
+      (Number(balance?.balance) || 0) +
+      (Number(balance?.investmentBalance) || 0) +
+      (Number(balance?.recoveredBalance) || 0) +
+      (Number(balance?.profitBonus) || 0) +
+      (Number(balance?.bonus) || 0) +
+      (Number(balance?.referralBonus) || 0);
 
     return {
-      balance: Number(b.balance ?? 0),
-      total_deposit: Number(b.totalDeposit ?? 0),
-      total_withdrawal: Number(b.totalWithdrawal ?? 0),
-      total_profit: Number(b.profitBonus ?? 0),
-      total_bonus: Number(b.bonus ?? 0),
-      total_referral_bonus: Number(b.referralBonus ?? 0),
-      recovered_balance: Number(b.recoveredBalance ?? 0),
-      investment_balance: Number(b.investmentBalance ?? 0),
-      profit_balance: Number(b.profitBonus ?? 0),
-      bonus_balance: Number(b.bonus ?? 0),
-      referral_balance: Number(b.referralBonus ?? 0),
-      pending_balance: Number(b.pendingBalance ?? 0),
-      withdrawal_balance: Number(b.balance ?? 0),
+      balance: Number(balance?.balance ?? 0),
+      total_deposit: Number(balance?.totalDeposit ?? 0),
+      total_withdrawal: Number(balance?.totalWithdrawal ?? 0),
+      total_profit: Number(balance?.profitBonus ?? 0),
+      total_bonus: Number(balance?.bonus ?? 0),
+      total_referral_bonus: Number(balance?.referralBonus ?? 0),
+      recovered_balance: Number(balance?.recoveredBalance ?? 0),
+      investment_balance: Number(balance?.investmentBalance ?? 0),
+      profit_balance: Number(balance?.profitBonus ?? 0),
+      bonus_balance: Number(balance?.bonus ?? 0),
+      referral_balance: Number(balance?.referralBonus ?? 0),
+      pending_balance: Number(balance?.pendingBalance ?? 0),
+      withdrawal_balance: Number(balance?.balance ?? 0),
       total_balance,
     };
   }
@@ -118,7 +117,13 @@ export class TransactionsService {
   //  WRITE ENDPOINTS
   // ═══════════════════════════════════════════════════════════════════
 
-  async deposit(userId: string, amount: string, paymentMethod: string, walletAddress: string, receipt?: any) {
+  async deposit(
+    userId: string,
+    amount: string,
+    paymentMethod: string,
+    walletAddress: string,
+    receipt?: { originalname: string },
+  ) {
     const amt = parseFloat(amount);
     if (isNaN(amt) || amt <= 0) throw new BadRequestException('Amount must be greater than 0');
 
@@ -157,33 +162,40 @@ export class TransactionsService {
     const pinValid = await bcrypt.compare(dto.pin, user.pinHash);
     if (!pinValid) throw new BadRequestException('Invalid PIN');
 
-    const availableBalance = Number(user.balance?.balance ?? 0);
-    if (dto.amount > availableBalance) throw new BadRequestException('Insufficient balance');
+    const held = await this.prisma.$transaction(async (tx) => {
+      const balanceUpdate = await tx.userBalance.updateMany({
+        where: {
+          userId,
+          balance: { gte: dto.amount },
+        },
+        data: {
+          balance: { decrement: dto.amount },
+          pendingBalance: { increment: dto.amount },
+        },
+      });
 
-    await this.prisma.transaction.create({
-      data: {
-        userId,
-        transactionType: 'withdrawal',
-        amount: dto.amount,
-        withdrawalMethod: dto.withdrawal_method,
-        bankName: dto.bank_name,
-        accountNumber: dto.account_number,
-        routingNumber: dto.routing_number,
-        walletAddress: dto.wallet_address,
-        network: dto.network,
-        fee: 0,
-        status: 'pending',
-      },
+      if (balanceUpdate.count !== 1) return false;
+
+      await tx.transaction.create({
+        data: {
+          userId,
+          transactionType: 'withdrawal',
+          amount: dto.amount,
+          withdrawalMethod: dto.withdrawal_method,
+          bankName: dto.bank_name,
+          accountNumber: dto.account_number,
+          routingNumber: dto.routing_number,
+          walletAddress: dto.wallet_address,
+          network: dto.network,
+          fee: 0,
+          status: 'pending',
+        },
+      });
+
+      return true;
     });
 
-    // Hold the balance
-    await this.prisma.userBalance.update({
-      where: { userId },
-      data: {
-        balance: availableBalance - dto.amount,
-        pendingBalance: Number(user.balance?.pendingBalance ?? 0) + dto.amount,
-      },
-    });
+    if (!held) throw new BadRequestException('Insufficient balance');
 
     return { message: 'Withdrawal request submitted successfully!' };
   }
@@ -201,9 +213,6 @@ export class TransactionsService {
     const pinValid = await bcrypt.compare(dto.pin, user.pinHash);
     if (!pinValid) throw new BadRequestException('Invalid PIN');
 
-    const availableBalance = Number(user.balance?.balance ?? 0);
-    if (dto.amount > availableBalance) throw new BadRequestException('Insufficient balance');
-
     const recipient = await this.prisma.user.findUnique({
       where: { email: dto.recipient_email.toLowerCase().trim() },
       include: { balance: true },
@@ -211,8 +220,24 @@ export class TransactionsService {
     if (!recipient) throw new NotFoundException('Recipient not found');
     if (recipient.id === userId) throw new BadRequestException('Cannot transfer to yourself');
 
-    await this.prisma.$transaction([
-      this.prisma.transaction.create({
+    const transferred = await this.prisma.$transaction(async (tx) => {
+      const senderUpdate = await tx.userBalance.updateMany({
+        where: {
+          userId,
+          balance: { gte: dto.amount },
+        },
+        data: { balance: { decrement: dto.amount } },
+      });
+
+      if (senderUpdate.count !== 1) return false;
+
+      await tx.userBalance.upsert({
+        where: { userId: recipient.id },
+        update: { balance: { increment: dto.amount } },
+        create: { userId: recipient.id, balance: dto.amount },
+      });
+
+      await tx.transaction.create({
         data: {
           userId,
           transactionType: 'transfer',
@@ -223,16 +248,12 @@ export class TransactionsService {
           fee: 0,
           status: 'completed',
         },
-      }),
-      this.prisma.userBalance.update({
-        where: { userId },
-        data: { balance: availableBalance - dto.amount },
-      }),
-      this.prisma.userBalance.update({
-        where: { userId: recipient.id },
-        data: { balance: Number(recipient.balance?.balance ?? 0) + dto.amount },
-      }),
-    ]);
+      });
+
+      return true;
+    });
+
+    if (!transferred) throw new BadRequestException('Insufficient balance');
 
     return { message: 'Transfer submitted successfully!' };
   }
@@ -288,47 +309,58 @@ export class TransactionsService {
     if (!tx) throw new NotFoundException('Transaction not found');
 
     const newStatus = dto.status.toLowerCase();
+    if (tx.status.toLowerCase() !== 'pending') {
+      throw new BadRequestException('Transaction has already been processed');
+    }
 
-    await this.prisma.transaction.update({
-      where: { id: dto.id },
-      data: { status: newStatus },
+    await this.prisma.$transaction(async (prisma) => {
+      const statusUpdate = await prisma.transaction.updateMany({
+        where: { id: dto.id, status: 'pending' },
+        data: { status: newStatus },
+      });
+
+      if (statusUpdate.count !== 1) {
+        throw new BadRequestException('Transaction has already been processed');
+      }
+
+      // If approving a deposit, credit the user's balance
+      if (newStatus === 'approved' && tx.transactionType === 'deposit') {
+        await prisma.userBalance.upsert({
+          where: { userId: tx.userId },
+          update: {
+            balance: { increment: tx.amount },
+            totalDeposit: { increment: tx.amount },
+          },
+          create: {
+            userId: tx.userId,
+            balance: tx.amount,
+            totalDeposit: tx.amount,
+          },
+        });
+      }
+
+      // If approving a withdrawal, release pending balance
+      if (newStatus === 'approved' && tx.transactionType === 'withdrawal') {
+        await prisma.userBalance.update({
+          where: { userId: tx.userId },
+          data: {
+            pendingBalance: { decrement: Number(tx.amount) - Number(tx.fee) },
+            totalWithdrawal: { increment: tx.amount },
+          },
+        });
+      }
+
+      // If declining a withdrawal, return funds to balance
+      if (newStatus === 'declined' && tx.transactionType === 'withdrawal') {
+        await prisma.userBalance.update({
+          where: { userId: tx.userId },
+          data: {
+            balance: { increment: tx.amount },
+            pendingBalance: { decrement: Number(tx.amount) - Number(tx.fee) },
+          },
+        });
+      }
     });
-
-    // If approving a deposit, credit the user's balance
-    if (newStatus === 'approved' && tx.transactionType === 'deposit') {
-      const balance = await this.prisma.userBalance.findUnique({ where: { userId: tx.userId } });
-      await this.prisma.userBalance.update({
-        where: { userId: tx.userId },
-        data: {
-          balance: Number(balance?.balance ?? 0) + Number(tx.amount),
-          totalDeposit: Number(balance?.totalDeposit ?? 0) + Number(tx.amount),
-        },
-      });
-    }
-
-    // If approving a withdrawal, release pending balance
-    if (newStatus === 'approved' && tx.transactionType === 'withdrawal') {
-      const balance = await this.prisma.userBalance.findUnique({ where: { userId: tx.userId } });
-      await this.prisma.userBalance.update({
-        where: { userId: tx.userId },
-        data: {
-          pendingBalance: Number(balance?.pendingBalance ?? 0) - (Number(tx.amount) - Number(tx.fee)),
-          totalWithdrawal: Number(balance?.totalWithdrawal ?? 0) + Number(tx.amount),
-        },
-      });
-    }
-
-    // If declining a withdrawal, return funds to balance
-    if (newStatus === 'declined' && tx.transactionType === 'withdrawal') {
-      const balance = await this.prisma.userBalance.findUnique({ where: { userId: tx.userId } });
-      await this.prisma.userBalance.update({
-        where: { userId: tx.userId },
-        data: {
-          balance: Number(balance?.balance ?? 0) + Number(tx.amount),
-          pendingBalance: Number(balance?.pendingBalance ?? 0) - (Number(tx.amount) - Number(tx.fee)),
-        },
-      });
-    }
 
     return { message: `Transaction ${newStatus} successfully` };
   }
@@ -385,7 +417,7 @@ export class TransactionsService {
       create: { userId: dto.client_id },
     });
 
-    const balanceData: any = {};
+    const balanceData: Prisma.UserBalanceUpdateInput = {};
     if (dto.balance !== undefined)
       balanceData.balance = Number(current.balance ?? 0) + dto.balance;
     if (dto.recovered_balance !== undefined)

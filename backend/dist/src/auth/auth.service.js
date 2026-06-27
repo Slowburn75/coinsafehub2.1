@@ -14,9 +14,18 @@ const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
 const config_1 = require("@nestjs/config");
 const bcrypt = require("bcrypt");
+const crypto_1 = require("crypto");
+const client_1 = require("@prisma/client");
 const prisma_service_1 = require("../prisma/prisma.service");
 const email_service_1 = require("../common/services/email.service");
 const SALT_ROUNDS = 12;
+async function asyncFind(items, predicate) {
+    for (const item of items) {
+        if (await predicate(item))
+            return item;
+    }
+    return undefined;
+}
 let AuthService = class AuthService {
     constructor(prisma, jwtService, configService, emailService) {
         this.prisma = prisma;
@@ -81,23 +90,13 @@ let AuthService = class AuthService {
         const [firstName, ...lastParts] = dto.fullName.trim().split(' ');
         const lastName = lastParts.join(' ') || '';
         const otp = this.generateOtp();
-        const caseRef = await this.generateCaseRef();
-        const user = await this.prisma.user.create({
-            data: {
-                email,
-                passwordHash,
-                firstName,
-                lastName,
-                country: dto.country,
-                emailVerifyOtp: otp,
-                emailVerifyOtpExpiry: new Date(Date.now() + 10 * 60 * 1000),
-                caseRef,
-            },
-        });
-        await this.prisma.userBalance.create({ data: { userId: user.id } });
-        await this.prisma.notificationPreference.create({ data: { userId: user.id } });
-        await this.prisma.referralCode.create({
-            data: { userId: user.id, code: this.generateReferralCode() },
+        await this.createUserWithRelatedRecords({
+            email,
+            passwordHash,
+            firstName,
+            lastName,
+            country: dto.country,
+            otp,
         });
         await this.emailService.sendVerificationEmail(email, otp);
         return { message: 'Registration successful. Please check your email for the verification code.' };
@@ -216,13 +215,13 @@ let AuthService = class AuthService {
         return bcrypt.compare(pin, user.pinHash);
     }
     async refreshAccessToken(refreshToken) {
-        const tokenHash = await bcrypt.hash(refreshToken, 6);
-        const session = await this.prisma.refreshToken.findFirst({
+        const sessions = await this.prisma.refreshToken.findMany({
             where: {
                 revokedAt: null,
                 expiresAt: { gte: new Date() },
             },
         });
+        const session = await asyncFind(sessions, (candidate) => bcrypt.compare(refreshToken, candidate.tokenHash));
         if (!session) {
             throw new common_1.UnauthorizedException('Invalid refresh token');
         }
@@ -263,8 +262,53 @@ let AuthService = class AuthService {
         }
         return code;
     }
+    async generateUniqueReferralCode() {
+        for (let attempt = 0; attempt < 10; attempt++) {
+            const code = this.generateReferralCode();
+            const existing = await this.prisma.referralCode.findUnique({ where: { code } });
+            if (!existing)
+                return code;
+        }
+        throw new common_1.BadRequestException('Could not generate referral code. Please try again.');
+    }
+    async createUserWithRelatedRecords(data) {
+        for (let attempt = 0; attempt < 5; attempt++) {
+            try {
+                const caseRef = await this.generateCaseRef();
+                const referralCode = await this.generateUniqueReferralCode();
+                return await this.prisma.$transaction(async (tx) => {
+                    const user = await tx.user.create({
+                        data: {
+                            email: data.email,
+                            passwordHash: data.passwordHash,
+                            firstName: data.firstName,
+                            lastName: data.lastName,
+                            country: data.country,
+                            emailVerifyOtp: data.otp,
+                            emailVerifyOtpExpiry: new Date(Date.now() + 10 * 60 * 1000),
+                            caseRef,
+                        },
+                    });
+                    await tx.userBalance.create({ data: { userId: user.id } });
+                    await tx.notificationPreference.create({ data: { userId: user.id } });
+                    await tx.referralCode.create({
+                        data: { userId: user.id, code: referralCode },
+                    });
+                    return user;
+                });
+            }
+            catch (error) {
+                if (error instanceof client_1.Prisma.PrismaClientKnownRequestError &&
+                    error.code === 'P2002') {
+                    continue;
+                }
+                throw error;
+            }
+        }
+        throw new common_1.BadRequestException('Could not create account. Please try again.');
+    }
     async createRefreshToken(userId) {
-        const token = require('crypto').randomBytes(48).toString('hex');
+        const token = (0, crypto_1.randomBytes)(48).toString('hex');
         const tokenHash = await bcrypt.hash(token, 6);
         const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
         await this.prisma.refreshToken.create({

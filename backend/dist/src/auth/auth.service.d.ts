@@ -55,6 +55,8 @@ export declare class AuthService {
     }>;
     private generateOtp;
     private generateReferralCode;
+    private generateUniqueReferralCode;
+    private createUserWithRelatedRecords;
     private createRefreshToken;
     private logLoginAttempt;
     private generateCaseRef;

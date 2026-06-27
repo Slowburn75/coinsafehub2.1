@@ -1,7 +1,7 @@
 "use client";
 
 import { useDashboard } from "@/hooks/useDashboard";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import {
     Table,
     TableBody,
@@ -15,11 +15,10 @@ import {
     History,
     ArrowUpCircle,
     ArrowDownCircle,
-    Filter,
-    ArrowRightLeft,
     Search,
     Download,
-    Loader2
+    Loader2,
+    type LucideIcon
 } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
@@ -121,7 +120,7 @@ export default function TransactionsPage() {
                                     <TableRow key={`${tx.transaction_type}-${tx.id}`} className="border-white/5 hover:bg-white/5 transition-colors h-20">
                                         <TableCell className="pl-8">
                                             <div className="flex flex-col">
-                                                <span className="text-xs font-bold text-foreground font-mono">#{tx.id ? String(tx.id).slice(0, 8) : "TXN-" + Math.random().toString(36).substr(2, 6).toUpperCase()}</span>
+                                                <span className="text-xs font-bold text-foreground font-mono">#{tx.id ? String(tx.id).slice(0, 8) : "TXN-PENDING"}</span>
                                                 <span className="text-[10px] text-muted-foreground">{tx.payment_method || "System Protocol"}</span>
                                             </div>
                                         </TableCell>
@@ -192,7 +191,17 @@ export default function TransactionsPage() {
     );
 }
 
-function FilterButton({ active, onClick, label, icon: Icon }: any) {
+function FilterButton({
+    active,
+    onClick,
+    label,
+    icon: Icon,
+}: {
+    active: boolean;
+    onClick: () => void;
+    label: string;
+    icon?: LucideIcon;
+}) {
     return (
         <button
             onClick={onClick}

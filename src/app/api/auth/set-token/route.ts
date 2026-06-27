@@ -5,6 +5,18 @@ const TOKEN_COOKIE = "access_token";
 const ROLE_COOKIE = "auth_role";
 const MAX_AGE = 60 * 60 * 24 * 7; // 7 days
 
+function tokenHasStaffFlag(token: string): boolean {
+    try {
+        const payload = token.split(".")[1];
+        if (!payload) return false;
+        const normalized = payload.replace(/-/g, "+").replace(/_/g, "/");
+        const decoded = JSON.parse(Buffer.from(normalized, "base64").toString("utf8"));
+        return decoded?.isStaff === true;
+    } catch {
+        return false;
+    }
+}
+
 // ── POST — set the access_token cookie ──────────────────────────────────
 
 export async function POST(request: Request) {
@@ -29,7 +41,8 @@ export async function POST(request: Request) {
             path: "/",
             maxAge: MAX_AGE,
         });
-        cookieStore.set(ROLE_COOKIE, role === "admin" ? "admin" : "user", {
+        const safeRole = role === "admin" && tokenHasStaffFlag(token) ? "admin" : "user";
+        cookieStore.set(ROLE_COOKIE, safeRole, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
             sameSite: "strict",

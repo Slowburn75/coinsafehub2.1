@@ -8,6 +8,8 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
+import { randomBytes } from 'crypto';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { EmailService } from '../common/services/email.service';
 import { LoginDto } from './dto/login.dto';
@@ -19,6 +21,16 @@ import { ChangePasswordDto } from './dto/change-password.dto';
 import { UpdatePinDto } from './dto/update-pin.dto';
 
 const SALT_ROUNDS = 12;
+
+async function asyncFind<T>(
+  items: T[],
+  predicate: (item: T) => Promise<boolean>,
+): Promise<T | undefined> {
+  for (const item of items) {
+    if (await predicate(item)) return item;
+  }
+  return undefined;
+}
 
 @Injectable()
 export class AuthService {
@@ -105,26 +117,13 @@ export class AuthService {
     const lastName = lastParts.join(' ') || '';
 
     const otp = this.generateOtp();
-    const caseRef = await this.generateCaseRef();
-
-    const user = await this.prisma.user.create({
-      data: {
-        email,
-        passwordHash,
-        firstName,
-        lastName,
-        country: dto.country,
-        emailVerifyOtp: otp,
-        emailVerifyOtpExpiry: new Date(Date.now() + 10 * 60 * 1000),
-        caseRef,
-      },
-    });
-
-    // Create associated records
-    await this.prisma.userBalance.create({ data: { userId: user.id } });
-    await this.prisma.notificationPreference.create({ data: { userId: user.id } });
-    await this.prisma.referralCode.create({
-      data: { userId: user.id, code: this.generateReferralCode() },
+    await this.createUserWithRelatedRecords({
+      email,
+      passwordHash,
+      firstName,
+      lastName,
+      country: dto.country,
+      otp,
     });
 
     // Send verification email (logs OTP to console in dev if no SMTP)
@@ -284,14 +283,15 @@ export class AuthService {
   // ── Refresh Token ──────────────────────────────────────────────────
 
   async refreshAccessToken(refreshToken: string) {
-    const tokenHash = await bcrypt.hash(refreshToken, 6);
-    // Search by iterating active tokens (simplified; production should store hash)
-    const session = await this.prisma.refreshToken.findFirst({
+    const sessions = await this.prisma.refreshToken.findMany({
       where: {
         revokedAt: null,
         expiresAt: { gte: new Date() },
       },
     });
+    const session = await asyncFind(sessions, (candidate) =>
+      bcrypt.compare(refreshToken, candidate.tokenHash),
+    );
 
     if (!session) {
       throw new UnauthorizedException('Invalid refresh token');
@@ -347,8 +347,68 @@ export class AuthService {
     return code;
   }
 
+  private async generateUniqueReferralCode(): Promise<string> {
+    for (let attempt = 0; attempt < 10; attempt++) {
+      const code = this.generateReferralCode();
+      const existing = await this.prisma.referralCode.findUnique({ where: { code } });
+      if (!existing) return code;
+    }
+
+    throw new BadRequestException('Could not generate referral code. Please try again.');
+  }
+
+  private async createUserWithRelatedRecords(data: {
+    email: string;
+    passwordHash: string;
+    firstName: string;
+    lastName: string;
+    country?: string;
+    otp: string;
+  }) {
+    for (let attempt = 0; attempt < 5; attempt++) {
+      try {
+        const caseRef = await this.generateCaseRef();
+        const referralCode = await this.generateUniqueReferralCode();
+
+        return await this.prisma.$transaction(async (tx) => {
+          const user = await tx.user.create({
+            data: {
+              email: data.email,
+              passwordHash: data.passwordHash,
+              firstName: data.firstName,
+              lastName: data.lastName,
+              country: data.country,
+              emailVerifyOtp: data.otp,
+              emailVerifyOtpExpiry: new Date(Date.now() + 10 * 60 * 1000),
+              caseRef,
+            },
+          });
+
+          await tx.userBalance.create({ data: { userId: user.id } });
+          await tx.notificationPreference.create({ data: { userId: user.id } });
+          await tx.referralCode.create({
+            data: { userId: user.id, code: referralCode },
+          });
+
+          return user;
+        });
+      } catch (error) {
+        if (
+          error instanceof Prisma.PrismaClientKnownRequestError &&
+          error.code === 'P2002'
+        ) {
+          continue;
+        }
+
+        throw error;
+      }
+    }
+
+    throw new BadRequestException('Could not create account. Please try again.');
+  }
+
   private async createRefreshToken(userId: string): Promise<string> {
-    const token = require('crypto').randomBytes(48).toString('hex');
+    const token = randomBytes(48).toString('hex');
     const tokenHash = await bcrypt.hash(token, 6);
     const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 

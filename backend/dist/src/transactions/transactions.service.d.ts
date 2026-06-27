@@ -56,7 +56,9 @@ export declare class TransactionsService {
         charge: string;
         duration: string | null;
     }[]>;
-    deposit(userId: string, amount: string, paymentMethod: string, walletAddress: string, receipt?: any): Promise<{
+    deposit(userId: string, amount: string, paymentMethod: string, walletAddress: string, receipt?: {
+        originalname: string;
+    }): Promise<{
         message: string;
     }>;
     withdraw(userId: string, dto: WithdrawalDto): Promise<{
