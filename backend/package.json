@@ -6,6 +6,8 @@
   "scripts": {
     "build": "npx nest build",
     "start": "node dist/src/main",
+    "start:render": "npx prisma migrate deploy && node dist/src/main",
+    "start:render:seed": "npx prisma migrate deploy && npx prisma db seed && node dist/src/main",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/src/main",
