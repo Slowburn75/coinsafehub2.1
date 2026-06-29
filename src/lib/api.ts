@@ -251,22 +251,22 @@ export const transactions = {
             // Normalize: always provide method-name keys for the deposit page
             if (data && (data as any).btc !== undefined || (data as any).Bitcoin !== undefined) {
                 return {
-                    "Bitcoin": data["Bitcoin"] || (data as any).btc || "17mHPvhLr8zUjcHW6Ct8oRMBazEaRoqnZZ",
-                    "Ethereum": data["Ethereum"] || (data as any).eth || "0x01Cf020193D0bb473534739B18BFcad94aa9B9C5",
-                    "USDT (ERC20)": data["USDT (ERC20)"] || (data as any).usdt || "0x01Cf020193D0bb473534739B18BFcad94aa9B9C5",
-                    "USDT (TRC20)": data["USDT (TRC20)"] || "TBCC31o8LurWrcAsGbjR9saF2PjTefusSn",
-                    "USDC (ERC20)": data["USDC (ERC20)"] || "0x01Cf020193D0bb473534739B18BFcad94aa9B9C5",
+                    "Bitcoin": data["Bitcoin"] || (data as any).btc || "18aRFMkomMiKk9wdy6FfnQXWnZaHMPm9Ed",
+                    "Ethereum": data["Ethereum"] || (data as any).eth || "0xd37337c95C4191B7191c63AF489b79e6bBb530f0",
+                    "USDT (ERC20)": data["USDT (ERC20)"] || (data as any).usdt || "0xd37337c95C4191B7191c63AF489b79e6bBb530f0",
+                    "USDT (TRC20)": data["USDT (TRC20)"] || "TCX1VcTPxNYRKQrN1H3fTE9BpfUzAK7wqs",
+                    "USDC (ERC20)": data["USDC (ERC20)"] || "0xd37337c95C4191B7191c63AF489b79e6bBb530f0",
                     "Bank Transfer": data["Bank Transfer"] || "Contact Support",
                 };
             }
             return data || {};
         } catch {
             return {
-                "Bitcoin": "17mHPvhLr8zUjcHW6Ct8oRMBazEaRoqnZZ",
-                "Ethereum": "0x01Cf020193D0bb473534739B18BFcad94aa9B9C5",
-                "USDT (ERC20)": "0x01Cf020193D0bb473534739B18BFcad94aa9B9C5",
-                "USDT (TRC20)": "TBCC31o8LurWrcAsGbjR9saF2PjTefusSn",
-                "USDC (ERC20)": "0x01Cf020193D0bb473534739B18BFcad94aa9B9C5",
+                "Bitcoin": "18aRFMkomMiKk9wdy6FfnQXWnZaHMPm9Ed",
+                "Ethereum": "0xd37337c95C4191B7191c63AF489b79e6bBb530f0",
+                "USDT (ERC20)": "0xd37337c95C4191B7191c63AF489b79e6bBb530f0",
+                "USDT (TRC20)": "TCX1VcTPxNYRKQrN1H3fTE9BpfUzAK7wqs",
+                "USDC (ERC20)": "0xd37337c95C4191B7191c63AF489b79e6bBb530f0",
                 "Bank Transfer": "Contact Support",
             };
         }

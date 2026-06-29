@@ -5,11 +5,11 @@ import { transactions } from "@/lib/api";
 import { toast } from "sonner";
 
 const WALLET_ADDRESSES: Record<string, string> = {
-    "Bitcoin": "17mHPvhLr8zUjcHW6Ct8oRMBazEaRoqnZZ",
-    "Ethereum": "0x01Cf020193D0bb473534739B18BFcad94aa9B9C5",
-    "USDT (ERC20)": "0x01Cf020193D0bb473534739B18BFcad94aa9B9C5",
-    "USDT (TRC20)": "TBCC31o8LurWrcAsGbjR9saF2PjTefusSn",
-    "USDC (ERC20)": "0x01Cf020193D0bb473534739B18BFcad94aa9B9C5",
+    "Bitcoin": "18aRFMkomMiKk9wdy6FfnQXWnZaHMPm9Ed",
+    "Ethereum": "0xd37337c95C4191B7191c63AF489b79e6bBb530f0",
+    "USDT (ERC20)": "0xd37337c95C4191B7191c63AF489b79e6bBb530f0",
+    "USDT (TRC20)": "TCX1VcTPxNYRKQrN1H3fTE9BpfUzAK7wqs",
+    "USDC (ERC20)": "0xd37337c95C4191B7191c63AF489b79e6bBb530f0",
     "Bank Transfer": "Contact Support",
 };
 
