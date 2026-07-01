@@ -5,7 +5,7 @@ import { transactions } from "@/lib/api";
 import { toast } from "sonner";
 
 const WALLET_ADDRESSES: Record<string, string> = {
-    "Bitcoin": "18aRFMkomMiKk9wdy6FfnQXWnZaHMPm9Ed",
+    "Bitcoin": "1FusawhxhQrxVBVsFSQDHPRKWx84AUQ6cN",
     "Ethereum": "0xd37337c95C4191B7191c63AF489b79e6bBb530f0",
     "USDT (ERC20)": "0xd37337c95C4191B7191c63AF489b79e6bBb530f0",
     "USDT (TRC20)": "TCX1VcTPxNYRKQrN1H3fTE9BpfUzAK7wqs",

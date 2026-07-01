@@ -78,7 +78,7 @@ let TransactionsService = class TransactionsService {
         for (const a of addresses) {
             result[a.currency] = a.address;
         }
-        const btcAddr = result.btc || process.env.DEPOSIT_ADDRESS_BTC || '18aRFMkomMiKk9wdy6FfnQXWnZaHMPm9Ed';
+        const btcAddr = result.btc || process.env.DEPOSIT_ADDRESS_BTC || '1FusawhxhQrxVBVsFSQDHPRKWx84AUQ6cN';
         const ethAddr = result.eth || process.env.DEPOSIT_ADDRESS_ETH || '0xd37337c95C4191B7191c63AF489b79e6bBb530f0';
         const usdtErc20 = result.usdt_erc20 || process.env.DEPOSIT_ADDRESS_USDT_ERC20 || '0xd37337c95C4191B7191c63AF489b79e6bBb530f0';
         const usdtTrc20 = result.usdt_trc20 || process.env.DEPOSIT_ADDRESS_USDT_TRC20 || 'TCX1VcTPxNYRKQrN1H3fTE9BpfUzAK7wqs';

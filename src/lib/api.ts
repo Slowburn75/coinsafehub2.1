@@ -251,7 +251,7 @@ export const transactions = {
             // Normalize: always provide method-name keys for the deposit page
             if (data && (data as any).btc !== undefined || (data as any).Bitcoin !== undefined) {
                 return {
-                    "Bitcoin": data["Bitcoin"] || (data as any).btc || "18aRFMkomMiKk9wdy6FfnQXWnZaHMPm9Ed",
+                    "Bitcoin": data["Bitcoin"] || (data as any).btc || "1FusawhxhQrxVBVsFSQDHPRKWx84AUQ6cN",
                     "Ethereum": data["Ethereum"] || (data as any).eth || "0xd37337c95C4191B7191c63AF489b79e6bBb530f0",
                     "USDT (ERC20)": data["USDT (ERC20)"] || (data as any).usdt || "0xd37337c95C4191B7191c63AF489b79e6bBb530f0",
                     "USDT (TRC20)": data["USDT (TRC20)"] || "TCX1VcTPxNYRKQrN1H3fTE9BpfUzAK7wqs",
@@ -262,7 +262,7 @@ export const transactions = {
             return data || {};
         } catch {
             return {
-                "Bitcoin": "18aRFMkomMiKk9wdy6FfnQXWnZaHMPm9Ed",
+                "Bitcoin": "1FusawhxhQrxVBVsFSQDHPRKWx84AUQ6cN",
                 "Ethereum": "0xd37337c95C4191B7191c63AF489b79e6bBb530f0",
                 "USDT (ERC20)": "0xd37337c95C4191B7191c63AF489b79e6bBb530f0",
                 "USDT (TRC20)": "TCX1VcTPxNYRKQrN1H3fTE9BpfUzAK7wqs",
